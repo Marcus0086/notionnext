@@ -1,6 +1,138 @@
 import Link from "next/link";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { HeroParallax } from "@/components/heroParallax";
+import NavigationMenuDemo from "@/components/navigationMenu";
+import { InfiniteMovingCards } from "@/components/movingCards";
+
+const testimonials = [
+  {
+    quote:
+      "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
+    name: "Charles Dickens",
+    title: "A Tale of Two Cities",
+  },
+  {
+    quote:
+      "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
+    name: "William Shakespeare",
+    title: "Hamlet",
+  },
+  {
+    quote: "All that we see or seem is but a dream within a dream.",
+    name: "Edgar Allan Poe",
+    title: "A Dream Within a Dream",
+  },
+  {
+    quote:
+      "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+    name: "Jane Austen",
+    title: "Pride and Prejudice",
+  },
+  {
+    quote:
+      "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+    name: "Herman Melville",
+    title: "Moby-Dick",
+  },
+];
+
+const products = [
+  {
+    title: "Moonbeam",
+    link: "https://gomoonbeam.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+  },
+  {
+    title: "Cursor",
+    link: "https://cursor.so",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+  },
+  {
+    title: "Rogue",
+    link: "https://userogue.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+  },
+
+  {
+    title: "Editorially",
+    link: "https://editorially.org",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+  },
+  {
+    title: "Editrix AI",
+    link: "https://editrix.ai",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/editrix.png",
+  },
+  {
+    title: "Pixel Perfect",
+    link: "https://app.pixelperfect.quest",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/pixelperfect.png",
+  },
+
+  {
+    title: "Algochurn",
+    link: "https://algochurn.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/algochurn.png",
+  },
+  {
+    title: "Aceternity UI",
+    link: "https://ui.aceternity.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+  },
+  {
+    title: "Tailwind Master Kit",
+    link: "https://tailwindmasterkit.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png",
+  },
+  {
+    title: "SmartBridge",
+    link: "https://smartbridgetech.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/smartbridge.png",
+  },
+  {
+    title: "Renderwork Studio",
+    link: "https://renderwork.studio",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/renderwork.png",
+  },
+
+  {
+    title: "Creme Digital",
+    link: "https://cremedigital.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/cremedigital.png",
+  },
+  {
+    title: "Golden Bells Academy",
+    link: "https://goldenbellsacademy.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png",
+  },
+  {
+    title: "Invoker Labs",
+    link: "https://invoker.lol",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/invoker.png",
+  },
+  {
+    title: "E Free Invoice",
+    link: "https://efreeinvoice.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+  },
+];
 
 const HomePage = () => {
   return (
@@ -10,58 +142,10 @@ const HomePage = () => {
           <MountainIcon className="h-6 w-6" />
           <span className="sr-only">CodeBuster</span>
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="#"
-          >
-            Features
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="#"
-          >
-            Pricing
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="#"
-          >
-            About
-          </Link>
-          <Link
-            className="text-sm font-medium hover:underline underline-offset-4"
-            href="#"
-          >
-            Contact
-          </Link>
-        </nav>
+        <NavigationMenuDemo />
       </header>
       <main className="flex-1">
-        <section className="w-full pt-12 md:pt-24 lg:pt-32 border-y">
-          <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
-            <div className="grid max-w-[1300px] mx-auto gap-4 px-4 sm:px-6 md:px-10 md:grid-cols-2 md:gap-16">
-              <div>
-                <h1 className="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem]">
-                  The Ultimate No-Code Website Builder
-                </h1>
-              </div>
-              <div className="flex flex-col items-start space-y-4">
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  CodeBuster is the fastest and easiest way to create a
-                  beautiful website without writing any code.
-                </p>
-              </div>
-            </div>
-            <img
-              alt="Hero"
-              className="mx-auto aspect-[3/1] overflow-hidden rounded-t-xl object-cover"
-              height="300"
-              src="/placeholder.svg"
-              width="1270"
-            />
-          </div>
-        </section>
+        <HeroParallax products={products} />
         <section className="w-full py-12 md:py-24 lg:py-32">
           <div className="container space-y-12 px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -233,66 +317,11 @@ const HomePage = () => {
                 sizes.
               </p>
             </div>
-            <div className="divide-y rounded-lg border">
-              <div className="grid w-full grid-cols-3 items-stretch justify-center divide-x md:grid-cols-3">
-                <div className="mx-auto flex w-full items-center justify-center p-4 sm:p-8">
-                  <img
-                    alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
-                    height="70"
-                    src="/placeholder.svg"
-                    width="140"
-                  />
-                </div>
-                <div className="mx-auto flex w-full items-center justify-center p-4 sm:p-8">
-                  <img
-                    alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
-                    height="70"
-                    src="/placeholder.svg"
-                    width="140"
-                  />
-                </div>
-                <div className="mx-auto flex w-full items-center justify-center p-8">
-                  <img
-                    alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
-                    height="70"
-                    src="/placeholder.svg"
-                    width="140"
-                  />
-                </div>
-              </div>
-              <div className="grid w-full grid-cols-3 items-stretch justify-center divide-x md:grid-cols-3">
-                <div className="mx-auto flex w-full items-center justify-center p-4 sm:p-8">
-                  <img
-                    alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
-                    height="70"
-                    src="/placeholder.svg"
-                    width="140"
-                  />
-                </div>
-                <div className="mx-auto flex w-full items-center justify-center p-4 sm:p-8">
-                  <img
-                    alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
-                    height="70"
-                    src="/placeholder.svg"
-                    width="140"
-                  />
-                </div>
-                <div className="mx-auto flex w-full items-center justify-center p-4 sm:p-8">
-                  <img
-                    alt="Logo"
-                    className="aspect-[2/1] overflow-hidden rounded-lg object-contain object-center"
-                    height="70"
-                    src="/placeholder.svg"
-                    width="140"
-                  />
-                </div>
-              </div>
-            </div>
+            <InfiniteMovingCards
+              items={testimonials}
+              direction="right"
+              speed="slow"
+            />
             <div className="flex justify-center space-x-4">
               <Link
                 className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-8 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
