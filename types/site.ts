@@ -1,11 +1,12 @@
 import { ExtendedRecordMap } from "notion-types";
 import { ParsedUrlQuery } from "querystring";
+import type { AccountType, VisibilityFilter } from "@prisma/client";
 
-import type { VisibilityFilter } from "@prisma/client";
 import { SiteConfig } from "./site-config";
 import { SiteMap } from "./site-map";
 
 export interface Site {
+  id: string;
   name: string;
   subDomain?: string;
   customDomain?: string;
@@ -21,6 +22,9 @@ export interface Site {
   description?: string;
   image?: string | null;
   visibility?: VisibilityFilter;
+  userId: string;
+  notionUserId?: string;
+  notionAuthToken?: string;
 }
 
 export interface SiteSettings {
@@ -33,6 +37,9 @@ export interface SiteSettings {
 
 export interface _SiteData extends Site {
   siteConfig: SiteConfig;
+  user: {
+    accountType: AccountType;
+  };
 }
 
 export interface Sitebody {
