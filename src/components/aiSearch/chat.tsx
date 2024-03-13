@@ -6,7 +6,13 @@ import { AiOutlineSend } from "react-icons/ai";
 
 import { cn } from "@/lib/utils";
 
-export default function Chat({ pageContent }: { pageContent: string }) {
+export default function Chat({
+  tenant,
+  siteId,
+}: {
+  tenant?: string;
+  siteId?: string;
+}) {
   const {
     messages,
     input,
@@ -14,7 +20,12 @@ export default function Chat({ pageContent }: { pageContent: string }) {
     handleSubmit,
     isLoading,
     setMessages,
-  } = useChat();
+  } = useChat({
+    body: {
+      tenant: tenant,
+      siteId: siteId,
+    },
+  });
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
@@ -22,18 +33,13 @@ export default function Chat({ pageContent }: { pageContent: string }) {
       setMessages([
         {
           id: "1",
-          role: "system",
-          content: `You are a friendly AI assistant that helps people with the answer to their questions. You are given context or information about something and you answer the question from that given context or information only. If you donot find the answer to the question in that context or information then you simply say 'I dont know please try again with a different question'. The context or information is given as: \n ${pageContent}`,
-        },
-        {
-          id: "2",
           role: "assistant",
           content: "Hello, I am your virtual assistant. How can I help you?",
         },
       ]);
       setIsMounted(true);
     }
-  }, [isMounted, setMessages, pageContent]);
+  }, [isMounted, setMessages]);
 
   return (
     <div className="w-full flex flex-col items-center justify-between h-full gap-y-2 max-h-max mt-3">
@@ -51,7 +57,7 @@ export default function Chat({ pageContent }: { pageContent: string }) {
               </li>
               <hr />
             </Fragment>
-          ) : null,
+          ) : null
         )}
       </ul>
 
@@ -70,13 +76,13 @@ export default function Chat({ pageContent }: { pageContent: string }) {
           type="submit"
           className={cn(
             "rounded-xl p-3 border border-gray-300 transition-colors duration-150 ease-in-out",
-            input.length > 0 ? "bg-blue-500" : "bg-white",
+            input.length > 0 ? "bg-blue-500" : "bg-white"
           )}
         >
           <AiOutlineSend
             className={cn(
               "w-6 h-6",
-              input.length > 0 ? "text-white" : "text-gray-800",
+              input.length > 0 ? "text-white" : "text-gray-800"
             )}
           />
         </button>
