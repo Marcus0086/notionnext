@@ -8,7 +8,7 @@ const VERCEL_DEPLOYMENT = !!process.env.VERCEL_URL;
 
 if (!process.env.GITHUB_ID || !process.env.GITHUB_SECRET)
   throw new Error(
-    "Please add your GITHUB_ID and GITHUB_SECRET to your .env file",
+    "Please add your GITHUB_ID and GITHUB_SECRET to your .env file"
   );
 
 const authOptions: NextAuthOptions = {
