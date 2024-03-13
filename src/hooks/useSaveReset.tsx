@@ -21,7 +21,7 @@ const useSaveReset = (siteId: string) => {
         css: cleanCss(css),
       };
       const data = await saveSiteData(siteId, values);
-      if (data && data.id) {
+      if (data && data.site?.id) {
         toast.success("Settings Saved successfully!", toastOptions);
       }
     } catch (error) {
