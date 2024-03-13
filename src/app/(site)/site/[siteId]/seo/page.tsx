@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { SEO_SETTINGS } from "@/components/dashboard/constants";
 import NameInputCard from "@/components/dashboard/nameInputCard";
+import LoadingCard from "@/components/dashboard/loadingCard";
 
 import { cn } from "@/lib/utils";
 import { siteImage, sitePage } from "@/lib/actions/site";
@@ -10,6 +11,7 @@ import { getSiteMetaData } from "@/lib/siteMetaData";
 
 import { ProviderPageProps } from "@/types";
 import { JsonMetaData, SitePageParams } from "@/types";
+import { Suspense } from "react";
 
 const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
   let seoPageData: ProviderPageProps | undefined;
@@ -38,15 +40,23 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
         <p className="text-gray-700 text-xs">The social preview of your site</p>
         <div className="flex flex-col items-start justify-center w-full gap-y-2 rounded-md border border-selago dark:border-gray-800 p-1">
           <h3 className="flex items-center justify-center gap-x-1 pl-1 text-xs font-medium">
-            <span>
-              <Image src={icon} alt="icon" width={16} height={16} />
-            </span>
+            {icon && icon.length > 0 ? (
+              <span>
+                <Image
+                  unoptimized
+                  src={icon}
+                  alt="icon"
+                  width={16}
+                  height={16}
+                />
+              </span>
+            ) : null}
             {title}
           </h3>
           <h3 className="text-[10px] leading-4 font-light pl-1">
             {description || "Description of your site"}
           </h3>
-          {image ? (
+          {image && image.length > 0 ? (
             <div className="relative h-40 w-full">
               <Image
                 loading="lazy"
@@ -60,15 +70,16 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
         </div>
       </div>
       {SEO_SETTINGS.map((card) => (
-        <NameInputCard
-          {...card}
-          type={card.type}
-          siteId={siteId}
-          key={card.title}
-          name={title}
-          siteTitle={title}
-          siteDescription={description}
-        />
+        <Suspense key={card.title} fallback={<LoadingCard />}>
+          <NameInputCard
+            {...card}
+            type={card.type}
+            siteId={siteId}
+            name={title}
+            siteTitle={title}
+            siteDescription={description}
+          />
+        </Suspense>
       ))}
     </>
   );
