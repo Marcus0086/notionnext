@@ -1,6 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import Image from "next/image";
+import Script from "next/script";
 import { useTheme } from "next-themes";
 import { NotionComponents, NotionRenderer } from "react-notion-x";
 import { CollectionViewPageBlock, PageBlock } from "notion-types";
@@ -35,6 +36,8 @@ const NotionPage: React.FC<PageProps> = ({
   error,
   pageId,
   site,
+  isLive,
+  accountType,
 }) => {
   const { theme } = useTheme();
   const components = useMemo<Partial<NotionComponents>>(
@@ -51,9 +54,9 @@ const NotionPage: React.FC<PageProps> = ({
       propertyDateValue,
       propertyTextValue,
       Header: ({ block }: { block: CollectionViewPageBlock | PageBlock }) =>
-        NavHeader({ block, siteConfig: config, recordMap }),
+        NavHeader({ block, siteConfig: config, site: site, recordMap }),
     }),
-    [config, recordMap]
+    [config, recordMap, site]
   );
 
   const siteMapPageUrl = useMemo(() => {
@@ -189,6 +192,17 @@ const NotionPage: React.FC<PageProps> = ({
       ) : (
         <></>
       )}
+      {site?.javascript ? (
+        (isLive && accountType !== "FREE") || !isLive ? (
+          <Script
+            strategy="lazyOnload"
+            dangerouslySetInnerHTML={{
+              __html: site.javascript,
+            }}
+            id="site-javascript"
+          />
+        ) : null
+      ) : null}
     </>
   );
 };
