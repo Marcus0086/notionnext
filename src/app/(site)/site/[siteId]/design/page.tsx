@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 
-import Editor from "@/components/dashboard/editor";
 import { DESIGN_SETTINGS } from "@/components/dashboard/constants";
 import NameInputCard from "@/components/dashboard/nameInputCard";
-import ThemeDropDown from "@/components/dashboard/themeDropDown";
+import ColorPaletteDropDown from "@/components/dashboard/colorPaletteDropDown";
 
 import { getUserAccount } from "@/lib/actions/auth";
 import { getDesignSiteCardById } from "@/lib/actions/site";
@@ -28,13 +27,7 @@ const DesignPage = async ({ params: { siteId } }: SitePageParams) => {
   };
   return (
     <>
-      {["Free", "Paid"].map((title, index) => (
-        <ThemeDropDown
-          key={index}
-          title={title}
-          account={accountType || "FREE"}
-        />
-      ))}
+      <ColorPaletteDropDown account={accountType || "FREE"} />
       {DESIGN_SETTINGS.map((card) => (
         <NameInputCard
           {...card}
@@ -44,7 +37,6 @@ const DesignPage = async ({ params: { siteId } }: SitePageParams) => {
           key={card.title}
         />
       ))}
-      <Editor siteId={siteId} />
     </>
   );
 };
