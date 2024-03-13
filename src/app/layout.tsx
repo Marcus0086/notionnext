@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 
 import ThemeProvider from "@/components/themeProvider";
 import ToastifyContainer from "@/components/toastifyContainer";
+import StyledJsxRegistry from "@/components/shared/registry";
 
 import { cn } from "@/lib/utils";
 
@@ -16,11 +17,19 @@ import "styles/prism-theme.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const poppins = Poppins({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "devanagari"],
   weight: ["100", "300", "400", "500", "700", "900"],
   display: "swap",
 });
 
+// if (process.env.DISABLE_LOGGING === "") {
+//   console.log = () => {};
+//   console.error = () => {};
+//   console.warn = () => {};
+//   console.info = () => {};
+//   console.debug = () => {};
+// }
+//
 export default async function RootLayout({
   children,
 }: {
@@ -43,9 +52,11 @@ export default async function RootLayout({
           "w-full h-screen bg-white dark:bg-navy-900 dark:text-white overflow-auto"
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+        <StyledJsxRegistry>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {children}
+          </ThemeProvider>
+        </StyledJsxRegistry>
         <ToastifyContainer />
       </body>
     </html>
