@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import SiteCard from "@/components/dashboard/siteCard";
-import getSessionUser from "@/lib/getSession";
+import getSessionUser from "@/lib/getSessionUser";
 
 import { VisibilityFilter } from "@prisma/client";
 import { getUserSites } from "@/lib/actions/site";
@@ -21,7 +21,8 @@ const DashboardHomePage = async ({
   }
 
   const userSites = await getUserSites(
-    filter.toLocaleUpperCase() as VisibilityFilter
+    filter.toLocaleUpperCase() as VisibilityFilter,
+    user.id
   );
   return (
     <main className="mt-4 pb-20">
