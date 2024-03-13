@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { NotionAPI } from "notion-client";
 
-import prisma from "./prisma";
+import prisma from "@/lib/prisma";
 
 const getNotionClient = cache(async (siteConfigId?: string) => {
   let notion: NotionAPI = new NotionAPI();
@@ -14,23 +14,14 @@ const getNotionClient = cache(async (siteConfigId?: string) => {
         siteConfigId: siteConfigId,
       },
       select: {
-        siteConfig: {
-          select: {
-            notionActiveUserId: true,
-            notionAuthToken: true,
-          },
-        },
+        notionAuthToken: true,
+        notionUserId: true,
       },
     });
-    if (
-      data &&
-      data.siteConfig &&
-      data.siteConfig.notionAuthToken &&
-      data.siteConfig.notionActiveUserId
-    ) {
+    if (data && data.notionAuthToken && data.notionUserId) {
       notion = new NotionAPI({
-        authToken: data.siteConfig.notionAuthToken,
-        activeUser: data.siteConfig.notionActiveUserId,
+        authToken: data.notionAuthToken,
+        activeUser: data.notionUserId,
       });
     }
     return notion;

@@ -4,9 +4,10 @@ import { revalidateTag } from "next/cache";
 import { cache } from "react";
 
 import prisma from "./prisma";
+import { resolveNotionPage } from "./resolveNotionPage";
+import { getFilesFromRedis } from "@/lib/actions/site";
 
 import { PageProps, RootParams, _SiteData } from "@/types";
-import { resolveNotionPage } from "./resolveNotionPage";
 
 const getSiteSiteConfig = async ({ site }: RootParams) => {
   const subDomain = site.endsWith(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -24,12 +25,29 @@ const getSiteSiteConfig = async ({ site }: RootParams) => {
           },
       include: {
         siteConfig: true,
+        user: {
+          select: {
+            accountType: true,
+          },
+        },
       },
     })) as unknown as _SiteData;
     if (!data) {
       return null;
     }
-    return data;
+    const uris = {
+      css: data.css,
+      javascript: data.javascript,
+      html: data.html,
+    };
+    const files = await getFilesFromRedis(uris);
+    const siteDataWithFiles = {
+      ...data,
+      css: files?.["css"],
+      javascript: files?.["javascript"],
+      html: files?.["html"],
+    };
+    return siteDataWithFiles;
   } catch (error) {
     console.error("Error in [getSiteSiteConfig]", { error });
     return null;
@@ -92,17 +110,18 @@ const fetcher = cache(async (type: string, site: string[]) => {
           },
         });
         if (res.status !== 200) return undefined;
-        const data: _SiteData = await res.json();
+        const data = await res.json();
         const notionPageProps = await resolveNotionPage(
           siteId,
           data.siteConfig,
           pageId,
-          data,
+          data
         );
 
         const pageProps: PageProps = {
           ...notionPageProps,
           config: data.siteConfig,
+          accountType: data.user.accountType || undefined,
         };
         return pageProps;
       } catch (error) {
@@ -115,10 +134,4 @@ const fetcher = cache(async (type: string, site: string[]) => {
   }
 });
 
-export {
-  getAuthDomains,
-  getSiteSiteConfig,
-  revalidateSite,
-  getFetchUrl,
-  fetcher,
-};
+export { getAuthDomains, getSiteSiteConfig, revalidateSite, fetcher };

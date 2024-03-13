@@ -13,7 +13,7 @@ function cleanPageUrlMap(
     label,
   }: {
     label: string;
-  },
+  }
 ): PageUrlOverridesMap {
   return Object.keys(pageUrlMap).reduce((acc, uri) => {
     const pageId = pageUrlMap[uri];
@@ -29,7 +29,7 @@ function cleanPageUrlMap(
 
     if (!uri.startsWith("/")) {
       throw new Error(
-        `Invalid ${label} value for page "${pageId}": value "${uri}" should be a relative URI that starts with "/"`,
+        `Invalid ${label} value for page "${pageId}": value "${uri}" should be a relative URI that starts with "/"`
       );
     }
 
@@ -47,12 +47,14 @@ export const resolveNotionPage = async (
   siteConfig: SiteConfig,
   rawPageId?: string,
   siteData?: _SiteData,
-  shouldAddImage?: boolean,
+  shouldAddImage?: boolean
 ) => {
   let pageId: string;
   let recordMap: ExtendedRecordMap;
 
   const site: Site = {
+    id: siteData?.id || domain,
+    userId: siteData?.userId || "",
     name: siteData?.name || siteConfig.name,
     subDomain: siteData?.subDomain,
     customDomain: siteData?.customDomain,
@@ -81,11 +83,11 @@ export const resolveNotionPage = async (
     if (!pageId) {
       const pageUrlOverrides = cleanPageUrlMap(
         siteConfig?.pageUrlOverrides || {},
-        { label: "pageUrlOverrides" },
+        { label: "pageUrlOverrides" }
       );
       const pageUrlAdditions = cleanPageUrlMap(
         siteConfig?.pageUrlAdditions || {},
-        { label: "pageUrlAdditions" },
+        { label: "pageUrlAdditions" }
       );
       // check if the site configuration provides an override or a fallback for
       // the page's URI
