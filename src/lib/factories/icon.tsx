@@ -16,6 +16,7 @@ import { CgFileDocument } from "react-icons/cg";
 import { IoOptionsOutline } from "react-icons/io5";
 import { IconType } from "react-icons";
 import { BsRobot } from "react-icons/bs";
+import { FaLaptopCode } from "react-icons/fa";
 
 import { Icons, IconFactory } from "@/types";
 
@@ -36,6 +37,7 @@ class DefaultIconFactory implements IconFactory {
     nav: TbLayoutNavbarFilled,
     footer: TbLayoutNavbar,
     AI: BsRobot,
+    code: FaLaptopCode,
   };
 
   getIcon(icon: Icons): IconType {
