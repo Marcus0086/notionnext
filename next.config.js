@@ -24,9 +24,16 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.notion.so",
       },
+      {
+        protocol: "https",
+        hostname: "aceternity.com",
+      },
     ],
   },
-  cacheHandler: process.env.NODE_ENV === "production" ? require.resolve("./cacheHandler.js") : undefined,
+  cacheHandler:
+    process.env.NODE_ENV === "production"
+      ? require.resolve("./cacheHandler.js")
+      : undefined,
   cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
   experimental: {
     optimisticClientCache: false,

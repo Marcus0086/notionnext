@@ -21,7 +21,7 @@ const middleware = (req: NextRequest) => {
 
   const currentHost = hostName.replace(
     ".localhost:3000",
-    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
   );
 
   console.log("Hostname and currentHost is:", { hostName, currentHost });
