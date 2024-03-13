@@ -39,6 +39,9 @@ const DomainPage = async ({
   try {
     const data = await fetcher("site", site);
     pageProps = data;
+    if (pageProps) {
+      pageProps.isLive = true;
+    }
   } catch (error) {
     console.log(error);
     notFound();
