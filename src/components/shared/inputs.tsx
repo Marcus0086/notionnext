@@ -224,6 +224,10 @@ const FontInput = ({ value }: CardInputComponent) => {
       ...settings,
       site: {
         ...settings?.site,
+        userId: settings?.site?.userId || "",
+        id: settings?.site?.id || "",
+        notionAuthToken: settings?.site?.notionAuthToken || "",
+        notionUserId: settings?.site?.notionUserId || "",
         name: settings?.site?.name || "",
         rootNotionPageId: settings?.site?.rootNotionPageId || "",
         rootNotionSpaceId: settings?.site?.rootNotionSpaceId || "",
@@ -313,8 +317,10 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
       const response = await deleteSiteById(siteId);
       await revalidateSite(response?.domain || "");
       toast.info("Site deleted successfully!", toastOptions);
-      router.push("/home");
       setIsDeleting(false);
+      setTimeout(() => {
+        router.push("/home");
+      }, 200);
     }
   };
   return (
