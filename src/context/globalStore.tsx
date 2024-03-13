@@ -20,9 +20,7 @@ const GlobalSettingsStoreProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [settings, setSettings] = useState<SiteGloalFlag>({
-    isDialogOpen: false,
-  });
+  const [settings, setSettings] = useState({});
   return (
     <GlobalSettingsStore.Provider value={{ settings, setSettings }}>
       {children}
