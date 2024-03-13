@@ -1,8 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
 import { WiStars } from "react-icons/wi";
-import { ExtendedRecordMap } from "notion-types";
 
 import {
   Drawer,
@@ -14,20 +12,16 @@ import {
 } from "@/components/ui/drawer";
 import Chat from "@/components/aiSearch/chat";
 
-import { getBlockContent } from "@/lib/blockContent";
-
-const AiSearch = ({ recordMap }: { recordMap?: ExtendedRecordMap }) => {
-  const pageContent = useMemo(() => getBlockContent(recordMap), [recordMap]);
-
+const AiSearch = ({ tenant, siteId }: { tenant?: string; siteId?: string }) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
         <button
-          aria-label="AI Search"
+          aria-label="Chat"
           disabled={false}
           className="breadcrumb button flex items-center justify-center text-center p-4"
         >
-          AI Search
+          Chat
           <WiStars className="ml-2 w-5 h-5" />
         </button>
       </DrawerTrigger>
@@ -40,7 +34,7 @@ const AiSearch = ({ recordMap }: { recordMap?: ExtendedRecordMap }) => {
         </div>
 
         <div className="flex flex-col gap-y-2">
-          <Chat pageContent={pageContent.text} />
+          <Chat tenant={tenant} siteId={siteId} />
         </div>
       </DrawerContent>
     </Drawer>
