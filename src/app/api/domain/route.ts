@@ -7,7 +7,7 @@ const GET = async (req: Request) => {
   const siteDomain = domain.endsWith(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
     : domain;
-  const data = getAuthDomains();
+  const data = await getAuthDomains();
   if (data.includes(siteDomain)) {
     return Response.json(siteDomain, {
       status: 200,

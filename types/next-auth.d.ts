@@ -42,5 +42,9 @@ declare module "next-auth" {
      * The user's Account (PRO, FREE, ENTERPRISE)
      */
     accountType?: AccountType | null;
+
+    notionAuthToken?: string | null;
+
+    notionUserId?: string | null;
   }
 }

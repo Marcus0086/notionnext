@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { getSiteSiteConfig } from "@/lib/siteDb";
 import { getSiteMap } from "@/lib/getSiteMap";
 import { sitePage } from "@/lib/actions/site";
-import getSessionUser from "@/lib/getSession";
+import getSessionUser from "@/lib/getSessionUser";
 
 import { _SiteData } from "@/types";
 
@@ -65,6 +65,7 @@ const GET = async (req: Request) => {
       status: 200,
     });
   } catch (error) {
+    console.log("[Site] error happended in GET", error);
     return Response.json(
       {
         error: "Site not found",
@@ -75,18 +76,4 @@ const GET = async (req: Request) => {
     );
   }
 };
-
-const OPTIONS = async () => {
-  return NextResponse.json(
-    {},
-    {
-      status: 200,
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    }
-  );
-};
-
-export { GET, OPTIONS };
+export { GET };
