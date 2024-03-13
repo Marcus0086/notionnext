@@ -8,7 +8,7 @@ import { cache } from "react";
 
 import { authOptions } from "@/components/auth/constants";
 
-const getSessionUser = cache(
+const getSession = cache(
   async (
     ...args:
       | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
@@ -16,8 +16,8 @@ const getSessionUser = cache(
       | []
   ) => {
     const session = await getServerSession(...args, authOptions);
-    return session?.user;
+    return session;
   }
 );
 
-export default getSessionUser;
+export default getSession;
