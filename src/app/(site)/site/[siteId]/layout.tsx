@@ -18,7 +18,7 @@ const SiteSettingsPageLayout = ({
     <>
       {aside}
       <ParentPageSettingsProvider>
-        <section className="w-full h-full bg-lightPrimary dark:bg-navy-900 flex items-start justify-start gap-x-8 p-4 sm:p-8 sm:pl-20">
+        <section className="relative w-full h-full bg-lightPrimary dark:bg-navy-900 flex items-start justify-start gap-x-8 p-4 sm:p-8 sm:pl-20">
           <section className="w-full h-full llg:w-1/4 ml-0 sm:ml-10 transition-all duration-150 ease-in-out">
             <main className="flex flex-col justify-between w-full h-full gap-y-4">
               <h3 className="text-3xl font-bold text-cloudBurst dark:text-selago">
@@ -30,11 +30,9 @@ const SiteSettingsPageLayout = ({
               {saveReset}
             </main>
           </section>
-          <section className="hidden llg:block h-full transition-all duration-150 ease-in-out overflow-hidden min-w-[375px] xl:w-3/4 rounded-md border border-gray-300 dark:border-gray-800 sticky top-28">
-            <Suspense>
-              <SlotSites />
-            </Suspense>
-          </section>
+          <Suspense>
+            <SlotSites />
+          </Suspense>
         </section>
       </ParentPageSettingsProvider>
     </>
