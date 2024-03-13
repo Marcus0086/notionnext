@@ -11,7 +11,7 @@ import { SitePageParams } from "@/types";
 const AIChatSettings = async ({ params: { siteId } }: SitePageParams) => {
   const queryClient = getQueryClient();
   try {
-    await queryClient.fetchQuery(["pages", siteId], () =>
+    await queryClient.fetchQuery(["ai", siteId], () =>
       getSiteDocuments(siteId)
     );
   } catch (error) {
