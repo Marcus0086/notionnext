@@ -9,7 +9,10 @@ const OutlinedIcon = ({
 }) => {
   const Icon = iconProps;
   return (
-    <Icon className="w-6 h-6 group-hover:!fill-slate-800" aria-label={label} />
+    <Icon
+      className="w-7 h-7 group-hover:!fill-slate-800 dark:group-hover:!fill-white"
+      aria-label={label}
+    />
   );
 };
 

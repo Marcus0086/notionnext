@@ -11,13 +11,14 @@ import {
 import ThemeButton from "../shared/themeButton";
 import AiSearch from "@/components/aiSearch";
 
-import { SiteConfig } from "@/types";
+import { Site, SiteConfig } from "@/types";
 
 const NavHeader: React.FC<{
   block: CollectionViewPageBlock | PageBlock;
   siteConfig?: SiteConfig;
+  site?: Site;
   recordMap?: ExtendedRecordMap;
-}> = ({ block, siteConfig, recordMap }) => {
+}> = ({ block, siteConfig, recordMap, site }) => {
   const { components, mapPageUrl } = useNotionContext();
   return (
     <header className="notion-header">
@@ -50,7 +51,9 @@ const NavHeader: React.FC<{
             })
             .filter(Boolean)}
           {siteConfig?.isSearchEnabled && <Search block={block} title={null} />}
-          {siteConfig?.isAiSearchEnabled && <AiSearch recordMap={recordMap} />}
+          {siteConfig?.isAiSearchEnabled && (
+            <AiSearch siteId={site?.id} tenant={site?.userId} />
+          )}
           {siteConfig?.isDarkModeEnabled && <ThemeButton />}
         </ul>
       </nav>

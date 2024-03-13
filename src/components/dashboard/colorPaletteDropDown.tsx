@@ -6,19 +6,13 @@ import { FiChevronUp } from "react-icons/fi";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 
-import { THEMES } from "@/components/dashboard/constants";
+import { PALETTE } from "@/components/dashboard/constants";
 
 import { useParentPageSettings } from "@/context/parentPage";
 
 import { cn } from "@/lib/utils";
 
-const ThemeDropDown = ({
-  title,
-  account,
-}: {
-  title: string;
-  account: AccountType;
-}) => {
+const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
   const accountType = account;
   const [selectedTheme, setSelectedTheme] = useState("");
   const { theme } = useTheme();
@@ -45,6 +39,10 @@ const ThemeDropDown = ({
       ...settings,
       site: {
         ...settings?.site,
+        userId: settings?.site?.userId || "",
+        notionAuthToken: settings?.site?.notionAuthToken || "",
+        notionUserId: settings?.site?.notionUserId || "",
+        id: settings?.site?.id || "",
         css: newSettingsCss,
         name: settings?.site?.name || "",
         rootNotionPageId: settings?.site?.rootNotionPageId || "",
@@ -63,6 +61,10 @@ const ThemeDropDown = ({
       ...settings,
       site: {
         ...settings?.site,
+        userId: settings?.site?.userId || "",
+        notionAuthToken: settings?.site?.notionAuthToken || "",
+        notionUserId: settings?.site?.notionUserId || "",
+        id: settings?.site?.id || "",
         css: css,
         name: settings?.site?.name || "",
         rootNotionPageId: settings?.site?.rootNotionPageId || "",
@@ -88,7 +90,7 @@ const ThemeDropDown = ({
               "border border-gray-300 dark:border-navy-700"
             )}
           >
-            {title} Themes
+            Color Palette
             <FiChevronUp
               className={cn(
                 "w-5 h-5 transition-transform duration-150 ease-in-out",
@@ -101,21 +103,17 @@ const ThemeDropDown = ({
               "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4"
             )}
           >
-            {THEMES[title].map(
+            {PALETTE.map(
               ({ background, name, type, css, placeholder }, index) => (
                 <li key={index} className="text-center w-full h-full">
                   <button
                     className={cn(
                       "w-full xl:w-20 h-16 ",
                       "rounded-md cursor-pointer hover:shadow-lg",
-                      accountType === "FREE" && title !== "Free"
-                        ? "opacity-90 !cursor-not-allowed"
-                        : "",
                       selectedTheme === name
                         ? "ring-2 ring-offset-2 ring-brandLinear"
                         : ""
                     )}
-                    disabled={accountType === "FREE" && title !== "Free"}
                     onClick={() => {
                       if (background) {
                         handleThemeChange(background, name, type);
@@ -142,4 +140,4 @@ const ThemeDropDown = ({
   );
 };
 
-export default ThemeDropDown;
+export default ColorPaletteDropDown;

@@ -2,26 +2,19 @@
 
 import SettingsNav from "@/components/dashboard/settingsNav";
 import ClientNotionPage from "@/components/dashboard/clientNotionPage";
+import LoadingComponent from "@/components/dashboard/loadingComponent";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+import { cn } from "@/lib/utils";
 
 import useSlotSite from "@/hooks/useSlotSite";
-
-const LoadingComponent = () => {
-  return (
-    <div className="w-full h-screen bg-gray-100 dark:bg-navy-900">
-      <div className="flex flex-col items-center justify-center h-full">
-        <div className="w-64 h-16 bg-gray-300 dark:bg-gray-900 animate-pulse rounded-md" />
-        <div className="mt-8 w-full max-w-md space-y-4">
-          <div className="h-12 bg-gray-300 dark:bg-gray-900 animate-pulse rounded-md" />
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="h-40 bg-gray-300 dark:bg-gray-900 animate-pulse rounded-md" />
-            <div className="h-40 bg-gray-300 dark:bg-gray-900 animate-pulse rounded-md" />
-            <div className="h-40 bg-gray-300 dark:bg-gray-900 animate-pulse rounded-md" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const SlotSites = () => {
   const { pageProps } = useSlotSite();
@@ -30,10 +23,39 @@ const SlotSites = () => {
     <>
       {pageProps ? (
         <>
-          <SettingsNav pageProps={pageProps} />
-          <div className="flex items-center justify-center h-full overflow-auto no-scroll">
-            <ClientNotionPage pageProps={pageProps} />
-          </div>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                className="block llg:hidden absolute right-8"
+                variant="outline"
+              >
+                Preview
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="p-0 bg-lightPrimary dark:bg-navy-900 sm:max-w-full w-full h-full overflow-auto">
+              <SheetHeader>
+                <SheetClose />
+              </SheetHeader>
+              <hr className="w-full h-12" />
+              <SettingsNav pageProps={pageProps} />
+              <div className="flex items-center justify-center h-full overflow-auto no-scroll">
+                <ClientNotionPage pageProps={pageProps} />
+              </div>
+            </SheetContent>
+          </Sheet>
+          <section
+            className={cn(
+              "hidden llg:block",
+              "h-full transition-all duration-150 ease-in-out overflow-hidden sticky top-28",
+              "min-w-[375px] xl:w-3/4",
+              "rounded-md border border-gray-300 dark:border-gray-800",
+            )}
+          >
+            <SettingsNav pageProps={pageProps} />
+            <div className="flex items-center justify-center h-full overflow-auto no-scroll">
+              <ClientNotionPage pageProps={pageProps} />
+            </div>
+          </section>
         </>
       ) : (
         <LoadingComponent />

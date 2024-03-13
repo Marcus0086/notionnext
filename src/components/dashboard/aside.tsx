@@ -5,8 +5,9 @@ import Link from "next/link";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
 import AsideIcons from "@/components/dashboard/asideIcons";
+
+import { cn } from "@/lib/utils";
 
 import { AsideMenuType } from "@/types";
 
@@ -29,7 +30,7 @@ const Aside = ({
         "bg-white dark:bg-navy-800 drop-shadow-sm",
         translate ? translate : "xl:translate-x-0",
         "transition-all duration-150 ease-linear -translate-x-96",
-        "fixed z-50 "
+        "fixed z-50 ",
       )}
     >
       <section className="px-14 py-8 relative">
@@ -43,17 +44,28 @@ const Aside = ({
         </Link>
       </section>
       <hr className="bg-gray-400" />
-      <ul className="flex flex-col py-8 px-8 gap-y-4">
-        {items.map(({ title, icon, isDefault, link }, index) => (
-          <Link href={linkPrefix ? `${pathName}${link}` : link} key={index}>
-            <li className={`flex items-center justify-start gap-x-2 group`}>
-              <AsideIcons icon={icon} />
-              <span className="text-rockBlue font-normal text-sm group-hover:text-gray-950">
-                {title}
-              </span>
-            </li>
-          </Link>
-        ))}
+      <ul className="flex flex-col py-8 px-8 gap-y-8">
+        {items.map(({ title, icon, link }, index) => {
+          const isActive =
+            pathName === link || pathName?.includes(link) ? true : false;
+          return (
+            <Link href={linkPrefix ? `${pathName}${link}` : link} key={index}>
+              <li
+                className={cn(
+                  isActive
+                    ? "after:content-[''] after:w-1 after:h-8 after:right-0 after:bg-brandLinear after:rounded-l-md after:absolute"
+                    : "",
+                  `flex items-center justify-start gap-x-4 group`,
+                )}
+              >
+                <AsideIcons icon={icon} />
+                <span className="text-rockBlue font-normal text-lg group-hover:text-gray-950 dark:group-hover:text-white">
+                  {title}
+                </span>
+              </li>
+            </Link>
+          );
+        })}
       </ul>
     </aside>
   );

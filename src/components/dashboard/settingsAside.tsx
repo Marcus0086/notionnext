@@ -23,7 +23,7 @@ const SettingsAside = ({
         "bg-white dark:bg-navy-800 drop-shadow-sm",
         "sm:translate-x-0",
         "transition-all duration-150 ease-linear -translate-x-96",
-        "fixed z-50 "
+        "fixed z-50 ",
       )}
     >
       <section className="w-20 h-20 flex items-center justify-center">

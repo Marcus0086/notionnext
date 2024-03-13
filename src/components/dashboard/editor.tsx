@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 
 import useEditor from "@/hooks/useEditor";
 
-const Editor = ({ siteId }: { siteId: string }) => {
-  const { handleInputChange, handleMount, values, theme } = useEditor(siteId);
+const Editor = () => {
+  const { handleInputChange, handleMount, values, theme } = useEditor();
 
   return (
     <Tab.Group>
@@ -48,7 +48,6 @@ const Editor = ({ siteId }: { siteId: string }) => {
               <MonacoEditor
                 defaultLanguage={defaultLanguage}
                 path={path}
-                height={"500px"}
                 theme={theme === "dark" ? "vs-dark" : "light"}
                 value={values[defaultLanguage]}
                 onChange={(value) => handleInputChange(value, defaultLanguage)}

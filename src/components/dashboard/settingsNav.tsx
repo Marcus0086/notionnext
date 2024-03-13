@@ -1,18 +1,15 @@
-"use client";
-
 import { Dispatch, useReducer, useState } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { RiLoader4Line } from "react-icons/ri";
 
 import { useParentPageSettings } from "@/context/parentPage";
-
 import useToast from "@/hooks/useToast";
-
 import { httpPrefix, domainSuffix } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { revalidateSite } from "@/lib/siteDb";
 import { IconsFactory } from "@/lib/factories/icon";
+import ActivityLogger from "@/lib/logger";
 
 import { Display, Icons, ProviderPageProps } from "@/types";
 
@@ -56,9 +53,22 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
     setSaved(true);
     try {
       await revalidateSite(siteUrl);
+      ActivityLogger.publishSite({
+        data: {
+          site: siteUrl || "",
+          log: `Published site ${siteUrl} successfully.`,
+        },
+      });
       toast.success("Site published successfully!", toastOptions);
     } catch (error) {
       console.log("Error is publishing", error);
+      ActivityLogger.publishSite({
+        data: {
+          site: siteUrl || "",
+          log: `Failed to publish site ${siteUrl}.`,
+          error: "Something went wrong!",
+        },
+      });
       toast.error("Error in publishing Site!", toastOptions);
     } finally {
       setSaved(false);
@@ -124,7 +134,7 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
         {siteUrl && (
           <Link
             href={`${httpPrefix}${siteUrl}`}
-            className="text-center text-sm hover:text-orange-500"
+            className="text-center text-sm hover:text-slate-500"
           >
             {siteUrl}
           </Link>

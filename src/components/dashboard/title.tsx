@@ -9,6 +9,7 @@ const Titles: {
   design: "Design",
   seo: "SEO",
   ai: "AI",
+  code: "Code",
   options: "Options",
   navbar: "Navbar",
   footer: "Footer",

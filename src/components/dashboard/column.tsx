@@ -19,34 +19,9 @@ import { cn } from "@/lib/utils";
 export type PageLinks = {
   path: string;
   content: string;
+  words: number;
 };
 const columns: ColumnDef<PageLinks>[] = [
-  {
-    accessorKey: "content",
-    header: "Content",
-    cell: ({ row }) => {
-      const content: string = row.getValue("content");
-      return (
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">
-              <HiExternalLink className="w-4 h-4" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[650px] overflow-auto">
-            <DialogHeader>
-              <DialogTitle className="font-bold text-2xl">
-                {row.getValue("path")}
-              </DialogTitle>
-              <DialogDescription className="pt-2 font-normal text-lg text-black dark:text-white">
-                {content}
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
-      );
-    },
-  },
   {
     accessorKey: "path",
     header: "Path",
@@ -67,6 +42,40 @@ const columns: ColumnDef<PageLinks>[] = [
             {!isIndexPage ? `/${path}` : "/home"}
           </Link>
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "words",
+    header: "Words",
+    cell: ({ row }) => {
+      const words: number = row.getValue("words");
+      return <span>{words}</span>;
+    },
+  },
+  {
+    accessorKey: "content",
+    header: "Content",
+    cell: ({ row }) => {
+      const content: string = row.getValue("content");
+      return (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">
+              <HiExternalLink className="w-4 h-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-lightPrimary dark:bg-navy-900 max-w-3xl max-h-[650px] overflow-auto">
+            <DialogHeader>
+              <DialogTitle className="font-bold text-xl">
+                Source: {row.getValue("path")}
+              </DialogTitle>
+              <DialogDescription className="text-left pt-2 font-normal text-md text-black dark:text-white">
+                Content: {content}
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       );
     },
   },

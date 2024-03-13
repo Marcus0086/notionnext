@@ -1,6 +1,7 @@
 "use client";
 
 import FormSubmitButton from "../shared/formSubmitButton";
+import { Boxes } from "@/components/ui/backgroundBoxes";
 
 import useFormAction from "@/hooks/useFormAction";
 
@@ -14,7 +15,7 @@ const CreateSiteForm = () => {
     >
       {/* TODO: Ask chatgpt for a better copy text */}
       <h3 className="w-2/4 text-3xl">
-        Create and share extraordinary No-code websites
+        Create and share extraordinary websites
       </h3>
       <h3 className="w-2/4 text-base mt-3">
         Enter in the creative world of NotionSite.io and build your own No-code

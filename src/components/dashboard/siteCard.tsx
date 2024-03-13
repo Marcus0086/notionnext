@@ -2,19 +2,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { TbExternalLink } from "react-icons/tb";
 
-import SiteCardImage from "@/components/dashboard/siteCardImage";
 import MoreIcon from "@/components/dashboard/moreIcon";
+import { EvervaultCard } from "@/components/ui/everVaultCard";
+import { Meteors } from "@/components/ui/meteors";
 
 import { cn } from "@/lib/utils";
 import { domainSuffix, httpPrefix } from "@/lib/config";
 
-import { SiteCard } from "@/types";
+import type { SiteCard } from "@/types";
 import { VisibilityFilter } from "@prisma/client";
+import SiteCardImage from "./siteCardImage";
 
 const SiteCard = ({
   id,
-  image,
   name,
+  image,
   visibility,
   siteConfig,
   user,
@@ -44,7 +46,16 @@ const SiteCard = ({
     >
       {!settings && (
         <Link href={`/site/${id}`} className="relative h-48 w-full">
-          <SiteCardImage imageUrl={image} name={name || ""} />
+          {image ? (
+            <SiteCardImage imageUrl={image} name={name || "Card Image"} />
+          ) : (
+            <div className="h-full overflow-hidden relative rounded-xl border border-selago dark:border-blueZodiac object-cover">
+              <div className="absolute inset-0 w-full h-full">
+                <Meteors number={200} />
+                <EvervaultCard text={name || ""} />
+              </div>
+            </div>
+          )}
         </Link>
       )}
 

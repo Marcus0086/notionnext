@@ -5,6 +5,9 @@ import { toast } from "react-toastify";
 
 import { deleteSiteById } from "@/lib/actions/site";
 
+import { revalidateSite } from "@/lib/siteDb";
+import ActivityLogger from "@/lib/logger";
+
 import useToast from "@/hooks/useToast";
 
 const MoreIcon = ({ siteId }: { siteId: string }) => {
@@ -14,8 +17,22 @@ const MoreIcon = ({ siteId }: { siteId: string }) => {
     const isDeleted = await deleteSiteById(siteId);
     if (isDeleted.success) {
       toast.info("Site deleted successfully!", toastOptions);
+      ActivityLogger.deleteSite({
+        data: {
+          site: isDeleted?.domain || "",
+          log: `Deleted site ${isDeleted?.domain} successfully.`,
+        },
+      });
+      await revalidateSite(isDeleted?.domain || "");
     } else {
       toast.error("Something went wrong!", toastOptions);
+      ActivityLogger.deleteSite({
+        data: {
+          site: isDeleted?.domain || "",
+          log: `Failed to delete site ${isDeleted?.domain}.`,
+          error: "Something went wrong!",
+        },
+      });
     }
   };
   return (

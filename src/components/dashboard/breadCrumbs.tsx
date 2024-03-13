@@ -1,19 +1,43 @@
-import Link from "next/link";
+import React from "react";
+import { SlashIcon } from "@radix-ui/react-icons";
 
-const BreadCrumbs = ({ path }: { path: string }) => {
-  const replacedPath = path.replace("/", "");
-  const pathName = replacedPath.length > 0 ? replacedPath : "dashboard";
+import { BreadcrumbPage } from "@/components/ui/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
+const Breadcrumbs = ({ path }: { path: string }) => {
+  const paths = path.split("/").filter((p) => p);
   return (
-    <h3 className="text-cloudBurst dark:text-white font-normal text-xs capitalize">
-      {path !== "/" ? (
-        <span>
-          <Link href="/">Dashboard</Link> / {pathName}
-        </span>
-      ) : (
-        pathName
-      )}
-    </h3>
+    <Breadcrumb className="capitalize">
+      <BreadcrumbList>
+        {paths.map((pathSegment, index) => (
+          <React.Fragment key={index}>
+            <BreadcrumbItem>
+              {index < paths.length - 1 ? (
+                <BreadcrumbLink
+                  href={`/${paths.slice(0, index + 1).join("/")}`}
+                >
+                  {pathSegment}
+                </BreadcrumbLink>
+              ) : (
+                pathSegment
+              )}
+            </BreadcrumbItem>
+            {index < paths.length - 1 && (
+              <BreadcrumbSeparator>
+                <SlashIcon />
+              </BreadcrumbSeparator>
+            )}
+          </React.Fragment>
+        ))}
+      </BreadcrumbList>
+    </Breadcrumb>
   );
 };
 
-export default BreadCrumbs;
+export default Breadcrumbs;
