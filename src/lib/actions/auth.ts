@@ -1,7 +1,7 @@
 "use server";
 
 import { cache } from "react";
-import getSessionUser from "@/lib/getSession";
+import getSessionUser from "@/lib/getSessionUser";
 
 const createUser = async (formData: FormData) => {
   const userEmail = formData.get("user_email");

@@ -1,4 +1,7 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 import prisma from "@/lib/prisma";
 import { domainSuffix } from "@/lib/config";
@@ -6,6 +9,9 @@ import { domainSuffix } from "@/lib/config";
 import { _SiteData } from "@/types";
 
 const deleteSiteById = async (siteId: string) => {
+  const client = new QdrantClient({
+    url: process.env.QDRANT_URL,
+  });
   try {
     const data = await prisma.site.delete({
       where: {
@@ -26,6 +32,19 @@ const deleteSiteById = async (siteId: string) => {
     await prisma.siteConfig.delete({
       where: {
         id: data?.siteConfigId || "",
+      },
+    });
+
+    await client.delete("NotionKnowledgeBase", {
+      filter: {
+        must: [
+          {
+            key: "metadata.siteId",
+            match: {
+              value: siteId,
+            },
+          },
+        ],
       },
     });
     revalidatePath("/home");

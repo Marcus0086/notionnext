@@ -1,8 +1,10 @@
+"use server";
+
 import { parsePageId } from "notion-utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-import getSessionUser from "@/lib/getSession";
+import getSessionUser from "@/lib/getSessionUser";
 import prisma from "@/lib/prisma";
 
 const createSite = async (formData: FormData) => {
@@ -50,6 +52,8 @@ const createSite = async (formData: FormData) => {
       data: {
         name: name,
         subDomain: name,
+        notionAuthToken: user?.notionAuthToken,
+        notionUserId: user?.notionUserId,
         user: {
           connect: {
             id: userId,
