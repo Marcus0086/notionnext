@@ -6,7 +6,7 @@ import LoadingCard from "@/components/dashboard/loadingCard";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <section className="pt-5 max-w-[65rem]">
+    <section className="pt-5 max-w-[55rem]">
       <div className="rounded-3xl bg-blueSecondary drop-shadow-md">
         <CreateSiteForm />
       </div>
