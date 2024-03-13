@@ -15,6 +15,7 @@ type Icons =
   | "nav"
   | "footer"
   | "AI"
+  | "code"
   | Display;
 
 type AsideMenuType = {
