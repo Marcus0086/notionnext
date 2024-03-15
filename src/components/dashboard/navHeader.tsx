@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Breadcrumbs, Search, useNotionContext } from "react-notion-x";
+import { AccountType } from "@prisma/client";
 import {
   CollectionViewPageBlock,
   ExtendedRecordMap,
@@ -18,7 +19,9 @@ const NavHeader: React.FC<{
   siteConfig?: SiteConfig;
   site?: Site;
   recordMap?: ExtendedRecordMap;
-}> = ({ block, siteConfig, recordMap, site }) => {
+  accountType?: AccountType;
+  isLive?: boolean;
+}> = ({ block, siteConfig, recordMap, site, accountType, isLive }) => {
   const { components, mapPageUrl } = useNotionContext();
   return (
     <header className="notion-header">
@@ -51,10 +54,12 @@ const NavHeader: React.FC<{
             })
             .filter(Boolean)}
           {siteConfig?.isSearchEnabled && <Search block={block} title={null} />}
-          {siteConfig?.isAiSearchEnabled && (
-            <AiSearch siteId={site?.id} tenant={site?.userId} />
-          )}
-          {siteConfig?.isDarkModeEnabled && <ThemeButton />}
+          {siteConfig?.isAiSearchEnabled ? (
+            (isLive && accountType !== "FREE") || !isLive ? (
+              <AiSearch siteId={site?.id} tenant={site?.userId} />
+            ) : null
+          ) : null}
+          {siteConfig?.isDarkModeEnabled ? <ThemeButton /> : null}
         </ul>
       </nav>
     </header>
