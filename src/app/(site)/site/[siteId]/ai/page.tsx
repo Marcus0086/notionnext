@@ -1,4 +1,4 @@
-import { Hydrate, dehydrate } from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 
 import SiteAIPages from "@/components/dashboard/siteAIPages";
@@ -11,17 +11,21 @@ import { SitePageParams } from "@/types";
 const AIChatSettings = async ({ params: { siteId } }: SitePageParams) => {
   const queryClient = getQueryClient();
   try {
-    await queryClient.fetchQuery(["ai", siteId], () =>
-      getSiteDocuments(siteId)
-    );
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: ["ai", siteId],
+      queryFn: ({ pageParam }) => getSiteDocuments(siteId, pageParam, 4),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage: { nextCursor: any }) => lastPage.nextCursor,
+      staleTime: Infinity,
+    });
   } catch (error) {
     notFound();
   }
   const dehydratedState = dehydrate(queryClient);
   return (
-    <Hydrate state={dehydratedState}>
+    <HydrationBoundary state={dehydratedState}>
       <SiteAIPages siteId={siteId} />
-    </Hydrate>
+    </HydrationBoundary>
   );
 };
 
