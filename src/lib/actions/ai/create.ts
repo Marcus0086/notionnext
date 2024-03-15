@@ -43,22 +43,29 @@ const trainKnowledgeBases = async (
         isTrained: true,
       },
     });
-    const untrainedKbs = kbsTrainedStatus.filter((kb) => !kb.isTrained);
-    if (untrainedKbs.length === 0 && kbsTrainedStatus.length > 0) {
+    const trainedKbsMap = new Map(
+      kbsTrainedStatus.map((kb) => [kb.name, kb.isTrained])
+    );
+    const untrainedLangchainDocs = langchainDocs.filter(
+      (doc) =>
+        !trainedKbsMap.get(doc.metadata.source.replace("/", "")) ||
+        !trainedKbsMap.has(doc.metadata.source.replace("/", ""))
+    );
+    if (untrainedLangchainDocs.length === 0 && kbsTrainedStatus.length > 0) {
       return {
-        success: "All knowledge bases are already trained",
+        success: "All knowledge bases are already trained.",
       };
     }
     const embeddings = new OpenAIEmbeddings();
-    await QdrantVectorStore.fromDocuments(langchainDocs, embeddings, {
+    await QdrantVectorStore.fromDocuments(untrainedLangchainDocs, embeddings, {
       url: process.env.QDRANT_URL,
       collectionName: "NotionKnowledgeBase",
       tenant: user?.id,
     });
-    const userKnowledgeBases = knowledgeBases.map((kb) => {
+    const userKnowledgeBases = untrainedLangchainDocs.map((kb) => {
       return {
         siteId: siteId,
-        name: kb.source.replace("/", ""),
+        name: kb.metadata.source.replace("/", ""),
         trainedAt: new Date(),
         isTrained: true,
       };
