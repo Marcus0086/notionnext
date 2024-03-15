@@ -29,7 +29,9 @@ const useSlotSite = () => {
     }
   };
 
-  const { data } = useQuery(["slotSite", siteId, pageId], fetchSlotSite, {
+  const { data } = useQuery({
+    queryKey: ["slotSite", siteId, pageId],
+    queryFn: fetchSlotSite,
     refetchOnWindowFocus: () => false,
     refetchIntervalInBackground: false,
     staleTime: Infinity,
