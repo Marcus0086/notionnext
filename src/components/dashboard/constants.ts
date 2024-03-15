@@ -187,6 +187,7 @@ type Settings<T extends CardInputs | ToggleInputs> = {
   title: string;
   type: T;
   description: string;
+  toolTip?: string;
 }[];
 
 const GENERAL_SETTINGS: Settings<CardInputs> = [
@@ -204,6 +205,7 @@ const GENERAL_SETTINGS: Settings<CardInputs> = [
     title: "Site Visibility",
     type: "visibility",
     description: "Set visibility of your site",
+    toolTip: "Change to Live to make your site public.",
   },
   {
     title: "Delete Site",
