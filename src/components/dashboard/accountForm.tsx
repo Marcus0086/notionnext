@@ -67,7 +67,7 @@ const AccountForm = ({
             <FormItem>
               <FormLabel>Notion User ID</FormLabel>
               <FormControl>
-                <Input placeholder="Your User Id" {...field} />
+                <Input placeholder="Your User Id" required {...field} />
               </FormControl>
               <FormDescription>
                 This is your Notion user ID. You can find it in the URL of your
@@ -86,6 +86,7 @@ const AccountForm = ({
               <FormControl>
                 <Input
                   type="password"
+                  required
                   placeholder="Your Access Token"
                   {...field}
                 />
