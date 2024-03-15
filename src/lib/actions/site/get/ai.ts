@@ -10,21 +10,15 @@ import prisma from "@/lib/prisma";
 import { getBlockContent } from "@/lib/blockContent";
 import { sitePage } from "@/lib/actions/site";
 
-import { _SiteData, ProviderPageProps, Document } from "@/types";
+import { _SiteData, ProviderPageProps, Document, PageProps } from "@/types";
+import { resolveNotionPage } from "@/lib/resolveNotionPage";
 
 const countWords = (str: string) => {
   return str.split(" ").filter((n) => n !== "").length;
 };
 
-const getPagesSiteData = async (siteId: string) => {
-  return (await sitePage(
-    siteId,
-    false,
-    true,
-    undefined,
-    undefined,
-    true
-  )) as ProviderPageProps;
+const getRootPageSiteData = async (siteId: string) => {
+  return (await sitePage(siteId, true, true)) as PageProps;
 };
 
 const getKnowledgeBases = cache(async (siteId: string) => {
@@ -116,19 +110,54 @@ const getUniqueDocuments = cache(
   }
 );
 
-const getSiteDocuments = async (siteId: string) => {
-  const pagesSiteData = await getPagesSiteData(siteId);
+const getPageSlice = (
+  pageMap: [string, string][],
+  pageNumber: number,
+  pageSize: number
+) => {
+  const startIndex = pageNumber * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pageSlice = pageMap.slice(startIndex, endIndex);
+  return pageSlice;
+};
+
+const getSiteDocuments = async (
+  siteId: string,
+  pageNumber: number = 0,
+  pageSize: number = 1
+) => {
+  const rootPageDataSiteMap: ProviderPageProps = await getRootPageSiteData(
+    siteId
+  );
+  const allPagesSiteData = rootPageDataSiteMap;
   const splitter = new RecursiveCharacterTextSplitter({
     chunkOverlap: 50,
     chunkSize: 1000,
   });
   const knowledgeBases = await getKnowledgeBases(siteId);
-  const indexPage = pagesSiteData?.pageId || "";
-  const childLinks = getChildLinks(pagesSiteData, indexPage);
+  const indexPage = rootPageDataSiteMap?.pageId || "";
+  const canonicalPageMap = Object.entries(
+    rootPageDataSiteMap?.siteMap?.canonicalPageMap || {}
+  );
+  const pageSlice = getPageSlice(canonicalPageMap, pageNumber, pageSize);
+  if (rootPageDataSiteMap?.config) {
+    for (const [key, value] of pageSlice) {
+      const pageProps = await resolveNotionPage(
+        siteId,
+        rootPageDataSiteMap.config,
+        value
+      );
+      allPagesSiteData.allPageProps = {
+        ...rootPageDataSiteMap.allPageProps,
+        [key]: pageProps,
+      };
+    }
+  }
+  const childLinks = getChildLinks(allPagesSiteData, indexPage);
   let documents = await getDocuments(
     childLinks,
     splitter,
-    pagesSiteData,
+    allPagesSiteData,
     siteId
   );
   let splittedDocumentsFromBlocks = getUniqueDocuments(
@@ -136,9 +165,15 @@ const getSiteDocuments = async (siteId: string) => {
     knowledgeBases
   );
 
+  const nextCursor =
+    (pageNumber + 1) * pageSize < canonicalPageMap.length
+      ? pageNumber + 1
+      : null;
+
   return {
     canonicalPageMap: childLinks,
     documents: splittedDocumentsFromBlocks,
+    nextCursor,
   };
 };
 
