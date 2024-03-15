@@ -54,9 +54,16 @@ const NotionPage: React.FC<PageProps> = ({
       propertyDateValue,
       propertyTextValue,
       Header: ({ block }: { block: CollectionViewPageBlock | PageBlock }) =>
-        NavHeader({ block, siteConfig: config, site: site, recordMap }),
+        NavHeader({
+          block,
+          siteConfig: config,
+          site: site,
+          recordMap,
+          accountType,
+          isLive,
+        }),
     }),
-    [config, recordMap, site]
+    [accountType, config, isLive, recordMap, site]
   );
 
   const siteMapPageUrl = useMemo(() => {
