@@ -34,19 +34,25 @@ const deleteSiteById = async (siteId: string) => {
         id: data?.siteConfigId || "",
       },
     });
-
-    await client.delete("NotionKnowledgeBase", {
-      filter: {
-        must: [
-          {
-            key: "metadata.siteId",
-            match: {
-              value: siteId,
+    const notionCollection = "NotionKnowledgeBase";
+    const clientCollections = await client.getCollections();
+    const collections = clientCollections.collections.map(
+      (collection) => collection.name
+    );
+    if (collections.includes(notionCollection)) {
+      await client.delete(notionCollection, {
+        filter: {
+          must: [
+            {
+              key: "metadata.siteId",
+              match: {
+                value: siteId,
+              },
             },
-          },
-        ],
-      },
-    });
+          ],
+        },
+      });
+    }
     revalidatePath("/home");
     return {
       domain: siteName,
