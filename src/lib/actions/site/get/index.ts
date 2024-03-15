@@ -47,33 +47,20 @@ const sitePage = cache(
     includeSiteMap?: boolean,
     includeSiteData = true,
     uuid?: boolean,
-    rawPageId?: string,
-    includeAllPagesRecordMap?: boolean
+    rawPageId?: string
   ) => {
     const site = await getSiteById(siteId);
     if (!site) throw new Error("Site not found");
-    const notionPageProps = await resolveNotionPage(
-      siteId,
-      site.siteConfig,
-      rawPageId,
-      site,
-      true
-    );
-    let allPageProps = {};
-    if (includeAllPagesRecordMap) {
-      const siteMap = await getSiteMap(site.siteConfig, uuid);
-      for (const [key, value] of Object.entries(siteMap.canonicalPageMap)) {
-        const pageProps = await resolveNotionPage(
-          siteId,
-          site.siteConfig,
-          value,
-          site
-        );
-        allPageProps = {
-          ...allPageProps,
-          [key]: pageProps,
-        };
-      }
+
+    let notionPageProps;
+    if (includeSiteData) {
+      notionPageProps = await resolveNotionPage(
+        siteId,
+        site.siteConfig,
+        rawPageId,
+        site,
+        true
+      );
     }
     const siteData = {
       ...(includeSiteData
@@ -85,11 +72,6 @@ const sitePage = cache(
       ...(includeSiteMap
         ? {
             siteMap: await getSiteMap(site.siteConfig, uuid),
-          }
-        : {}),
-      ...(includeAllPagesRecordMap
-        ? {
-            allPageProps: allPageProps,
           }
         : {}),
     };
