@@ -35,15 +35,15 @@ const createSite = async (formData: FormData) => {
     if (accountType === "FREE") {
       if (siteCount >= 1) {
         return {
-          error:
-            "You have reached the maximum number of sites allowed in your plan",
+          error: "Maximum number of sites reached",
+          code: "MAX_SITES_REACHED",
         };
       }
     } else if (accountType === "PRO") {
       if (siteCount >= 4) {
         return {
-          error:
-            "You have reached the maximum number of sites allowed in your plan",
+          error: "Maximum number of sites reached",
+          code: "MAX_SITES_REACHED",
         };
       }
     }
