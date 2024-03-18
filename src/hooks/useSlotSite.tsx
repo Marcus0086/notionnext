@@ -10,7 +10,7 @@ const useSlotSite = () => {
   const pageId = query?.get("pageId");
   const siteId = path.split("/")[2];
 
-  const url = useMemo(() => {
+  const siteUrl = useMemo(() => {
     let url = `/api/site?siteId=${siteId}`;
     if (pageId) {
       url += `&pageId=${pageId}`;
@@ -20,7 +20,7 @@ const useSlotSite = () => {
 
   const fetchSlotSite = async () => {
     if (siteId) {
-      const res = await fetch(url);
+      const res = await fetch(siteUrl);
       if (res.ok) {
         const data = await res.json();
         return data as ProviderPageProps;
