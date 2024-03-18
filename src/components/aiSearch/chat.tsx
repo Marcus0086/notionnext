@@ -57,7 +57,7 @@ export default function Chat({
               </li>
               <hr />
             </Fragment>
-          ) : null
+          ) : null,
         )}
       </ul>
 
@@ -76,13 +76,13 @@ export default function Chat({
           type="submit"
           className={cn(
             "rounded-xl p-3 border border-gray-300 transition-colors duration-150 ease-in-out",
-            input.length > 0 ? "bg-blue-500" : "bg-white"
+            input.length > 0 ? "bg-blue-500" : "bg-white",
           )}
         >
           <AiOutlineSend
             className={cn(
               "w-6 h-6",
-              input.length > 0 ? "text-white" : "text-gray-800"
+              input.length > 0 ? "text-white" : "text-gray-800",
             )}
           />
         </button>

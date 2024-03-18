@@ -7,7 +7,7 @@ import { QdrantVectorStore } from "@/lib/qdrantVectorStore";
 const getDocumentsFromSimilaritySearch = async (
   query: string,
   collectionName: string,
-  tenant: string
+  tenant: string,
 ) => {
   const embeddings = new OpenAIEmbeddings();
   const vectorStore = await QdrantVectorStore.fromExistingCollection(
@@ -16,6 +16,6 @@ const getDocumentsFromSimilaritySearch = async (
       url: process.env.QDRANT_URL,
       collectionName: "NotionKnowledgeBase",
       tenant: tenant,
-    }
+    },
   );
 };

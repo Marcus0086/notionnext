@@ -53,7 +53,7 @@ const saveSiteData = async (siteId: string, value: any) => {
         },
       });
     }
-    revalidatePath(`/(Site)/site/[siteId]`, "layout");
+    revalidatePath(`/(site)/site/[siteId]`, "layout");
     return {
       site: site,
     };

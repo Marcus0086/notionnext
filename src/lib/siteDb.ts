@@ -115,7 +115,7 @@ const fetcher = cache(async (type: string, site: string[]) => {
           siteId,
           data.siteConfig,
           pageId,
-          data
+          data,
         );
 
         const pageProps: PageProps = {

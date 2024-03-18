@@ -26,7 +26,7 @@ const getLangchainDocs = (docs: Document[]) => {
 
 const trainKnowledgeBases = async (
   knowledgeBases: Document[],
-  siteId: string
+  siteId: string,
 ) => {
   const langchainDocs = getLangchainDocs(knowledgeBases);
   try {
@@ -44,12 +44,12 @@ const trainKnowledgeBases = async (
       },
     });
     const trainedKbsMap = new Map(
-      kbsTrainedStatus.map((kb) => [kb.name, kb.isTrained])
+      kbsTrainedStatus.map((kb) => [kb.name, kb.isTrained]),
     );
     const untrainedLangchainDocs = langchainDocs.filter(
       (doc) =>
         !trainedKbsMap.get(doc.metadata.source.replace("/", "")) ||
-        !trainedKbsMap.has(doc.metadata.source.replace("/", ""))
+        !trainedKbsMap.has(doc.metadata.source.replace("/", "")),
     );
     if (untrainedLangchainDocs.length === 0 && kbsTrainedStatus.length > 0) {
       return {

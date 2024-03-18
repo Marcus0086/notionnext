@@ -11,7 +11,7 @@ const getUserSites = cache(
   async (
     visibility: VisibilityFilter,
     userId: string,
-    pageNumber: number = 1
+    pageNumber: number = 1,
   ) => {
     const pageSize = 9;
     try {
@@ -49,7 +49,7 @@ const getUserSites = cache(
       console.log("[Site] error happended in getUserSites", error);
       return [] as SiteCard[];
     }
-  }
+  },
 );
 
 export { getUserSites };

@@ -25,7 +25,7 @@ const LoginButton = ({
       className={cn(
         "mt-9 bg-selago dark:bg-deepBlue rounded-xl w-full flex items-center justify-center gap-x-2 px-24 md:px-32 py-4",
         "transition duration-150 ease-in",
-        isLoading ? "opacity-50 cursor-not-allowed" : ""
+        isLoading ? "opacity-50 cursor-not-allowed" : "",
       )}
     >
       {!isLoading ? (

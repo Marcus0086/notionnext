@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     if (!siteId || !tenant) {
       return new Response(
         JSON.stringify({ error: "siteId and tenant are required" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
     const embeddings = new OpenAIEmbeddings();
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
         ],
       },
       undefined,
-      tenant
+      tenant,
     );
     const llm = new ChatOpenAI({
       streaming: true,

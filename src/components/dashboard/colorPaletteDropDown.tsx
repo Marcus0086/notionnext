@@ -21,7 +21,7 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
   const handleThemeChange = (
     background: string,
     name: string,
-    type: string
+    type: string,
   ) => {
     let css = "";
     if (type === "dark") {
@@ -87,20 +87,20 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
             className={cn(
               "text-base font-medium text-cloudBurst dark:text-selago",
               "w-full flex justify-between items-start outline-none cursor-pointer p-2 rounded-lg",
-              "border border-gray-300 dark:border-navy-700"
+              "border border-gray-300 dark:border-navy-700",
             )}
           >
             Color Palette
             <FiChevronUp
               className={cn(
                 "w-5 h-5 transition-transform duration-150 ease-in-out",
-                open ? "transform rotate-180" : ""
+                open ? "transform rotate-180" : "",
               )}
             />
           </Disclosure.Button>
           <Disclosure.Panel
             className={cn(
-              "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4"
+              "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4",
             )}
           >
             {PALETTE.map(
@@ -112,7 +112,7 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
                       "rounded-md cursor-pointer hover:shadow-lg",
                       selectedTheme === name
                         ? "ring-2 ring-offset-2 ring-brandLinear"
-                        : ""
+                        : "",
                     )}
                     onClick={() => {
                       if (background) {
@@ -131,7 +131,7 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
                     {name}
                   </h6>
                 </li>
-              )
+              ),
             )}
           </Disclosure.Panel>
         </>

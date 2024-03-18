@@ -29,7 +29,7 @@ const Editor = () => {
                     "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 outline-none",
                     selected
                       ? "bg-blueZodiac/40 shadow"
-                      : "hover:bg-white/[0.12] text-white"
+                      : "hover:bg-white/[0.12] text-white",
                   )
                 }
               >

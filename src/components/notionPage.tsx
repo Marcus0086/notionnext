@@ -63,7 +63,7 @@ const NotionPage: React.FC<PageProps> = ({
           isLive,
         }),
     }),
-    [accountType, config, isLive, recordMap, site]
+    [accountType, config, isLive, recordMap, site],
   );
 
   const siteMapPageUrl = useMemo(() => {
@@ -181,7 +181,7 @@ const NotionPage: React.FC<PageProps> = ({
       {recordMap ? (
         <NotionRenderer
           bodyClassName={cn(
-            pageId === site?.rootNotionPageId ? "index-page" : ""
+            pageId === site?.rootNotionPageId ? "index-page" : "",
           )}
           showTableOfContents={isBlogPost}
           components={components}
