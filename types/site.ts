@@ -77,6 +77,9 @@ interface SitePage extends ParsedUrlQuery {
 }
 export interface SitePageParams {
   params: SitePage;
+  searchParams?: {
+    [x: string]: string | string[] | undefined;
+  };
 }
 
 export type JsonMetaData = {
