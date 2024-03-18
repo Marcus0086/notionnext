@@ -35,13 +35,18 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnFiltersChange: setColumnFilters,
+    initialState: {
+      pagination: {
+        pageSize: 4,
+      },
+    },
     state: {
       columnFilters,
     },
   });
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center pb-2">
         <Input
           placeholder="Search"
           value={(table.getColumn("path")?.getFilterValue() as string) ?? ""}
@@ -63,7 +68,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -82,7 +87,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id} className="whitespace-nowrap">
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

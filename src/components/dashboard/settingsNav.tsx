@@ -29,7 +29,7 @@ const DisplayButton = ({
       onClick={() => setDisplay(name)}
       className={cn(
         "hover:opacity-100",
-        display === name ? "opacity-100" : "opacity-50"
+        display === name ? "opacity-100" : "opacity-50",
       )}
     >
       {children}
@@ -42,8 +42,8 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
   const siteUrl = !site
     ? undefined
     : site?.customDomain
-    ? `${site.customDomain}`
-    : `${site?.name}.${domainSuffix}`;
+      ? `${site.customDomain}`
+      : `${site?.name}.${domainSuffix}`;
   const [saved, setSaved] = useState(false);
   const toastOptions = useToast();
 
@@ -146,7 +146,7 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
           onClick={handlePublish}
           className={cn(
             "flex items-center justify-center gap-x-1 text-sm bg-brand-500 text-center px-4 py-1 rounded-md text-white",
-            saved ? "opacity-50 cursor-not-allowed" : ""
+            saved ? "opacity-50 cursor-not-allowed" : "",
           )}
         >
           Publish

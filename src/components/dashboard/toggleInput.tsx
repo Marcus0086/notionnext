@@ -29,7 +29,7 @@ const ToggleInputCard = ({
     <li
       className={cn(
         "bg-white dark:bg-navy-800 shadow w-full rounded-xl",
-        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal"
+        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal",
       )}
     >
       <h3 className="text-cloudBurst dark:text-white text-base">{title}</h3>

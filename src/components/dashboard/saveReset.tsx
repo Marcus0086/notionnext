@@ -76,7 +76,7 @@ const generateLogMessage = (updatedData: any) => {
 
 const getUpdatedData = (
   settings: SiteSettings,
-  savedUris: Record<string, string>
+  savedUris: Record<string, string>,
 ) => {
   const updatedData: any = {};
   if (settings?.miscelanous?.visibility) {
@@ -142,6 +142,10 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
       html: settings?.miscelanous?.["html"] as string,
       javascript: settings?.miscelanous?.["javascript"] as string,
     };
+    const currentSiteName =
+      settings?.site?.customDomain ||
+      `${settings?.site?.subDomain}.${domainSuffix}`.replace(":3000", "") ||
+      "";
     const savedUris = await saveFilesInRedis(files);
     const updatedData: any = getUpdatedData(settings, savedUris);
     const isSiteNameChanged = Object.keys(updatedData).includes("name");
@@ -170,7 +174,7 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
     }
     setSaved(false);
     if (isSiteNameChanged) {
-      await revalidateSite(siteName);
+      await revalidateSite(currentSiteName);
     }
     queryClient.invalidateQueries({
       predicate: (query) => query.queryKey[0] === "slotSite",

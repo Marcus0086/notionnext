@@ -26,11 +26,15 @@ const AisdeButtons = ({
   if (searchParams?.get("pageId")) {
     href += `?pageId=${searchParams.get("pageId")}`;
   }
+  if (searchParams?.get("kb")) {
+    href += `?kb=${searchParams.get("kb")}`;
+  }
   const fullPathName = `${pathName}${
     searchParams?.toString() ? `?${searchParams.toString()}` : ""
   }`;
+  const hrefWithOutPage = href.split("?")[0];
   return (
-    <Link href={href}>
+    <Link href={hrefWithOutPage}>
       <li
         className={cn(
           "flex flex-col gap-y-2 items-center justify-center relative",

@@ -17,7 +17,7 @@ const NotionPageRenderer = (pageProps: Partial<PageProps>) => {
         miscelanous?.display === "desktop" ? "w-full" : "",
         miscelanous?.display === "tablet" ? "w-2/3" : "",
         miscelanous?.display === "mobile" ? "w-2/5" : "",
-        !miscelanous?.display ? "w-full" : ""
+        !miscelanous?.display ? "w-full" : "",
       )}
     >
       <NotionPage

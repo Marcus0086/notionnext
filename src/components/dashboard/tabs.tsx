@@ -26,11 +26,11 @@ const Tabs = () => {
                 ? filter === "Live"
                   ? "bg-green-400"
                   : filter === "Draft"
-                  ? "bg-yellow-400"
-                  : filter === "Archived"
-                  ? "bg-red-400"
-                  : ""
-                : ""
+                    ? "bg-yellow-400"
+                    : filter === "Archived"
+                      ? "bg-red-400"
+                      : ""
+                : "",
             )}
           >
             <span className="text-white text-sm">{filter}</span>

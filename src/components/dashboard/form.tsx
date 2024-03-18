@@ -35,7 +35,7 @@ const CreateSiteForm = () => {
           className="outline-none text-cloudBurst dark:text-white rounded-xl py-2 px-4 w-full sm:w-2/4"
         />
         <label htmlFor="url" className="m-1 mt-4 text-xs">
-          URL / ID
+          URL
         </label>
         <input
           type="text"
