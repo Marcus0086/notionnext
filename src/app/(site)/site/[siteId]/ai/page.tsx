@@ -1,38 +1,27 @@
-import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
 
 import SiteAIPages from "@/components/dashboard/siteAIPages";
 
-import getQueryClient from "@/context/queryClient";
-import { getSiteDocuments } from "@/lib/actions/site";
+import { sitePage } from "@/lib/actions/site";
 
 import { SitePageParams } from "@/types";
 
-const AIChatSettings = async ({ params: { siteId } }: SitePageParams) => {
-  const queryClient = getQueryClient();
+const AIChatSettings = async ({
+  params: { siteId },
+  searchParams,
+}: SitePageParams) => {
+  let site = null;
   try {
-    await queryClient.prefetchInfiniteQuery({
-      queryKey: ["ai", siteId],
-      queryFn: ({ pageParam }) => getSiteDocuments(siteId, pageParam, 4),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage: { nextCursor: any }) => lastPage.nextCursor,
-      staleTime: Infinity,
-    });
+    site = await sitePage(siteId, true, false);
   } catch (error) {
     notFound();
   }
-  const dehydratedState = dehydrate(queryClient);
-  return (
-    <HydrationBoundary state={dehydratedState}>
-      <SiteAIPages siteId={siteId} />
-    </HydrationBoundary>
-  );
+  if (!site || !site.siteMap) {
+    notFound();
+  }
+  const siteMap = site?.siteMap;
+  const page = parseInt((searchParams?.["kb"] as string) || "0");
+  return <SiteAIPages siteMap={siteMap} siteId={siteId} page={page} />;
 };
 
 export default AIChatSettings;
-
-export const dynamicParams = true;
-
-export const generateStaticParams = async () => {
-  return [];
-};
