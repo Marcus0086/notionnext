@@ -1,7 +1,8 @@
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 import Title from "@/components/dashboard/title";
-import SlotSites from "@/components/dashboard/slotSites";
+const SlotSites = dynamic(() => import("@/components/dashboard/slotSites"));
 
 import ParentPageSettingsProvider from "@/context/parentPage";
 

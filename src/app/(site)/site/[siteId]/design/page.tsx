@@ -1,8 +1,13 @@
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 
 import { DESIGN_SETTINGS } from "@/components/dashboard/constants";
-import NameInputCard from "@/components/dashboard/nameInputCard";
-import ColorPaletteDropDown from "@/components/dashboard/colorPaletteDropDown";
+const NameInputCard = dynamic(
+  () => import("@/components/dashboard/nameInputCard"),
+);
+const ColorPaletteDropDown = dynamic(
+  () => import("@/components/dashboard/colorPaletteDropDown"),
+);
 
 import { getUserAccount } from "@/lib/actions/auth";
 import { getDesignSiteCardById } from "@/lib/actions/site";

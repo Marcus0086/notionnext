@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
+import dynamic from "next/dynamic";
 
-import SiteCard from "@/components/dashboard/siteCard";
+const SiteCard = dynamic(() => import("@/components/dashboard/siteCard"));
+const NameInputCard = dynamic(
+  () => import("@/components/dashboard/nameInputCard"),
+);
 import { GENERAL_SETTINGS } from "@/components/dashboard/constants";
-import NameInputCard from "@/components/dashboard/nameInputCard";
 
 import { getGeneralSiteCardById } from "@/lib/actions/site";
 

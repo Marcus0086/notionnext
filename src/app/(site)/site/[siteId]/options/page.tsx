@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import dynamic from "next/dynamic";
 
 import { OPTIONS_SETTINGS } from "@/components/dashboard/constants";
-import ToggleInput from "@/components/dashboard/toggleInput";
+const ToggleInput = dynamic(() => import("@/components/dashboard/toggleInput"));
 
 import getQueryClient from "@/context/queryClient";
 import { getOptionsSiteCardById } from "@/lib/actions/site";

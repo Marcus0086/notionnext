@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 
 import { SEO_SETTINGS } from "@/components/dashboard/constants";
-import NameInputCard from "@/components/dashboard/nameInputCard";
+const NameInputCard = dynamic(
+  () => import("@/components/dashboard/nameInputCard"),
+);
 import LoadingCard from "@/components/dashboard/loadingCard";
 
 import { cn } from "@/lib/utils";
@@ -23,7 +26,7 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
   }
   const { title, description, image, icon } = getSiteMetaData(
     seoPageData,
-    "json"
+    "json",
   ) as JsonMetaData;
   if (!seoPageData?.site?.image && image && image.length > 0) {
     await siteImage(siteId, image);
@@ -33,7 +36,7 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
       <div
         className={cn(
           "bg-white dark:bg-navy-800 shadow w-full rounded-xl",
-          "p-4 flex flex-col items-start justify-between gap-y-3 font-normal"
+          "p-4 flex flex-col items-start justify-between gap-y-3 font-normal",
         )}
       >
         <h3 className="text-cloudBurst dark:text-white text-base">Preview</h3>
@@ -86,9 +89,3 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
 };
 
 export default SeoSettings;
-
-export const dynamicParams = true;
-
-export const generateStaticParams = async () => {
-  return [];
-};
