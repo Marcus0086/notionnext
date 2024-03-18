@@ -18,7 +18,7 @@ const useSettings = (itemName: SettingsItem) => {
 
   const canonicalPageMap = useMemo(() => {
     const childLinks = Object.keys(
-      settings?.siteMap?.canonicalPageMap || {}
+      settings?.siteMap?.canonicalPageMap || {},
     ).reduce((acc, key) => {
       const path = `${siteUrl}/${key}`;
       acc.push(path);

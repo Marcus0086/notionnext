@@ -17,7 +17,7 @@ const getSession = cache(
   ) => {
     const session = await getServerSession(...args, authOptions);
     return session;
-  }
+  },
 );
 
 export default getSession;

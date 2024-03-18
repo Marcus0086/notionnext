@@ -24,17 +24,17 @@ const getNavigationLinkPages = pMemoize(
           }),
         {
           concurrency: 4,
-        }
+        },
       );
     }
 
     return [];
-  }
+  },
 );
 
 export async function getPage(
   pageId: string,
-  config: SiteConfig
+  config: SiteConfig,
 ): Promise<ExtendedRecordMap> {
   const notion = await getNotionClient(config.id);
   let recordMap = await notion.getPage(pageId);
@@ -49,7 +49,7 @@ export async function getPage(
       recordMap = navigationLinkRecordMaps.reduce(
         (map, navigationLinkRecordMap) =>
           mergeRecordMaps(map, navigationLinkRecordMap),
-        recordMap
+        recordMap,
       );
     }
   }

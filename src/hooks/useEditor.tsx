@@ -22,7 +22,7 @@ const useEditor = () => {
         editor?.getAction("editor.action.formatDocument")?.run();
       }
     },
-    [values.css, values.javascript]
+    [values.css, values.javascript],
   );
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const useEditor = () => {
         [defaultLanguage || "css"]: value?.trim() || "",
       }));
     },
-    [setSettings, settings]
+    [setSettings, settings],
   );
 
   return {

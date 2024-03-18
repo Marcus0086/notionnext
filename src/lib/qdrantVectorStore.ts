@@ -71,14 +71,14 @@ export class QdrantVectorStore extends VectorStore {
   async addDocuments(
     documents: Document[],
     documentOptions?: QdrantAddDocumentOptions,
-    tenant?: string
+    tenant?: string,
   ): Promise<void> {
     const texts = documents.map(({ pageContent }) => pageContent);
     await this.addVectors(
       await this.embeddings.embedDocuments(texts),
       documents,
       documentOptions,
-      tenant
+      tenant,
     );
   }
 
@@ -86,7 +86,7 @@ export class QdrantVectorStore extends VectorStore {
     vectors: number[][],
     documents: Document[],
     documentOptions?: QdrantAddDocumentOptions,
-    tenant?: string
+    tenant?: string,
   ): Promise<void> {
     if (vectors.length === 0) {
       return;
@@ -114,7 +114,7 @@ export class QdrantVectorStore extends VectorStore {
       const error = new Error(
         `${e?.status ?? "Undefined error code"} ${e?.message}: ${
           e?.data?.status?.error
-        }`
+        }`,
       );
       throw error;
     }
@@ -124,14 +124,14 @@ export class QdrantVectorStore extends VectorStore {
     k?: number | undefined,
     filter?: QdrantSchemas["Filter"],
     _callbacks?: Callbacks | undefined,
-    tenant?: string
+    tenant?: string,
   ): Promise<Document[]> {
     const results = await this.similaritySearchWithScore(
       query,
       k,
       filter,
       _callbacks,
-      tenant
+      tenant,
     );
     return results.map(([doc, _]) => doc);
   }
@@ -141,13 +141,13 @@ export class QdrantVectorStore extends VectorStore {
     k?: number | undefined,
     filter?: QdrantSchemas["Filter"],
     _callbacks?: Callbacks | undefined,
-    tenant?: string
+    tenant?: string,
   ): Promise<[Document, number][]> {
     return this.similaritySearchVectorWithScore(
       await this.embeddings.embedQuery(query),
       k,
       filter,
-      tenant
+      tenant,
     );
   }
 
@@ -155,7 +155,7 @@ export class QdrantVectorStore extends VectorStore {
     query: number[],
     k?: number,
     filter?: QdrantSchemas["Filter"],
-    tenant?: string
+    tenant?: string,
   ): Promise<[Document, number][]> {
     if (!query) {
       return [];
@@ -198,7 +198,7 @@ export class QdrantVectorStore extends VectorStore {
     const response = await this.client.getCollections();
 
     const collectionNames = response.collections.map(
-      (collection) => collection.name
+      (collection) => collection.name,
     );
 
     if (!collectionNames.includes(this.collectionName)) {
@@ -226,7 +226,7 @@ export class QdrantVectorStore extends VectorStore {
     texts: string[],
     metadatas: object[] | object,
     embeddings: EmbeddingsInterface,
-    dbConfig: QdrantLibArgs
+    dbConfig: QdrantLibArgs,
   ): Promise<QdrantVectorStore> {
     const docs = [];
     for (let i = 0; i < texts.length; i += 1) {
@@ -243,7 +243,7 @@ export class QdrantVectorStore extends VectorStore {
   static async fromDocuments(
     docs: Document[],
     embeddings: EmbeddingsInterface,
-    dbConfig: QdrantLibArgs
+    dbConfig: QdrantLibArgs,
   ): Promise<QdrantVectorStore> {
     const instance = new this(embeddings, dbConfig);
     const tenant = dbConfig.tenant || "shared_tenant";
@@ -260,7 +260,7 @@ export class QdrantVectorStore extends VectorStore {
 
   static async fromExistingCollection(
     embeddings: EmbeddingsInterface,
-    dbConfig: QdrantLibArgs
+    dbConfig: QdrantLibArgs,
   ): Promise<QdrantVectorStore> {
     const instance = new this(embeddings, dbConfig);
     await instance.ensureCollection();
