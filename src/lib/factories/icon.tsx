@@ -17,6 +17,10 @@ import { IoOptionsOutline } from "react-icons/io5";
 import { IconType } from "react-icons";
 import { BsRobot } from "react-icons/bs";
 import { FaLaptopCode } from "react-icons/fa";
+import { MdCreateNewFolder } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
+import { CiExport } from "react-icons/ci";
+import { MdEditNote } from "react-icons/md";
 
 import { Icons, IconFactory } from "@/types";
 
@@ -38,6 +42,10 @@ class DefaultIconFactory implements IconFactory {
     footer: TbLayoutNavbar,
     AI: BsRobot,
     code: FaLaptopCode,
+    create: MdCreateNewFolder,
+    delete: MdDeleteOutline,
+    update: MdEditNote,
+    publish: CiExport,
   };
 
   getIcon(icon: Icons): IconType {
