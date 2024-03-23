@@ -5,6 +5,8 @@ import {
   TwitterToggle,
   IncludeNotionIdInUrlsToggle,
   TopLoaderToggle,
+  SiteMapToggle,
+  PreviewToggle,
 } from "@/components/shared/toggleInputs";
 
 import {
@@ -20,10 +22,11 @@ class DefaultToggleInputFactory implements ToggleInputFactory {
     ai: AiToggle,
     search: SearchToggle,
     theme: ThemeToggle,
-    preview: new Error("Preview is not implemented yet"),
+    preview: PreviewToggle,
     twitter: TwitterToggle,
     toploader: TopLoaderToggle,
     prettyurls: IncludeNotionIdInUrlsToggle,
+    sitemap: SiteMapToggle,
   };
 
   getInput(type: ToggleInputs, siteId: string): JSX.Element {
