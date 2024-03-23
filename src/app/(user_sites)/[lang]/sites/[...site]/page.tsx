@@ -29,10 +29,11 @@ export const generateMetadata = async ({
 };
 
 const DomainPage = async ({
-  params: { site },
+  params: { site, lang },
 }: {
   params: {
     site: string[];
+    lang: string;
   };
 }) => {
   let pageProps: PageProps | undefined;
@@ -50,7 +51,6 @@ const DomainPage = async ({
   if (!pageProps) {
     notFound();
   }
-
   return (
     <>
       {pageProps?.config?.isTopLoadingBarEnabled && (

@@ -26,7 +26,10 @@ const generateLogMessage = (updatedData: any) => {
     { field: "name", message: `Changed name to ${updatedData?.name}` },
     {
       field: "description",
-      message: `Changed description to ${updatedData?.description}`,
+      message: `Changed description to ${updatedData?.description?.slice(
+        0,
+        100
+      )}`,
     },
     { field: "css", message: "Changed css" },
     { field: "html", message: "Changed html" },
@@ -76,7 +79,7 @@ const generateLogMessage = (updatedData: any) => {
 
 const getUpdatedData = (
   settings: SiteSettings,
-  savedUris: Record<string, string>,
+  savedUris: Record<string, string>
 ) => {
   const updatedData: any = {};
   if (settings?.miscelanous?.visibility) {
@@ -116,6 +119,7 @@ const getUpdatedData = (
     "isPreviewImageSupportEnabled",
     "isTopLoadingBarEnabled",
     "includeNotionIdInUrls",
+    "isSiteMapEnabled",
   ];
 
   miscelanousSettings.forEach((setting) => {
