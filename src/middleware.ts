@@ -1,4 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { match } from "@formatjs/intl-localematcher";
+import Negotiator from "negotiator";
+
+const locales = ["en", "en-US", "nl-NL", "nl"];
+
+function getLocale(request: NextRequest) {
+  const defaultLocale = "en-US";
+  const headers = Object.fromEntries(request.headers);
+
+  const languages = new Negotiator({ headers }).languages();
+  const locale = match(locales, languages, defaultLocale);
+  return locale;
+}
 
 export const config = {
   matcher: [
@@ -16,12 +29,24 @@ export const config = {
 
 const middleware = (req: NextRequest) => {
   const url = req.nextUrl;
-
+  const pathname = url.pathname;
+  const pathnameHasLocale = locales.some(
+    (locale) =>
+      pathname.includes(`/${locale}/`) ||
+      pathname === `/${locale}` ||
+      pathname.endsWith(`/${locale}`)
+  );
+  const pathNameLocale = locales.find(
+    (locale) =>
+      pathname.includes(`/${locale}`) ||
+      pathname === `/${locale}` ||
+      pathname.endsWith(`/${locale}`)
+  );
   const hostName = req.headers.get("host") || "demo.localhost";
 
   const currentHost = hostName.replace(
     ".localhost:3000",
-    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
   );
 
   console.log("Hostname and currentHost is:", { hostName, currentHost });
@@ -54,7 +79,18 @@ const middleware = (req: NextRequest) => {
     return NextResponse.rewrite(url);
   }
 
-  url.pathname = `/sites/${currentHost}${url.pathname}`;
+  const locale = getLocale(req);
+  if (pathnameHasLocale) {
+    url.pathname = pathname.replace(`/${pathNameLocale}`, "");
+    url.pathname = `${pathNameLocale}/sites/${currentHost}${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  if (pathname.endsWith("/sitemap.xml")) {
+    url.pathname = `/api/sitemap.xml`;
+    return NextResponse.rewrite(url);
+  }
+  url.pathname = `${locale}/sites/${currentHost}${url.pathname}`;
   return NextResponse.rewrite(url);
 };
 
