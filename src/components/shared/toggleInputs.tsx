@@ -43,6 +43,10 @@ const ToggleButton = ({
               type === "ai"
                 ? !state.enabled
                 : settings?.config?.isAiSearchEnabled || false,
+            isSiteMapEnabled:
+              type === "sitemap"
+                ? !state.enabled
+                : settings?.config?.isSiteMapEnabled || false,
           },
           miscelanous: {
             ...settings?.miscelanous,
@@ -66,6 +70,9 @@ const ToggleButton = ({
             }),
             ...(type === "prettyurls" && {
               includeNotionIdInUrls: !state.enabled,
+            }),
+            ...(type === "sitemap" && {
+              isSiteMapEnabled: !state.enabled,
             }),
           },
         }));
@@ -139,19 +146,18 @@ const AiToggle = ({ siteId }: { siteId: string }) => {
   return <ToggleButton value={value} type="ai" />;
 };
 
-// const PreviewToggle = ({ siteId }: { siteId: string }) => {
-//     const { data } = useQuery({
-//         queryKey: ['options', siteId],
-//         queryFn: () => getOptionsSiteCardById(siteId),
-//         placeholderData: null,
-//         staleTime: Infinity
-//     })
+const PreviewToggle = ({ siteId }: { siteId: string }) => {
+  const { data } = useQuery({
+    queryKey: ["options", siteId],
+    queryFn: () => getOptionsSiteCardById(siteId),
+    placeholderData: null,
+    staleTime: Infinity,
+  });
 
-//     const value = data?.siteConfig?.isPreviewImageSupportEnabled || false
+  const value = data?.siteConfig?.isPreviewImageSupportEnabled || false;
 
-//     return <ToggleButton value={value} type="preview" />
-
-// }
+  return <ToggleButton value={value} type="preview" />;
+};
 
 const TwitterToggle = ({ siteId }: { siteId: string }) => {
   const { data } = useQuery({
@@ -192,6 +198,19 @@ const IncludeNotionIdInUrlsToggle = ({ siteId }: { siteId: string }) => {
   return <ToggleButton value={value} type="prettyurls" />;
 };
 
+const SiteMapToggle = ({ siteId }: { siteId: string }) => {
+  const { data } = useQuery({
+    queryKey: ["options", siteId],
+    queryFn: () => getOptionsSiteCardById(siteId),
+    placeholderData: null,
+    staleTime: Infinity,
+  });
+
+  const value = data?.siteConfig?.isSiteMapEnabled || false;
+
+  return <ToggleButton value={value} type="sitemap" />;
+};
+
 export {
   ThemeToggle,
   SearchToggle,
@@ -199,4 +218,6 @@ export {
   TwitterToggle,
   TopLoaderToggle,
   IncludeNotionIdInUrlsToggle,
+  SiteMapToggle,
+  PreviewToggle,
 };
