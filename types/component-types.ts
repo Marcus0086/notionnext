@@ -1,7 +1,7 @@
 import { IconType } from "react-icons";
 
 type Display = "mobile" | "tablet" | "desktop";
-
+type RecentHistoryIcons = "create" | "delete" | "update" | "publish";
 type Icons =
   | "home"
   | "account"
@@ -16,7 +16,8 @@ type Icons =
   | "footer"
   | "AI"
   | "code"
-  | Display;
+  | Display
+  | RecentHistoryIcons;
 
 type AsideMenuType = {
   title: string;
@@ -46,7 +47,8 @@ type ToggleInputs =
   | "preview"
   | "twitter"
   | "toploader"
-  | "prettyurls";
+  | "prettyurls"
+  | "sitemap";
 
 interface CardInputFactory {
   getInput(type: CardInputs, value?: string): JSX.Element;
