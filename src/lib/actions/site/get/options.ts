@@ -20,6 +20,8 @@ const getOptionsSiteCardById = cache(async (siteId: string) => {
           isTweetEmbedSupportEnabled: true,
           isTopLoadingBarEnabled: true,
           includeNotionIdInUrls: true,
+          isSiteMapEnabled: true,
+          isPreviewImageSupportEnabled: true,
         },
       },
     },
