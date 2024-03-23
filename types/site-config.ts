@@ -24,6 +24,7 @@ export interface SiteConfig {
   isSearchEnabled?: boolean;
   isAiSearchEnabled?: boolean;
   isTopLoadingBarEnabled?: boolean;
+  isSiteMapEnabled?: boolean;
 
   includeNotionIdInUrls?: boolean;
   pageUrlOverrides?: PageUrlOverridesMap;
