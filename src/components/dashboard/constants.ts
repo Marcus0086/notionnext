@@ -273,6 +273,11 @@ const OPTIONS_SETTINGS: Settings<ToggleInputs> = [
     description: "Enable a top loader for your site",
     type: "toploader",
   },
+  {
+    title: "Enable SiteMaps",
+    description: "Enable public sitemaps for your site",
+    type: "sitemap",
+  },
 ];
 
 const GOOGLE_FONTS = ["Poppins", "Roboto", "Open Sans", "Lato", "Raleway"];
