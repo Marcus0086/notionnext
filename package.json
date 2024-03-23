@@ -10,6 +10,7 @@
     "format": "npx prettier --write \"src/**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "dependencies": {
+    "@formatjs/intl-localematcher": "^0.5.4",
     "@headlessui/react": "^1.7.15",
     "@hookform/resolvers": "^3.3.4",
     "@langchain/openai": "^0.0.14",
@@ -53,6 +54,7 @@
     "graphql": "^16.8.1",
     "handlebars": "^4.7.7",
     "langchain": "^0.1.9",
+    "negotiator": "^0.6.3",
     "next": "^14.1.0",
     "next-auth": "^4.24.5",
     "next-sitemap": "^4.2.3",
@@ -86,6 +88,7 @@
   "devDependencies": {
     "@types/clean-css": "^4.2.6",
     "@types/lqip-modern": "^1.1.2",
+    "@types/negotiator": "^0.6.3",
     "@types/node": "^20.2.1",
     "@types/prismjs": "^1.26.0",
     "@types/react": "^18.2.33",
