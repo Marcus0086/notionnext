@@ -4,7 +4,7 @@ interface Details<T> {
   data: T;
 }
 
-interface Activity {
+export interface Activity {
   action: Action;
   details: Details<Record<string, string>>;
   timestamp: Date;
@@ -39,7 +39,7 @@ class ActivityLogger {
     ActivityLogger.logActivity("publish_site", details);
   }
 
-  static getHistory() {
+  static getHistory(localStorage: Storage) {
     const localHistory = localStorage.getItem("userHistory");
     return localHistory ? (JSON.parse(localHistory) as Activity[]) : [];
   }
