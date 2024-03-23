@@ -93,6 +93,7 @@ model SiteConfig {
   isSearchEnabled              Boolean? @default(false)
   isAiSearchEnabled            Boolean? @default(false)
   isTopLoadingBarEnabled       Boolean? @default(false)
+  isSiteMapEnabled             Boolean? @default(false)
 
   includeNotionIdInUrls Boolean?           @default(false)
   navigationStyle       NavigationStyle?   @default(default)
@@ -141,6 +142,7 @@ model Site {
   siteConfigId   String?          @unique
   visibility     VisibilityFilter @default(DRAFT)
   knowledgeBases KnowledgeBase[]
+  languages      Language[] 
 
   notionAuthToken String?
   notionUserId    String?
@@ -148,6 +150,26 @@ model Site {
   @@index([userId])
   @@index([visibility])
   @@index([siteConfigId])
+}
+
+model Language {
+  id        String @id @default(cuid())
+  name      String
+  code      String
+  site      Site   @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  siteId    String
+  translations Translation[]
+  @@index([siteId])
+
+}
+
+model Translation {
+  id        String @id @default(cuid())
+  key       String
+  value     String
+  language  Language @relation(fields: [languageId], references: [id], onDelete: Cascade)
+  languageId String
+  @@index([languageId])
 }
 
 model KnowledgeBase {
