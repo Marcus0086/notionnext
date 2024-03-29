@@ -1,4 +1,9 @@
-import { AsideMenuType, CardInputs, ToggleInputs } from "@/types";
+import {
+  AsideMenuType,
+  CardInputs,
+  DesignSettingsDropDownType,
+  ToggleInputs,
+} from "@/types";
 
 const META_DATA = {
   dashBoard: {
@@ -222,11 +227,54 @@ const DESIGN_SETTINGS: Settings<CardInputs> = [
   },
 ];
 
+const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
+  {
+    title: "Main",
+    componentItems: [
+      {
+        name: "Background",
+        id: "main_background",
+      },
+      {
+        name: "Text",
+        id: "main_text",
+      },
+    ],
+  },
+  {
+    title: "Navbar",
+    componentItems: [
+      {
+        name: "Background",
+        id: "navbar_background",
+      },
+      {
+        name: "Text",
+        id: "navbar_text",
+      },
+    ],
+  },
+  {
+    title: "Footer",
+    componentItems: [
+      {
+        name: "Background",
+        id: "footer_background",
+      },
+      {
+        name: "Text",
+        id: "footer_text",
+      },
+    ],
+  },
+];
+
 const SEO_SETTINGS: Settings<CardInputs> = [
   {
     title: "Site Title",
     type: "text",
     description: "The meta title of your site",
+    toolTip: "Change the title from the notion page, to update this field",
   },
 
   {
@@ -334,4 +382,5 @@ export {
   SEO_SETTINGS,
   SIDEBAR_NAV_ITEMS,
   SIDEBAR_NAV_ACCOUNT_ITEMS,
+  DESIGN_SETTINGS_DROP_DOWN,
 };
