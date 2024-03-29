@@ -1,42 +1,43 @@
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
-import { DESIGN_SETTINGS } from "@/components/dashboard/constants";
+import {
+  DESIGN_SETTINGS,
+  DESIGN_SETTINGS_DROP_DOWN,
+} from "@/components/dashboard/constants";
 const NameInputCard = dynamic(
   () => import("@/components/dashboard/nameInputCard"),
 );
 const ColorPaletteDropDown = dynamic(
   () => import("@/components/dashboard/colorPaletteDropDown"),
 );
+const ColorPickerDropdown = dynamic(
+  () => import("@/components/dashboard/colorPickerDropdown"),
+);
 
-import { getUserAccount } from "@/lib/actions/auth";
 import { getDesignSiteCardById } from "@/lib/actions/site";
 
 import { SitePageParams } from "@/types";
 
 const DesignPage = async ({ params: { siteId } }: SitePageParams) => {
-  const { siteCard, account } = await Promise.allSettled([
-    getDesignSiteCardById(siteId),
-    getUserAccount(),
-  ]).then(([siteCard, account]) => ({
-    siteCard: siteCard,
-    account: account,
-  }));
+  const siteCard = await getDesignSiteCardById(siteId);
 
-  if (siteCard.status === "rejected" || account.status === "rejected")
-    notFound();
+  if (!siteCard) notFound();
 
-  const { siteIdCard, accountType } = {
-    siteIdCard: siteCard.value,
-    accountType: account.value,
-  };
   return (
     <>
-      <ColorPaletteDropDown account={accountType || "FREE"} />
+      <ColorPaletteDropDown />
+      {DESIGN_SETTINGS_DROP_DOWN.map(({ title, componentItems }, index) => (
+        <ColorPickerDropdown
+          title={title}
+          componentItems={componentItems}
+          key={index}
+        />
+      ))}
       {DESIGN_SETTINGS.map((card) => (
         <NameInputCard
           {...card}
-          {...siteIdCard}
+          {...siteCard}
           type={card.type}
           siteId={siteId}
           key={card.title}
