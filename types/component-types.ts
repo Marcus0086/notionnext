@@ -50,6 +50,17 @@ type ToggleInputs =
   | "prettyurls"
   | "sitemap";
 
+type ComponentItem = {
+  name: string;
+  id: string;
+  color?: string;
+};
+
+type DesignSettingsDropDownType = {
+  title: string;
+  componentItems: ComponentItem[];
+};
+
 interface CardInputFactory {
   getInput(type: CardInputs, value?: string): JSX.Element;
 }
@@ -103,4 +114,5 @@ export type {
   ToggleAction,
   ToggleState,
   ToggleInputComponent,
+  DesignSettingsDropDownType,
 };
