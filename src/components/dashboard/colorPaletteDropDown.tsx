@@ -1,7 +1,6 @@
 "use client";
 
 import { Disclosure } from "@headlessui/react";
-import { AccountType } from "@prisma/client";
 import { FiChevronUp } from "react-icons/fi";
 import { useState } from "react";
 import { useTheme } from "next-themes";
@@ -12,8 +11,7 @@ import { useParentPageSettings } from "@/context/parentPage";
 
 import { cn } from "@/lib/utils";
 
-const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
-  const accountType = account;
+const ColorPaletteDropDown = () => {
   const [selectedTheme, setSelectedTheme] = useState("");
   const { theme } = useTheme();
   const { settings, setSettings } = useParentPageSettings();
@@ -23,18 +21,34 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
     name: string,
     type: string,
   ) => {
-    let css = "";
-    if (type === "dark") {
-      if (theme === "dark") {
-        css = `.dark-mode{--bg-color:${background}!important}`;
-      }
-    } else {
-      css = `:root{--bg-color:${background}!important}`;
+    if (type !== theme || (type !== "dark" && type !== "light")) {
+      return;
     }
+
+    const cssSelector = type === "dark" ? ".dark-mode" : ":root";
     const settingsCss = settings?.site?.css ?? "";
-    const newSettingsCss = settingsCss.includes(css)
-      ? settingsCss.replace(css, "") + css
-      : settingsCss + css;
+    const newColor = `--bg-color:${background}!important`;
+
+    let css = "";
+    if (settingsCss) {
+      const cssBlocks = settingsCss.split("}");
+      const blockIndex = cssBlocks.findIndex((block) =>
+        block.trim().startsWith(cssSelector),
+      );
+
+      if (blockIndex !== -1) {
+        cssBlocks[blockIndex] = cssBlocks[blockIndex].replace(
+          /--bg-color:.*!important/g,
+          newColor,
+        );
+      } else {
+        cssBlocks.push(`${cssSelector} {\n  ${newColor}\n}`);
+      }
+      const filteredBlocks = cssBlocks.filter((block) => block.trim() !== "");
+      css = filteredBlocks.join("}");
+    } else {
+      css = `${cssSelector} {\n  ${newColor}\n}`;
+    }
     setSettings({
       ...settings,
       site: {
@@ -43,14 +57,14 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
         notionAuthToken: settings?.site?.notionAuthToken || "",
         notionUserId: settings?.site?.notionUserId || "",
         id: settings?.site?.id || "",
-        css: newSettingsCss,
+        css: css,
         name: settings?.site?.name || "",
         rootNotionPageId: settings?.site?.rootNotionPageId || "",
         rootNotionSpaceId: settings?.site?.rootNotionSpaceId || "",
       },
       miscelanous: {
         ...settings?.miscelanous,
-        css: newSettingsCss,
+        css: css,
       },
     });
     setSelectedTheme(name);
@@ -88,6 +102,7 @@ const ColorPaletteDropDown = ({ account }: { account: AccountType }) => {
               "text-base font-medium text-cloudBurst dark:text-selago",
               "w-full flex justify-between items-start outline-none cursor-pointer p-2 rounded-lg",
               "border border-gray-300 dark:border-navy-700",
+              "bg-white dark:bg-navy-800",
             )}
           >
             Color Palette
