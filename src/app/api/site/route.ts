@@ -1,5 +1,4 @@
 import { VisibilityFilter } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 import { getSiteSiteConfig } from "@/lib/siteDb";
 import { getSiteMap } from "@/lib/getSiteMap";
@@ -25,7 +24,7 @@ const GET = async (req: Request) => {
           },
           {
             status: 404,
-          },
+          }
         );
       }
       if (pageId) {
@@ -37,7 +36,7 @@ const GET = async (req: Request) => {
             },
             {
               status: 404,
-            },
+            }
           );
         }
       }
@@ -50,7 +49,7 @@ const GET = async (req: Request) => {
           },
           {
             status: 404,
-          },
+          }
         );
       }
 
@@ -72,7 +71,7 @@ const GET = async (req: Request) => {
       },
       {
         status: 404,
-      },
+      }
     );
   }
 };

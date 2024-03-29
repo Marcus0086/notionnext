@@ -28,7 +28,7 @@ const generateLogMessage = (updatedData: any) => {
       field: "description",
       message: `Changed description to ${updatedData?.description?.slice(
         0,
-        100
+        100,
       )}`,
     },
     { field: "css", message: "Changed css" },
@@ -79,7 +79,7 @@ const generateLogMessage = (updatedData: any) => {
 
 const getUpdatedData = (
   settings: SiteSettings,
-  savedUris: Record<string, string>
+  savedUris: Record<string, string>,
 ) => {
   const updatedData: any = {};
   if (settings?.miscelanous?.visibility) {

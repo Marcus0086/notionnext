@@ -1,4 +1,5 @@
 "use client";
+
 import { useMemo } from "react";
 import Image from "next/image";
 import Script from "next/script";
@@ -194,7 +195,7 @@ const NotionPage: React.FC<PageProps> = ({
           darkMode={
             config?.isDarkModeEnabled && theme === "dark" ? true : false
           }
-          searchNotion={config?.isSearchEnabled ? searchNotion : undefined}
+          searchNotion={(params) => searchNotion(params)}
         />
       ) : (
         <></>

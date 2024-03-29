@@ -1,6 +1,6 @@
 import { getAllPagesInSpace, uuidToId } from "notion-utils";
 import pMemoize from "p-memoize";
-import { CanonicalPageMap, Site, SiteConfig, SiteMap } from "../../types";
+import { CanonicalPageMap, SiteConfig, SiteMap } from "../../types";
 import { getCanonicalPageId } from "./getCanonicalPageId";
 import { getNotionClient } from "./notion";
 

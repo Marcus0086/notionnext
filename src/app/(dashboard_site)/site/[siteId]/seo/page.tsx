@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 import { SEO_SETTINGS } from "@/components/dashboard/constants";
 const NameInputCard = dynamic(
@@ -14,7 +15,6 @@ import { getSiteMetaData } from "@/lib/siteMetaData";
 
 import { ProviderPageProps } from "@/types";
 import { JsonMetaData, SitePageParams } from "@/types";
-import { Suspense } from "react";
 
 const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
   let seoPageData: ProviderPageProps | undefined;
