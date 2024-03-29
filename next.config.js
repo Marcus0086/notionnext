@@ -30,11 +30,11 @@ const nextConfig = {
       },
     ],
   },
-  cacheHandler:
-    process.env.NODE_ENV === "production"
-      ? require.resolve("./cacheHandler.js")
-      : undefined,
-  cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
+  // cacheHandler:
+  //   process.env.NODE_ENV === "production"
+  //     ? require.resolve("./cacheHandler.js")
+  //     : undefined,
+  // cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
   experimental: {
     optimisticClientCache: false,
     useDeploymentId: true,
@@ -43,7 +43,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_ROOT_DOMAIN:
       process.env.NODE_ENV === "production" && process.env.VERCEL === "1"
-        ? "localhost"
+        ? process.env.NEXT_PUBLIC_ROOT_DOMAIN
         : "localhost",
     AUTH_TOKEN: process.env.AUTH_TOKEN,
   },
