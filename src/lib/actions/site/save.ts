@@ -17,22 +17,21 @@ const saveSiteData = async (siteId: string, value: any) => {
     customDomain: string | null;
   } = { id: "", subDomain: "", customDomain: "" };
   try {
-    if (!value?.hasSiteConfigData) {
-      site = await prisma.site.update({
-        where: {
-          id: siteId,
-        },
-        data: {
-          ...value,
-        },
-        select: {
-          id: true,
-          subDomain: true,
-          customDomain: true,
-        },
-      });
-    } else {
-      delete value?.hasSiteConfigData;
+    const { siteConfig = null, ...siteData } = value;
+    site = await prisma.site.update({
+      where: {
+        id: siteId,
+      },
+      data: {
+        ...siteData,
+      },
+      select: {
+        id: true,
+        subDomain: true,
+        customDomain: true,
+      },
+    });
+    if (siteConfig) {
       site = await prisma.site.update({
         where: {
           id: siteId,
@@ -41,7 +40,7 @@ const saveSiteData = async (siteId: string, value: any) => {
           siteConfig: {
             update: {
               data: {
-                ...value,
+                ...siteConfig,
               },
             },
           },
