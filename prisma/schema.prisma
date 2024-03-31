@@ -12,23 +12,23 @@ datasource db {
 }
 
 model User {
-  id            String      @id @default(cuid())
-  name          String?
+  id              String      @id @default(cuid())
+  name            String?
   // if you are using Github OAuth, you can get rid of the username attribute (that is for Twitter OAuth)
-  username      String?
-  gh_username   String?
-  email         String?     @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  sites         Site[]
-  role          Role        @default(USER)
-  accountType   AccountType @default(FREE)
-  notionAuthToken        String?
-  notionUserId           String?
+  username        String?
+  gh_username     String?
+  email           String?     @unique
+  emailVerified   DateTime?
+  image           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  accounts        Account[]
+  sessions        Session[]
+  sites           Site[]
+  role            Role        @default(USER)
+  accountType     AccountType @default(FREE)
+  notionAuthToken String?
+  notionUserId    String?
 }
 
 model Account {
@@ -94,6 +94,12 @@ model SiteConfig {
   isAiSearchEnabled            Boolean? @default(false)
   isTopLoadingBarEnabled       Boolean? @default(false)
   isSiteMapEnabled             Boolean? @default(false)
+  navbar_bg                    String?
+  navbar_text_color            String?
+  main_bg                      String?
+  main_text_color              String?
+  footer_bg                    String?
+  footer_text_color            String?
 
   includeNotionIdInUrls Boolean?           @default(false)
   navigationStyle       NavigationStyle?   @default(default)
@@ -142,7 +148,7 @@ model Site {
   siteConfigId   String?          @unique
   visibility     VisibilityFilter @default(DRAFT)
   knowledgeBases KnowledgeBase[]
-  languages      Language[] 
+  languages      Language[]
 
   notionAuthToken String?
   notionUserId    String?
@@ -153,32 +159,33 @@ model Site {
 }
 
 model Language {
-  id        String @id @default(cuid())
-  name      String
-  code      String
-  site      Site   @relation(fields: [siteId], references: [id], onDelete: Cascade)
-  siteId    String
+  id           String        @id @default(cuid())
+  name         String
+  code         String
+  site         Site          @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  siteId       String
   translations Translation[]
-  @@index([siteId])
 
+  @@index([siteId])
 }
 
 model Translation {
-  id        String @id @default(cuid())
-  key       String
-  value     String
-  language  Language @relation(fields: [languageId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  key        String
+  value      String
+  language   Language @relation(fields: [languageId], references: [id], onDelete: Cascade)
   languageId String
+
   @@index([languageId])
 }
 
 model KnowledgeBase {
-  id          String   @id @default(cuid())
-  name        String
-  trainedAt   DateTime
-  isTrained   Boolean  @default(false)
-  site        Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
-  siteId      String
+  id        String   @id @default(cuid())
+  name      String
+  trainedAt DateTime
+  isTrained Boolean  @default(false)
+  site      Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  siteId    String
 
   @@index([siteId])
 }
