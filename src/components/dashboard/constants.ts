@@ -229,28 +229,28 @@ const DESIGN_SETTINGS: Settings<CardInputs> = [
 
 const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
   {
-    title: "Main",
-    componentItems: [
-      {
-        name: "Background",
-        id: "main_background",
-      },
-      {
-        name: "Text",
-        id: "main_text",
-      },
-    ],
-  },
-  {
     title: "Navbar",
     componentItems: [
       {
         name: "Background",
-        id: "navbar_background",
+        id: "navbar_bg",
       },
       {
         name: "Text",
-        id: "navbar_text",
+        id: "navbar_text_color",
+      },
+    ],
+  },
+  {
+    title: "Main",
+    componentItems: [
+      {
+        name: "Background",
+        id: "main_bg",
+      },
+      {
+        name: "Text",
+        id: "main_text_color",
       },
     ],
   },
@@ -259,11 +259,11 @@ const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
     componentItems: [
       {
         name: "Background",
-        id: "footer_background",
+        id: "footer_bg",
       },
       {
         name: "Text",
-        id: "footer_text",
+        id: "footer_text_color",
       },
     ],
   },
