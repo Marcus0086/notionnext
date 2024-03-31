@@ -28,7 +28,7 @@ const generateLogMessage = (updatedData: any) => {
       field: "description",
       message: `Changed description to ${updatedData?.description?.slice(
         0,
-        100,
+        100
       )}`,
     },
     { field: "css", message: "Changed css" },
@@ -79,18 +79,18 @@ const generateLogMessage = (updatedData: any) => {
 
 const getUpdatedData = (
   settings: SiteSettings,
-  savedUris: Record<string, string>,
+  savedUris: Record<string, string>
 ) => {
   const updatedData: any = {};
   if (settings?.miscelanous?.visibility) {
     updatedData.visibility = settings.miscelanous.visibility;
   }
 
-  if (settings?.miscelanous?.css) {
+  if (typeof settings?.miscelanous?.css === "string") {
     updatedData.css = savedUris["css"];
   }
 
-  if (settings?.miscelanous?.html) {
+  if (typeof settings?.miscelanous?.html === "string") {
     updatedData.html = savedUris["html"];
   }
 
@@ -111,6 +111,20 @@ const getUpdatedData = (
     updatedData.description = settings.miscelanous.description;
   }
 
+  if (typeof settings?.miscelanous?.main_bg === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["main_bg"] = settings.miscelanous.main_bg;
+  }
+
+  if (typeof settings?.miscelanous?.navbar_bg === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["navbar_bg"] = settings.miscelanous.navbar_bg;
+  }
+
   const miscelanousSettings = [
     "isSearchEnabled",
     "isAiSearchEnabled",
@@ -124,8 +138,10 @@ const getUpdatedData = (
 
   miscelanousSettings.forEach((setting) => {
     if (settings?.miscelanous?.[setting] !== undefined) {
-      updatedData[setting] = settings.miscelanous[setting];
-      updatedData.hasSiteConfigData = true;
+      if (!updatedData["siteConfig"]) {
+        updatedData["siteConfig"] = {};
+      }
+      updatedData["siteConfig"][setting] = settings.miscelanous[setting];
     }
   });
 
