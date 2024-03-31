@@ -25,6 +25,12 @@ export interface SiteConfig {
   isAiSearchEnabled?: boolean;
   isTopLoadingBarEnabled?: boolean;
   isSiteMapEnabled?: boolean;
+  navbar_bg?: string;
+  navbar_text_color?: string;
+  main_bg?: string;
+  main_text_color?: string;
+  footer_bg?: string;
+  footer_text_color?: string;
 
   includeNotionIdInUrls?: boolean;
   pageUrlOverrides?: PageUrlOverridesMap;
