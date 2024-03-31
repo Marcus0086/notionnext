@@ -8,12 +8,34 @@ import { domainSuffix } from "@/lib/config";
 
 import { _SiteData } from "@/types";
 
-const deleteSiteById = async (siteId: string) => {
+const deleteEmbeddings = async (siteId: string) => {
   const client = new QdrantClient({
     url: process.env.QDRANT_URL,
   });
+  const notionCollection = "NotionKnowledgeBase";
+  const clientCollections = await client.getCollections();
+  const collections = clientCollections.collections.map(
+    (collection) => collection.name
+  );
+  if (collections.includes(notionCollection)) {
+    await client.delete(notionCollection, {
+      filter: {
+        must: [
+          {
+            key: "metadata.siteId",
+            match: {
+              value: siteId,
+            },
+          },
+        ],
+      },
+    });
+  }
+};
+
+const deleteSiteById = async (siteId: string) => {
   try {
-    const data = await prisma.site.delete({
+    const data = await prisma.site.findUnique({
       where: {
         id: siteId,
       },
@@ -24,38 +46,34 @@ const deleteSiteById = async (siteId: string) => {
       },
     });
 
-    const siteName =
-      data?.customDomain ||
-      `${data?.subDomain}.${domainSuffix}`.replace(":3000", "") ||
-      "";
+    const deleteSite = prisma.site.delete({
+      where: {
+        id: siteId,
+      },
+    });
 
-    await prisma.siteConfig.delete({
+    const deleteSiteConfig = prisma.siteConfig.delete({
       where: {
         id: data?.siteConfigId || "",
       },
     });
-    const notionCollection = "NotionKnowledgeBase";
-    const clientCollections = await client.getCollections();
-    const collections = clientCollections.collections.map(
-      (collection) => collection.name,
-    );
-    if (collections.includes(notionCollection)) {
-      await client.delete(notionCollection, {
-        filter: {
-          must: [
-            {
-              key: "metadata.siteId",
-              match: {
-                value: siteId,
-              },
-            },
-          ],
-        },
-      });
-    }
+
+    await Promise.allSettled([
+      deleteSite,
+      deleteSiteConfig,
+      deleteEmbeddings(siteId),
+    ]);
+
+    const siteData = {
+      customDomain: data?.customDomain || undefined,
+      subDomain: data?.subDomain
+        ? `${data.subDomain}.${domainSuffix}`.replace(":3000", "")
+        : undefined,
+    };
+
     revalidatePath("/home");
     return {
-      domain: siteName,
+      data: siteData,
       success: true,
     };
   } catch (error) {
