@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils";
 import { SettingsReducer } from "@/lib/reducers/input";
 import { deleteSiteById } from "@/lib/actions/site";
 import { revalidateSite } from "@/lib/siteDb";
+import ActivityLogger from "@/lib/logger";
 
 import useToast from "@/hooks/useToast";
 
@@ -58,7 +59,7 @@ const NameInput = ({
           name={name}
           className={cn(
             "w-full h-10 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || "",
+            className || ""
           )}
         />
       );
@@ -71,7 +72,7 @@ const NameInput = ({
           name={name}
           className={cn(
             "w-full h-40 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || "",
+            className || ""
           )}
         />
       );
@@ -194,7 +195,7 @@ const DropDownInput = ({
                 cn(
                   "flex items-center justify-start gap-x-4 cursor-pointer select-none pl-3 w-full rounded-md",
                   active ? "bg-selago dark:bg-blueZodiac" : "",
-                  "capitalize",
+                  "capitalize"
                 )
               }
             >
@@ -274,7 +275,7 @@ const MediaInput = ({ value }: CardInputComponent) => {
       className={cn(
         "flex items-center justify-center w-full px-3 py-6 text-center",
         "border-2 border-gray-300 border-dashed",
-        "rounded-lg bg-transparent",
+        "rounded-lg bg-transparent"
       )}
     >
       <label htmlFor="dropzone-file" className="cursor-pointer">
@@ -314,13 +315,38 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
   const handleSubmit = async () => {
     if (siteId) {
       setIsDeleting(true);
-      const response = await deleteSiteById(siteId);
-      await revalidateSite(response?.domain || "");
-      toast.info("Site deleted successfully!", toastOptions);
-      setIsDeleting(false);
-      setTimeout(() => {
-        router.push("/home");
-      }, 200);
+      const isDeleted = await deleteSiteById(siteId);
+      const domain =
+        isDeleted?.data?.customDomain || isDeleted?.data?.subDomain || "";
+      if (isDeleted.success) {
+        toast.info("Site deleted successfully!", toastOptions);
+        ActivityLogger.deleteSite({
+          data: {
+            site: domain || "",
+            log: `Deleted site ${domain} successfully.`,
+          },
+        });
+        if (isDeleted?.data?.customDomain) {
+          await revalidateSite(isDeleted.data.customDomain);
+        }
+
+        if (isDeleted?.data?.subDomain) {
+          await revalidateSite(isDeleted.data.subDomain);
+        }
+        setIsDeleting(false);
+        setTimeout(() => {
+          router.push("/home");
+        }, 200);
+      } else {
+        toast.error("Something went wrong!", toastOptions);
+        ActivityLogger.deleteSite({
+          data: {
+            site: domain || "",
+            log: `Failed to delete site ${domain}.`,
+            error: "Something went wrong!",
+          },
+        });
+      }
     }
   };
   return (
@@ -344,7 +370,7 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
             className={cn(
               "w-full h-10 rounded-xl",
               isDeleting ? "animate-pulse cursor-not-allowed" : "",
-              isButtonDisabled ? "opacity-50 cursor-not-allowed" : "",
+              isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
             )}
             disabled={isButtonDisabled}
           >
