@@ -15,21 +15,29 @@ const MoreIcon = ({ siteId }: { siteId: string }) => {
 
   const handleClick = async () => {
     const isDeleted = await deleteSiteById(siteId);
+    const domain =
+      isDeleted?.data?.customDomain || isDeleted?.data?.subDomain || "";
     if (isDeleted.success) {
       toast.info("Site deleted successfully!", toastOptions);
       ActivityLogger.deleteSite({
         data: {
-          site: isDeleted?.domain || "",
-          log: `Deleted site ${isDeleted?.domain} successfully.`,
+          site: domain || "",
+          log: `Deleted site ${domain} successfully.`,
         },
       });
-      await revalidateSite(isDeleted?.domain || "");
+      if (isDeleted?.data?.customDomain) {
+        await revalidateSite(isDeleted.data.customDomain || "");
+      }
+
+      if (isDeleted?.data?.subDomain) {
+        await revalidateSite(isDeleted.data.subDomain);
+      }
     } else {
       toast.error("Something went wrong!", toastOptions);
       ActivityLogger.deleteSite({
         data: {
-          site: isDeleted?.domain || "",
-          log: `Failed to delete site ${isDeleted?.domain}.`,
+          site: domain || "",
+          log: `Failed to delete site ${domain}.`,
           error: "Something went wrong!",
         },
       });
