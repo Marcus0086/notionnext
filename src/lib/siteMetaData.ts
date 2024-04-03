@@ -41,7 +41,7 @@ const getSocialImage = (image: string, blockId: string) => {
 
 const getSiteMetaData = (
   pageData: PageProps,
-  type?: string,
+  type?: string
 ): JsonMetaData | Metadata => {
   const { pageId, recordMap, site }: PageProps = pageData;
   const keys = Object.keys(recordMap?.block || {});
@@ -86,6 +86,7 @@ const getSiteMetaData = (
       shortcut: icon,
       apple: icon,
     },
+
     openGraph: {
       title,
       description: socialDescription,
