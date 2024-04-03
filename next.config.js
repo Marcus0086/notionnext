@@ -30,11 +30,11 @@ const nextConfig = {
       },
     ],
   },
-  // cacheHandler:
-  //   process.env.NODE_ENV === "production"
-  //     ? require.resolve("./cacheHandler.js")
-  //     : undefined,
-  // cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
+  cacheHandler:
+    process.env.NODE_ENV === "production"
+      ? require.resolve("./cacheHandler.js")
+      : undefined,
+  cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
   experimental: {
     optimisticClientCache: false,
     useDeploymentId: true,
