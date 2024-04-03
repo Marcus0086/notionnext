@@ -10,7 +10,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <section className="flex lg:flex-row flex-col items-start justify-between w-full gap-4">
       <section className="pt-5 max-w-[55rem]">
-        <div className="rounded-3xl bg-navy-900 dark:bg-navy-800 drop-shadow-xl">
+        <div className="rounded-3xl bg-white dark:bg-navy-800 drop-shadow-xl">
           <CreateSiteForm />
         </div>
         <section className="w-full mt-5">
