@@ -18,7 +18,7 @@ const HistoryCard = ({ activity }: { activity: Activity }) => {
   const action = Actions[activity.action] as Icons;
   const Icon = IconsFactory.getIcon(action);
   return (
-    <li className="text-white rounded-xl drop-shadow-xl">
+    <li className="rounded-xl drop-shadow-xl">
       <div className="flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2 justify-center">
           <Icon className="w-6 h-6 mr-2" />
@@ -59,16 +59,16 @@ const RecentHistory = () => {
     if (document) {
       const newHistory = loggedHistory.slice(
         page * pageSize,
-        page * pageSize + pageSize,
+        page * pageSize + pageSize
       );
       setActivityHistory(newHistory);
       setPage(page);
     }
   };
   return (
-    <div className="px-16 py-4 bg-navy-900 dark:bg-navy-800 rounded-3xl drop-shadow-xl min-h-[600px]">
+    <div className="px-16 py-4 bg-white dark:bg-navy-800 rounded-3xl drop-shadow-xl min-h-[600px]">
       <div className="antialiased mx-auto">
-        <div className="text-center text-white text-xl">Recent History</div>
+        <div className="text-center text-2xl">Recent History</div>
         <ul className="flex items-start justify-between flex-col mt-4 gap-4">
           {activityHistory.length > 0 ? (
             activityHistory.map((activity, index) => (
