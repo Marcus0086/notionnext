@@ -43,14 +43,17 @@ const deleteSiteById = async (siteId: string) => {
         siteConfigId: true,
         subDomain: true,
         customDomain: true,
+        id: true,
       },
     });
 
-    const deleteSite = prisma.site.delete({
-      where: {
-        id: siteId,
-      },
-    });
+    const deleteSite = async (siteId: string) => {
+      return await prisma.site.delete({
+        where: {
+          id: siteId,
+        },
+      });
+    };
 
     const deleteSiteConfig = prisma.siteConfig.delete({
       where: {
@@ -59,7 +62,7 @@ const deleteSiteById = async (siteId: string) => {
     });
 
     await Promise.allSettled([
-      deleteSite,
+      deleteSite(siteId),
       deleteSiteConfig,
       deleteEmbeddings(siteId),
     ]);
