@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 
@@ -42,6 +42,9 @@ const DomainPage = async ({
     pageProps = data;
     if (pageProps) {
       pageProps.isLive = true;
+    }
+    if (pageProps?.site?.customDomain) {
+      redirect(pageProps.site.customDomain);
     }
   } catch (error) {
     console.log(error);
