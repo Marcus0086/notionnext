@@ -44,6 +44,12 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
     : site?.customDomain
       ? `${site.customDomain}`
       : `${site?.name}.${domainSuffix}`;
+
+  const subDomainUrl =
+    !site || !site?.name ? undefined : `${site.name}.${domainSuffix}`;
+  const customDomainUrl =
+    !site || !site?.customDomain ? undefined : `${site.customDomain}`;
+
   const [saved, setSaved] = useState(false);
   const toastOptions = useToast();
 
@@ -52,7 +58,12 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
   const handlePublish = async () => {
     setSaved(true);
     try {
-      await revalidateSite(siteUrl);
+      if (subDomainUrl) {
+        await revalidateSite(subDomainUrl);
+      }
+      if (customDomainUrl) {
+        await revalidateSite(customDomainUrl);
+      }
       ActivityLogger.publishSite({
         data: {
           site: siteUrl || "",
