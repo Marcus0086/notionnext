@@ -334,9 +334,6 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
           await revalidateSite(isDeleted.data.subDomain);
         }
         setIsDeleting(false);
-        setTimeout(() => {
-          router.push("/home");
-        }, 200);
       } else {
         toast.error("Something went wrong!", toastOptions);
         ActivityLogger.deleteSite({
@@ -380,7 +377,11 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
         <AlertBox
           title={ALERT_MESSAGES["DeleteSite"].title}
           description={ALERT_MESSAGES["DeleteSite"].description}
-          continueAction={handleSubmit}
+          continueAction={() => {
+            handleSubmit().then(() => {
+              router.push("/home");
+            });
+          }}
         />
       </div>
     </AlertDialog>
