@@ -54,35 +54,28 @@ const getSiteSiteConfig = async ({ site }: RootParams) => {
   }
 };
 
-const getAuthDomains = () => {
-  return ["raghavnotion.com", "newtest.com", "greedy", "blacknotion.com"];
-  // try {
-  //     const [subDomains, customDomains] = await Promise.all([
-  //         prisma.site.findMany({
-  //             select: {
-  //                 subDomain: true
-  //             }
-  //         }),
-  //         prisma.site.findMany({
-  //             where: {
-  //                 NOT: {
-  //                     customDomain: null
-  //                 },
-  //             },
-  //             select: {
-  //                 customDomain: true
-  //             }
-  //         })
-  //     ]);
+const getAuthDomains = async () => {
+  try {
+    const customDomains = await prisma.site.findMany({
+      where: {
+        NOT: {
+          customDomain: null,
+        },
+      },
+      select: {
+        customDomain: true,
+      },
+    });
 
-  //     const allDomains = [...subDomains.map(({ subDomain }) => subDomain),
-  //     ...customDomains.map(({ customDomain }) => customDomain)].filter((path) => path) as string[];
+    const allDomains = [
+      ...customDomains.map(({ customDomain }) => customDomain),
+    ].filter((path) => path) as string[];
 
-  //     return allDomains;
-  // } catch (error) {
-  //     console.error("Error in [getAuthDomains]", { error })
-  //     return [""]
-  // }
+    return allDomains;
+  } catch (error) {
+    console.error("Error in [getAuthDomains]", { error });
+    return [""];
+  }
 };
 
 const revalidateSite = async (site?: string) => {
