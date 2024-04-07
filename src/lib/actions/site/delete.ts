@@ -15,7 +15,7 @@ const deleteEmbeddings = async (siteId: string) => {
   const notionCollection = "NotionKnowledgeBase";
   const clientCollections = await client.getCollections();
   const collections = clientCollections.collections.map(
-    (collection) => collection.name
+    (collection) => collection.name,
   );
   if (collections.includes(notionCollection)) {
     await client.delete(notionCollection, {

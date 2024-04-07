@@ -19,7 +19,7 @@ const ColorPaletteDropDown = () => {
   const handleThemeChange = (
     background: string,
     name: string,
-    type: string
+    type: string,
   ) => {
     if (type !== theme || (type !== "dark" && type !== "light")) {
       return;
@@ -33,13 +33,13 @@ const ColorPaletteDropDown = () => {
     if (settingsCss) {
       const cssBlocks = settingsCss.split("}");
       const blockIndex = cssBlocks.findIndex((block) =>
-        block.trim().startsWith(cssSelector)
+        block.trim().startsWith(cssSelector),
       );
 
       if (blockIndex !== -1) {
         cssBlocks[blockIndex] = cssBlocks[blockIndex].replace(
           /--bg-color:.*!important/g,
-          newColor
+          newColor,
         );
       } else {
         cssBlocks.push(`${cssSelector} {\n  ${newColor}\n}`);
@@ -123,20 +123,20 @@ const ColorPaletteDropDown = () => {
               "text-base font-medium text-cloudBurst dark:text-selago",
               "w-full flex justify-between items-start outline-none cursor-pointer p-2 rounded-lg",
               "border border-gray-300 dark:border-navy-700",
-              "bg-white dark:bg-navy-800"
+              "bg-white dark:bg-navy-800",
             )}
           >
             Color Palette
             <FiChevronUp
               className={cn(
                 "w-5 h-5 transition-transform duration-150 ease-in-out",
-                open ? "transform rotate-180" : ""
+                open ? "transform rotate-180" : "",
               )}
             />
           </Disclosure.Button>
           <Disclosure.Panel
             className={cn(
-              "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4"
+              "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4",
             )}
           >
             {PALETTE.map(
@@ -148,7 +148,7 @@ const ColorPaletteDropDown = () => {
                       "rounded-md cursor-pointer hover:shadow-lg",
                       selectedTheme === name
                         ? "ring-2 ring-offset-2 ring-brandLinear"
-                        : ""
+                        : "",
                     )}
                     onClick={() => {
                       if (background) {
@@ -167,7 +167,7 @@ const ColorPaletteDropDown = () => {
                     {name}
                   </h6>
                 </li>
-              )
+              ),
             )}
           </Disclosure.Panel>
         </>

@@ -59,7 +59,7 @@ const RecentHistory = () => {
     if (document) {
       const newHistory = loggedHistory.slice(
         page * pageSize,
-        page * pageSize + pageSize
+        page * pageSize + pageSize,
       );
       setActivityHistory(newHistory);
       setPage(page);

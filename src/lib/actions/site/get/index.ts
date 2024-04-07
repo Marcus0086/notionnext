@@ -47,7 +47,7 @@ const sitePage = cache(
     includeSiteMap?: boolean,
     includeSiteData = true,
     uuid?: boolean,
-    rawPageId?: string
+    rawPageId?: string,
   ) => {
     const site = await getSiteById(siteId);
     if (!site) throw new Error("Site not found");
@@ -59,7 +59,7 @@ const sitePage = cache(
         site.siteConfig,
         rawPageId,
         site,
-        true
+        true,
       );
     }
     const siteData = {
@@ -76,7 +76,7 @@ const sitePage = cache(
         : {}),
     };
     return siteData;
-  }
+  },
 );
 
 const siteImage = async (siteId: string, image: string) => {
