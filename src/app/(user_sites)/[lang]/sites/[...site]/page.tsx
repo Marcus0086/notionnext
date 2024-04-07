@@ -43,9 +43,6 @@ const DomainPage = async ({
     if (pageProps) {
       pageProps.isLive = true;
     }
-    if (pageProps?.site?.customDomain) {
-      redirect(pageProps.site.customDomain);
-    }
   } catch (error) {
     console.log(error);
     notFound();
