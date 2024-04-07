@@ -1,7 +1,6 @@
 import { getAuthDomains } from "@/lib/siteDb";
 
 const GET = async (req: Request) => {
-  console.log("domain route", req.url);
   const query = new URL(req.url).searchParams;
   const domain = query.get("domain") || "";
   const siteDomain = domain.endsWith(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
