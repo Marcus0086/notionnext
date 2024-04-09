@@ -29,6 +29,8 @@ export interface SiteConfig {
   navbar_text_color?: string;
   main_bg?: string;
   main_text_color?: string;
+  main_title_size?: string;
+  main_text_size?: string;
   footer_bg?: string;
   footer_text_color?: string;
 
