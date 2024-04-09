@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 import { SparklesCore } from "@/components/ui/sparkles";
 
-export function LampComponent() {
+const LampComponent = () => {
   return (
     <LampContainer>
       <motion.h1
@@ -21,11 +21,35 @@ export function LampComponent() {
       >
         Plans That <br /> Fit You Best
       </motion.h1>
+      <motion.h2
+        initial={{ opacity: 0.5, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="text-center text-lg text-neutral-500 dark:text-neutral-400 mt-4"
+      >
+        {"Doesn't"} like any of the plans? <br /> Contact us for a custom plan.
+      </motion.h2>
+      <motion.button
+        initial={{ opacity: 0.5, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="mt-8 px-4 py-2 bg-gradient-to-r from-neutral-500 to-neutral-600 text-white font-bold rounded-md"
+      >
+        Contact Sales →
+      </motion.button>
     </LampContainer>
   );
-}
+};
 
-const LampContainer = ({
+export const LampContainer = ({
   children,
   className,
 }: {
@@ -69,10 +93,10 @@ const LampContainer = ({
           }}
           className="absolute inset-auto left-1/2 h-56 w-[30rem] bg-gradient-conic from-transparent via-transparent to-neutral-500 text-white [--conic-position:from_290deg_at_center_top]"
         >
-          <div className="absolute  w-40 h-[100%] right-0 bg-slate-950  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
-          <div className="absolute  w-[100%] right-0 bg-slate-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute  w-40 h-[100%] right-0 bg-neutral-950  bottom-0 z-20 [mask-image:linear-gradient(to_left,white,transparent)]" />
+          <div className="absolute  w-[100%] right-0 bg-neutral-950 h-40 bottom-0 z-20 [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
-        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-slate-950 blur-2xl"></div>
+        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-neutral-950 blur-2xl"></div>
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md"></div>
         <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-1/2 rounded-full bg-neutral-500 opacity-50 blur-3xl"></div>
         <motion.div
@@ -117,4 +141,4 @@ const LampContainer = ({
   );
 };
 
-export default LampContainer;
+export default LampComponent;
