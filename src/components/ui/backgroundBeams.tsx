@@ -106,7 +106,7 @@ export const BackgroundBeams = memo(({ className }: { className?: string }) => {
               transition={{
                 duration: Math.random() * 10 + 10,
                 ease: "easeInOut",
-                repeat: Infinity,
+                repeat: 1,
                 delay: Math.random() * 10,
               }}
             >
