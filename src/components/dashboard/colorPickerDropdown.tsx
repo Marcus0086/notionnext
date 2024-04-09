@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { FiChevronUp } from "react-icons/fi";
 import { HexColorPicker } from "react-colorful";
-import { useTheme } from "next-themes";
+
+import { Slider } from "@/components/ui/slider";
 
 import { cn } from "@/lib/utils";
 import { useParentPageSettings } from "@/context/parentPage";
@@ -20,6 +21,7 @@ const ColorPickerDropdown = ({
   const [isOpen, setIsOpen] = useState<boolean[]>(
     new Array(componentItems.length).fill(false),
   );
+
   const [styleMap, setStyleMap] = useState<{
     [key: string]: {
       [key: string]: string | undefined;
@@ -27,23 +29,52 @@ const ColorPickerDropdown = ({
   }>(() => ({
     main_bg: {
       css_var: "--bg-color",
-      css: "notion-page-scroller",
     },
     main_text_color: {
       css_var: "--fg-color",
-      css: "notion-page",
+    },
+    main_text_size: {
+      size: "14px",
+    },
+    main_title_size: {
+      size: "16px",
     },
     navbar_bg: {
       css_var: "--bg-color",
-      css: "notion-header",
     },
     navbar_text_color: {
       css_var: "--fg-color",
-      css: "notion-header .breadcrumb",
     },
   }));
 
   const { settings, setSettings } = useParentPageSettings();
+
+  useEffect(() => {
+    if (document) {
+      const mainTitleElement =
+        document.getElementsByClassName("notion-title")[0];
+      const mainElement = document.getElementsByClassName("notion")[0];
+      console.log(mainTitleElement, mainElement);
+      if (mainTitleElement) {
+        setStyleMap((prev) => ({
+          ...prev,
+          main_title_size: {
+            ...prev.main_title_size,
+            size: getComputedStyle(mainTitleElement).fontSize,
+          },
+        }));
+      }
+      if (mainElement) {
+        setStyleMap((prev) => ({
+          ...prev,
+          main_text_size: {
+            ...prev.main_text_size,
+            size: getComputedStyle(mainElement).fontSize,
+          },
+        }));
+      }
+    }
+  }, [settings?.recordMap]);
 
   const toggle = (index: number) => {
     const newIsOpen = [...isOpen];
@@ -84,6 +115,30 @@ const ColorPickerDropdown = ({
       miscelanous: {
         ...settings?.miscelanous,
         [id]: color,
+      },
+    });
+  };
+
+  const handleFontRange = (value: number[], id: string) => {
+    setStyleMap((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], size: `${value[0]}px` },
+    }));
+    setSettings({
+      ...settings,
+      config: {
+        ...settings?.config,
+        id: settings?.config?.id || "",
+        rootNotionPageId: settings?.config?.rootNotionPageId || "",
+        rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+        name: settings?.config?.name || "",
+        domain: settings?.config?.domain || "",
+        author: settings?.config?.author || "",
+        [id]: `${value[0]}px`,
+      },
+      miscelanous: {
+        ...settings?.miscelanous,
+        [id]: `${value[0]}px`,
       },
     });
   };
@@ -154,33 +209,50 @@ const ColorPickerDropdown = ({
                 )}
               >
                 <span className="text-sm">{item.name}</span>
-                <button
-                  className={cn(
-                    "relative border border-gray-300 !p-0 !w-4 !h-4 !rounded-full !cursor-pointer !min-h-4  !flex-grow-0",
-                  )}
-                  style={{
-                    background: styleMap[item.id]?.["color"]
-                      ? styleMap[item.id]?.["color"]
-                      : `var(${styleMap[item.id]?.["css_var"]})` || item.color,
-                  }}
-                  onClick={() => toggle(index)}
-                >
-                  {isOpen[index] && (
-                    <div
-                      className="z-10 absolute right-6 bottom-6"
-                      ref={popover}
-                    >
-                      <HexColorPicker
-                        className="z-10"
-                        onChange={(newColor) =>
-                          handleColorChange(newColor, item.id)
-                        }
-                        color={styleMap[item.id]?.["color"] || item.color}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </div>
-                  )}
-                </button>
+                {item.type === "Color" ? (
+                  <button
+                    className={cn(
+                      "relative border border-gray-300 !p-0 !w-4 !h-4 !rounded-full !cursor-pointer !min-h-4  !flex-grow-0",
+                    )}
+                    style={{
+                      background: styleMap[item.id]?.["color"]
+                        ? styleMap[item.id]?.["color"]
+                        : `var(${styleMap[item.id]?.["css_var"]})` ||
+                          item.color,
+                    }}
+                    onClick={() => toggle(index)}
+                  >
+                    {isOpen[index] && (
+                      <div
+                        className="z-10 absolute right-6 bottom-6"
+                        ref={popover}
+                      >
+                        <HexColorPicker
+                          className="z-10"
+                          onChange={(newColor) =>
+                            handleColorChange(newColor, item.id)
+                          }
+                          color={styleMap[item.id]?.["color"] || item.color}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </div>
+                    )}
+                  </button>
+                ) : item.type === "Font" ? (
+                  <div className="flex w-3/4 items-center justify-end gap-4">
+                    <Slider
+                      defaultValue={[
+                        parseInt(styleMap[item.id]?.["size"] || "") || 0,
+                      ]}
+                      max={100}
+                      step={1}
+                      onValueChange={(value) => handleFontRange(value, item.id)}
+                    />
+                    <span className="text-sm font-light">
+                      {styleMap[item.id]?.["size"] || ""}
+                    </span>
+                  </div>
+                ) : null}
               </div>
             ))}
           </Disclosure.Panel>
