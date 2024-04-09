@@ -98,6 +98,8 @@ model SiteConfig {
   navbar_text_color            String?
   main_bg                      String?
   main_text_color              String?
+  main_text_size               String?
+  main_title_size              String?
   footer_bg                    String?
   footer_text_color            String?
 
