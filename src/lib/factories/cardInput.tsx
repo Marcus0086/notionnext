@@ -25,6 +25,7 @@ class DefaultCardInputFactory implements CardInputFactory {
     delete: DeleteInput,
     opentext: OpenTextInput,
     textarea: TextAreaInput,
+    listadd: NameInput,
   };
   getInput(type: CardInputs, value?: string | undefined): JSX.Element {
     const InputComponent = DefaultCardInputFactory.inputFactory[type];
