@@ -4,17 +4,24 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
 import { SEO_SETTINGS } from "@/components/dashboard/constants";
+import LoadingCard from "@/components/dashboard/loadingCard";
 const NameInputCard = dynamic(
   () => import("@/components/dashboard/nameInputCard"),
 );
-import LoadingCard from "@/components/dashboard/loadingCard";
+const ToggleInput = dynamic(() => import("@/components/dashboard/toggleInput"));
 
 import { cn } from "@/lib/utils";
 import { siteImage, sitePage } from "@/lib/actions/site";
 import { getSiteMetaData } from "@/lib/siteMetaData";
+import { isCardInput, isToggleInput } from "@/lib/inputs";
 
-import { ProviderPageProps } from "@/types";
-import { JsonMetaData, SitePageParams } from "@/types";
+import {
+  JsonMetaData,
+  SitePageParams,
+  ProviderPageProps,
+  CardInputs,
+  ToggleInputs,
+} from "@/types";
 
 const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
   let seoPageData: ProviderPageProps | undefined;
@@ -57,7 +64,7 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
             {title}
           </h3>
           <h3 className="text-[10px] leading-4 font-light pl-1">
-            {description || "Description of your site"}
+            {description?.slice(0, 100) || "Description of your site"} ...
           </h3>
           {image && image.length > 0 ? (
             <div className="relative h-40 w-full">
@@ -74,14 +81,22 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
       </div>
       {SEO_SETTINGS.map((card) => (
         <Suspense key={card.title} fallback={<LoadingCard />}>
-          <NameInputCard
-            {...card}
-            type={card.type}
-            siteId={siteId}
-            name={title}
-            siteTitle={title}
-            siteDescription={description}
-          />
+          {isCardInput(card.type) ? (
+            <NameInputCard
+              {...card}
+              type={card.type as CardInputs}
+              siteId={siteId}
+              name={title}
+              siteTitle={title}
+              siteDescription={description}
+            />
+          ) : isToggleInput(card.type) ? (
+            <ToggleInput
+              {...card}
+              type={card.type as ToggleInputs}
+              siteId={siteId}
+            />
+          ) : null}
         </Suspense>
       ))}
     </>
