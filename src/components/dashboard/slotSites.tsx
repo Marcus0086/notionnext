@@ -48,7 +48,7 @@ const SlotSites = () => {
               "hidden llg:block",
               "h-full transition-all duration-150 ease-in-out overflow-hidden sticky top-28",
               "min-w-[375px] xl:w-3/4",
-              "rounded-md border border-gray-300 dark:border-gray-800",
+              "rounded-md border border-gray-300 dark:border-gray-800"
             )}
           >
             <SettingsNav pageProps={pageProps} />
@@ -58,7 +58,9 @@ const SlotSites = () => {
           </section>
         </>
       ) : (
-        <LoadingComponent />
+        <div className="hidden lg:block">
+          <LoadingComponent />
+        </div>
       )}
     </>
   );
