@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import { useTheme } from "next-themes";
 import { NotionComponents, NotionRenderer } from "react-notion-x";
 import { CollectionViewPageBlock, PageBlock } from "notion-types";
+import parse from "html-react-parser";
+import { useServerInsertedHTML } from "next/navigation";
 
 import PageLink from "@/components/dashboard/pageLink";
 import Tweet from "@/components/shared/tweet";
@@ -26,7 +28,7 @@ import {
 import { searchNotion } from "@/lib/searchNotion";
 import { cn } from "@/lib/utils";
 import { mapPageUrl } from "@/lib/mapPageUrl";
-
+import ErrorBoundary from "@/lib/errorBoundary";
 import useBodyClassName from "@/hooks/useBodyClassName";
 
 import { PageProps } from "@/types";
@@ -126,6 +128,17 @@ const NotionPage: React.FC<PageProps> = ({
   // }, [recordMap])
 
   const dynamicCss = site?.css || "";
+  const html = site?.html || "";
+  const isServerInserted = useRef(false);
+  useServerInsertedHTML(() => {
+    if (html && !isServerInserted.current) {
+      if (isLive) {
+        isServerInserted.current = true;
+        const parsedHtml = parse(html);
+        return <>{parsedHtml}</>;
+      }
+    }
+  });
 
   useBodyClassName(theme === "dark" ? "dark-mode" : "light-mode");
 
@@ -179,6 +192,23 @@ const NotionPage: React.FC<PageProps> = ({
           }
         `
           : ""}
+
+        ${config?.main_text_size
+          ? `
+          .notion {
+            font-size: ${config.main_text_size} !important;
+          }
+        `
+          : ""}
+
+        ${config?.main_title_size
+          ? `
+          .notion-title {
+            font-size: ${config.main_title_size} !important;
+          }
+        `
+          : ""}
+
         .notion-collection-page-properties {
           display: none !important;
         }
@@ -234,13 +264,15 @@ const NotionPage: React.FC<PageProps> = ({
       )}
       {site?.javascript ? (
         (isLive && accountType !== "FREE") || !isLive ? (
-          <Script
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: site.javascript,
-            }}
-            id="site-javascript"
-          />
+          <ErrorBoundary>
+            <Script
+              strategy="lazyOnload"
+              dangerouslySetInnerHTML={{
+                __html: site.javascript,
+              }}
+              id="site-javascript"
+            />
+          </ErrorBoundary>
         ) : null
       ) : null}
     </>
