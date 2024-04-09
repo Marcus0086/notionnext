@@ -1,3 +1,4 @@
+import { domainSuffix } from "@/lib/config";
 import {
   AsideMenuType,
   CardInputs,
@@ -69,6 +70,12 @@ const SETTINGS_ASIDE_MENU: AsideMenuType[] = [
     link: "/code",
   },
   {
+    title: "Domains",
+    icon: "globe",
+    isDefault: false,
+    link: "/domains",
+  },
+  {
     title: "AI",
     icon: "AI",
     isDefault: false,
@@ -102,11 +109,11 @@ const FILES = [
     defaultLanguage: "css",
     content: "/* <style> */ \n",
   },
-  // {
-  //   path: "index.html",
-  //   defaultLanguage: "html",
-  //   content: "<!-- <head> --> \n",
-  // },
+  {
+    path: "index.html",
+    defaultLanguage: "html",
+    content: "<!-- <head> --> \n",
+  },
   {
     path: "index.js",
     defaultLanguage: "javascript",
@@ -234,10 +241,12 @@ const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
       {
         name: "Background",
         id: "navbar_bg",
+        type: "Color",
       },
       {
         name: "Text",
         id: "navbar_text_color",
+        type: "Color",
       },
     ],
   },
@@ -247,10 +256,22 @@ const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
       {
         name: "Background",
         id: "main_bg",
+        type: "Color",
       },
       {
         name: "Text",
         id: "main_text_color",
+        type: "Color",
+      },
+      {
+        name: "Base Font Size",
+        id: "main_text_size",
+        type: "Font",
+      },
+      {
+        name: "Title Font Size",
+        id: "main_title_size",
+        type: "Font",
       },
     ],
   },
@@ -260,34 +281,34 @@ const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
       {
         name: "Background",
         id: "footer_bg",
+        type: "Color",
       },
       {
         name: "Text",
         id: "footer_text_color",
+        type: "Color",
       },
     ],
   },
 ];
 
-const SEO_SETTINGS: Settings<CardInputs> = [
+const SEO_SETTINGS: Settings<CardInputs | ToggleInputs> = [
+  {
+    title: "Enable SiteMaps",
+    description: "Enable public sitemaps for your site",
+    type: "sitemap",
+  },
   {
     title: "Site Title",
     type: "text",
     description: "The meta title of your site",
     toolTip: "Change the title from the notion page, to update this field",
   },
-
   {
     title: "Site Description",
     type: "textarea",
     description: "The meta description of your site",
   },
-
-  // {
-  //     title: 'Site Preview Image',
-  //     type: "media",
-  //     description: 'The meta preview image of your site',
-  // }
 ];
 
 const OPTIONS_SETTINGS: Settings<ToggleInputs> = [
@@ -306,11 +327,6 @@ const OPTIONS_SETTINGS: Settings<ToggleInputs> = [
     description: "Enable AI chat for your site",
     type: "ai",
   },
-  // {
-  //     title: 'Enable Preview Images',
-  //     description: 'Enable preview images for your site',
-  //     type: 'preview'
-  // },
   {
     title: "Twitter embeds",
     description: "Enable twitter card embeds for your site",
@@ -321,10 +337,19 @@ const OPTIONS_SETTINGS: Settings<ToggleInputs> = [
     description: "Enable a top loader for your site",
     type: "toploader",
   },
+];
+
+const DOMAIN_SETTINGS: Settings<CardInputs> = [
   {
-    title: "Enable SiteMaps",
-    description: "Enable public sitemaps for your site",
-    type: "sitemap",
+    title: "Sub Domain",
+    type: "opentext",
+    toolTip: `Your site's subdomain ending with ${domainSuffix}`,
+    description: "The sub domain of your site",
+  },
+  {
+    title: "Custom Domain",
+    type: "listadd",
+    description: "Add a custom domain to your site",
   },
 ];
 
@@ -366,6 +391,215 @@ const SIDEBAR_NAV_ACCOUNT_ITEMS = [
   },
 ];
 
+const TESTIMONIALS = [
+  {
+    href: "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+    alt: "Moonbeam",
+  },
+  {
+    href: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    alt: "Moonbeam",
+  },
+  {
+    href: "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+    alt: "Moonbeam",
+  },
+  {
+    href: "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+    alt: "Moonbeam",
+  },
+  {
+    href: "https://aceternity.com/images/products/thumbnails/new/editrix.png",
+    alt: "Moonbeam",
+  },
+  {
+    href: "https://aceternity.com/images/products/thumbnails/new/algochurn.png",
+    alt: "Moonbeam",
+  },
+];
+
+const DEMOS = [
+  {
+    title: "Moonbeam",
+    link: "https://gomoonbeam.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+  },
+  {
+    title: "Cursor",
+    link: "https://cursor.so",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+  },
+  {
+    title: "Rogue",
+    link: "https://userogue.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+  },
+
+  {
+    title: "Editorially",
+    link: "https://editorially.org",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+  },
+  {
+    title: "Editrix AI",
+    link: "https://editrix.ai",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/editrix.png",
+  },
+  {
+    title: "Pixel Perfect",
+    link: "https://app.pixelperfect.quest",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/pixelperfect.png",
+  },
+
+  {
+    title: "Algochurn",
+    link: "https://algochurn.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/algochurn.png",
+  },
+  {
+    title: "Aceternity UI",
+    link: "https://ui.aceternity.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+  },
+  {
+    title: "Tailwind Master Kit",
+    link: "https://tailwindmasterkit.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png",
+  },
+  {
+    title: "SmartBridge",
+    link: "https://smartbridgetech.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/smartbridge.png",
+  },
+  {
+    title: "Renderwork Studio",
+    link: "https://renderwork.studio",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/renderwork.png",
+  },
+
+  {
+    title: "Creme Digital",
+    link: "https://cremedigital.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/cremedigital.png",
+  },
+  {
+    title: "Golden Bells Academy",
+    link: "https://goldenbellsacademy.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png",
+  },
+  {
+    title: "Invoker Labs",
+    link: "https://invoker.lol",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/invoker.png",
+  },
+  {
+    title: "E Free Invoice",
+    link: "https://efreeinvoice.com",
+    thumbnail:
+      "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+  },
+];
+
+const PLANS = [
+  {
+    title: "Hobby",
+    price: "$0",
+    validity: "30 days",
+    description: "Get a glimpse of what you can do with Notionnext",
+    features: [
+      {
+        title: "Free hosting on notionnext domains",
+        info: "Create up to four custom sites with notionnext domains",
+      },
+      {
+        title: "Unlimited Customization",
+        info: "Customize your site with custom themes, fonts, and custom css",
+      },
+      {
+        title: "Marked with Powered by Notionnext badge",
+        info: "Your site will be marked with `Powered by Notionnext` badge",
+      },
+    ],
+  },
+  {
+    title: "Pro",
+    price: "$10",
+    description: "Everything in Hobby plus",
+    features: [
+      {
+        title: "Custom Domain",
+        info: "Connect your existing custom domain",
+      },
+      {
+        title: "Custom Code",
+        info: "Add custom javscript to your site",
+      },
+      {
+        title: "Automatic SSL",
+        info: "Get automatic SSL for your custom domain",
+      },
+      {
+        title: "Manual publishing with previews",
+        info: "Publish your site manually to have more control over the content",
+      },
+      {
+        title: "CDN cached sites",
+        info: "Your site will be cached on our CDN for faster load times",
+      },
+      {
+        title: "Optimized for SEO",
+        info: "Get your site optimized for search engines (sitemap, robots, rss)",
+      },
+      {
+        title: "No Notionnext badge",
+        info: "Your site will be free of `Powered by Notionnext` badge",
+      },
+      {
+        title: "Customer Support",
+        info: "Get help from our team of experts on email and chat",
+      },
+    ],
+  },
+  {
+    title: "Business",
+    price: "$50",
+    description: "Everything in Pro plus",
+    contactSales: true,
+    features: [
+      {
+        title: "Priority Support",
+        info: "Get priority support from our team of experts",
+      },
+      {
+        title: "Custom Built Sites",
+        info: "Get a custom built site from our team of experts",
+      },
+      {
+        title: "Custom Built Themes",
+        info: "Get a custom built theme from our team of experts",
+      },
+      {
+        title: "Access to beta features",
+        info: "Get early access to new features and updates",
+      },
+    ],
+  },
+];
+
 export {
   META_DATA,
   ASIDE_MENU,
@@ -383,4 +617,8 @@ export {
   SIDEBAR_NAV_ITEMS,
   SIDEBAR_NAV_ACCOUNT_ITEMS,
   DESIGN_SETTINGS_DROP_DOWN,
+  DEMOS,
+  TESTIMONIALS,
+  PLANS,
+  DOMAIN_SETTINGS,
 };
