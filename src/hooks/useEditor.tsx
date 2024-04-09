@@ -13,6 +13,7 @@ const useEditor = () => {
     [key: string]: string;
   }>({
     css: "",
+    html: "",
     javascript: "",
   });
 
@@ -26,13 +27,18 @@ const useEditor = () => {
   );
 
   useEffect(() => {
-    if (settings?.site?.css || settings?.site?.javascript) {
+    if (
+      settings?.site?.css ||
+      settings?.site?.javascript ||
+      settings?.site?.html
+    ) {
       setValues({
         css: settings?.site?.css || "",
+        html: settings?.site?.html || "",
         javascript: settings?.site?.javascript || "",
       });
     }
-  }, [settings?.site?.css, settings?.site?.javascript]);
+  }, [settings?.site?.css, settings?.site?.html, settings?.site?.javascript]);
 
   const handleInputChange = useCallback(
     (value?: string, defaultLanguage?: string) => {
@@ -61,6 +67,19 @@ const useEditor = () => {
               miscelanous: {
                 ...settings?.miscelanous,
                 javascript: value?.trim() || "",
+              },
+            });
+            break;
+          case "html":
+            setSettings({
+              ...settings,
+              site: {
+                ...settings?.site,
+                html: value?.trim() || "",
+              },
+              miscelanous: {
+                ...settings?.miscelanous,
+                html: value?.trim() || "",
               },
             });
             break;
