@@ -13,6 +13,7 @@ const Titles: {
   options: "Options",
   navbar: "Navbar",
   footer: "Footer",
+  domains: "Domains",
 };
 
 const Title = () => {
