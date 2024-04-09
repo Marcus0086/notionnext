@@ -98,6 +98,6 @@
   }
 
   .breadcrumbs {
-    @apply w-44 overflow-hidden sm:w-auto;
+    @apply overflow-hidden sm:w-auto;
   }
 }
