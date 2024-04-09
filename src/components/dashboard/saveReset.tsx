@@ -94,7 +94,7 @@ const getUpdatedData = (
     updatedData.html = savedUris["html"];
   }
 
-  if (settings?.miscelanous?.javascript) {
+  if (typeof settings?.miscelanous?.javascript === "string") {
     updatedData.javascript = savedUris["javascript"];
   }
 
@@ -107,7 +107,7 @@ const getUpdatedData = (
     updatedData.subDomain = settings.miscelanous.name;
   }
 
-  if (settings?.miscelanous?.description) {
+  if (typeof settings?.miscelanous?.description === "string") {
     updatedData.description = settings.miscelanous.description;
   }
 
@@ -123,6 +123,38 @@ const getUpdatedData = (
       updatedData["siteConfig"] = {};
     }
     updatedData["siteConfig"]["navbar_bg"] = settings.miscelanous.navbar_bg;
+  }
+
+  if (typeof settings?.miscelanous?.main_text_color === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["main_text_color"] =
+      settings.miscelanous.main_text_color;
+  }
+
+  if (typeof settings?.miscelanous?.navbar_text_color === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["navbar_text_color"] =
+      settings.miscelanous.navbar_text_color;
+  }
+
+  if (typeof settings?.miscelanous?.main_title_size === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["main_title_size"] =
+      settings.miscelanous.main_title_size;
+  }
+
+  if (typeof settings?.miscelanous?.main_text_size === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["main_text_size"] =
+      settings.miscelanous.main_text_size;
   }
 
   const miscelanousSettings = [
