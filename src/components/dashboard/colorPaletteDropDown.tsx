@@ -25,30 +25,14 @@ const ColorPaletteDropDown = () => {
       return;
     }
 
-    const cssSelector = type === "dark" ? ".dark-mode" : ":root";
+    const css =
+      type === "dark"
+        ? `.dark-mode{--bg-color:${background}!important}`
+        : `:root{--bg-color:${background}!important}`;
     const settingsCss = settings?.site?.css ?? "";
-    const newColor = `--bg-color:${background}!important`;
-
-    let css = "";
-    if (settingsCss) {
-      const cssBlocks = settingsCss.split("}");
-      const blockIndex = cssBlocks.findIndex((block) =>
-        block.trim().startsWith(cssSelector),
-      );
-
-      if (blockIndex !== -1) {
-        cssBlocks[blockIndex] = cssBlocks[blockIndex].replace(
-          /--bg-color:.*!important/g,
-          newColor,
-        );
-      } else {
-        cssBlocks.push(`${cssSelector} {\n  ${newColor}\n}`);
-      }
-      const filteredBlocks = cssBlocks.filter((block) => block.trim() !== "");
-      css = filteredBlocks.join("}");
-    } else {
-      css = `${cssSelector} {\n  ${newColor}\n}`;
-    }
+    const newSettingsCss = settingsCss.includes(css)
+      ? settingsCss.replace(css, "") + css
+      : settingsCss + css;
     setSettings({
       ...settings,
       site: {
@@ -57,14 +41,14 @@ const ColorPaletteDropDown = () => {
         notionAuthToken: settings?.site?.notionAuthToken || "",
         notionUserId: settings?.site?.notionUserId || "",
         id: settings?.site?.id || "",
-        css: css,
+        css: newSettingsCss,
         name: settings?.site?.name || "",
         rootNotionPageId: settings?.site?.rootNotionPageId || "",
         rootNotionSpaceId: settings?.site?.rootNotionSpaceId || "",
       },
       miscelanous: {
         ...settings?.miscelanous,
-        css: css,
+        css: newSettingsCss,
         main_bg: "",
         navbar_bg: "",
         footer_bg: "",
