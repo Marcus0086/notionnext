@@ -21,6 +21,7 @@ import { MdCreateNewFolder } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 import { CiExport } from "react-icons/ci";
 import { MdEditNote } from "react-icons/md";
+import { IoIosGlobe } from "react-icons/io";
 
 import { Icons, IconFactory } from "@/types";
 
@@ -46,6 +47,7 @@ class DefaultIconFactory implements IconFactory {
     delete: MdDeleteOutline,
     update: MdEditNote,
     publish: CiExport,
+    globe: IoIosGlobe,
   };
 
   getIcon(icon: Icons): IconType {
