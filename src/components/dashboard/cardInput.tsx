@@ -12,6 +12,7 @@ const CardInput = ({
   siteId,
   title,
   description,
+  customDomain,
 }: {
   type: CardInputs;
   name?: string;
@@ -21,23 +22,26 @@ const CardInput = ({
   siteId?: string;
   title?: string;
   description?: string;
+  customDomain?: string;
 }) => {
   const value =
     type === "text"
       ? name
       : type === "url"
-        ? !url
-          ? ""
-          : `https://notion.so/${url}`
-        : type === "font"
-          ? font
-          : type === "visibility"
-            ? visibility
-            : type === "opentext"
-              ? title
-              : type === "textarea"
-                ? description
-                : siteId;
+      ? !url
+        ? ""
+        : `https://notion.so/${url}`
+      : type === "font"
+      ? font
+      : type === "visibility"
+      ? visibility
+      : type === "opentext"
+      ? title
+      : type === "textarea"
+      ? description
+      : type === "listadd"
+      ? customDomain
+      : siteId;
   const Input = CardsInputFactory.getInput(type, value);
   return Input;
 };
