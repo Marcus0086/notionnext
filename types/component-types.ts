@@ -16,6 +16,7 @@ type Icons =
   | "footer"
   | "AI"
   | "code"
+  | "globe"
   | Display
   | RecentHistoryIcons;
 
@@ -38,7 +39,8 @@ type CardInputs =
   | "media"
   | "url"
   | "visibility"
-  | "delete";
+  | "delete"
+  | "listadd";
 
 type ToggleInputs =
   | "theme"
@@ -53,6 +55,7 @@ type ToggleInputs =
 type ComponentItem = {
   name: string;
   id: string;
+  type: "Color" | "Font";
   color?: string;
 };
 
