@@ -33,7 +33,7 @@ const UpgradePlanCard = async () => {
             </AccordionTrigger>
             <AccordionContent className="text-start text-xs leading-5 text-muted-foreground flex flex-col items-start justify-center gap-2">
               {
-                "Upgrade to a paid plan to apply your JavaScript changes to the live site. Unleash the full power of customization!"
+                "Upgrade to a paid plan to apply your HTML and JavaScript changes to the live site. Unleash the full power of customization!"
               }
               <UpgardeButton />
             </AccordionContent>
