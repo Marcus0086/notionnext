@@ -3,9 +3,11 @@
 import { parsePageId } from "notion-utils";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import getSessionUser from "@/lib/getSessionUser";
 import prisma from "@/lib/prisma";
+import { subdomainSchema } from "@/lib/validators/domains";
 
 const createSite = async (formData: FormData) => {
   const sitename = formData.get("sitename") as string;
@@ -15,6 +17,7 @@ const createSite = async (formData: FormData) => {
     uuid: false,
   });
   try {
+    await subdomainSchema.parseAsync(name);
     const user = await getSessionUser();
     if (!user) {
       throw new Error("User not found");
@@ -85,7 +88,12 @@ const createSite = async (formData: FormData) => {
       return {
         error: "Site already exists",
       };
+    } else if (error instanceof z.ZodError) {
+      return {
+        error: error.errors[0].message,
+      };
     }
+
     return {
       error: "Something went wrong",
     };
