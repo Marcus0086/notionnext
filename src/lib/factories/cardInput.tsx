@@ -8,6 +8,7 @@ import {
   VisibilityInput,
   DeleteInput,
   OpenTextInput,
+  InputAdd,
   TextAreaInput,
 } from "@/components/shared/inputs";
 
@@ -25,7 +26,7 @@ class DefaultCardInputFactory implements CardInputFactory {
     delete: DeleteInput,
     opentext: OpenTextInput,
     textarea: TextAreaInput,
-    listadd: NameInput,
+    listadd: InputAdd,
   };
   getInput(type: CardInputs, value?: string | undefined): JSX.Element {
     const InputComponent = DefaultCardInputFactory.inputFactory[type];
