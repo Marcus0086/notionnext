@@ -21,6 +21,11 @@ const SettingsReducer = (state: Settings, action: SettingsAction) => {
         ...state,
         deleteValue: action.payload,
       };
+    case "SET_CUSTOM_DOMAIN":
+      return {
+        ...state,
+        customDomain: action.payload,
+      };
     default:
       return state;
   }
