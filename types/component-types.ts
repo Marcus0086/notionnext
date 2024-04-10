@@ -92,13 +92,15 @@ type Settings = {
   selectedValue?: string;
   siteName?: string;
   deleteValue?: string;
+  customDomain?: string;
 };
 
 type ActionType =
   | "SET_SELECTED_VALUE"
   | "SET_SETTINGS"
   | "SET_SITE_NAME"
-  | "DELETE_SITE";
+  | "DELETE_SITE"
+  | "SET_CUSTOM_DOMAIN";
 
 type SettingsAction = { type: ActionType; payload: string | any };
 
