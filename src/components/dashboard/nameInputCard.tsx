@@ -25,6 +25,7 @@ const NameInputCard = ({
   siteTitle,
   siteDescription,
   toolTip,
+  customDomain,
 }: {
   title: string;
   description?: string;
@@ -38,12 +39,13 @@ const NameInputCard = ({
   siteTitle: string;
   siteDescription: string;
   toolTip?: string;
+  customDomain?: string;
 }>) => {
   return (
     <li
       className={cn(
         "bg-white dark:bg-navy-800 shadow w-full rounded-xl",
-        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal",
+        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal"
       )}
     >
       <div className="flex items-center justify-center gap-x-2">
@@ -71,6 +73,7 @@ const NameInputCard = ({
         visibility={visibility || "DRAFT"}
         title={siteTitle}
         description={siteDescription}
+        customDomain={customDomain}
       />
     </li>
   );
