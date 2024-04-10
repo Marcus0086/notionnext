@@ -6,7 +6,7 @@ import UpgradePlanCard from "@/components/dashboard/upgradePlanCard";
 const CodeSettings = () => {
   return (
     <>
-      <UpgradePlanCard />
+      <UpgradePlanCard type={"code"} />
       <Editor />
     </>
   );
