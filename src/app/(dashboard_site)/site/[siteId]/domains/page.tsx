@@ -2,10 +2,12 @@ import { notFound } from "next/navigation";
 
 import { DOMAIN_SETTINGS } from "@/components/dashboard/constants";
 import NameInputCard from "@/components/dashboard/nameInputCard";
+import UpgradePlanCard from "@/components/dashboard/upgradePlanCard";
 
 import { getDomainsSiteCardById } from "@/lib/actions/site";
 
 import { CardInputs, SitePageParams } from "@/types";
+
 
 const DomainsSettingsPage = async ({ params: { siteId } }: SitePageParams) => {
   const domainsSiteCard = await getDomainsSiteCardById(siteId);
@@ -14,6 +16,7 @@ const DomainsSettingsPage = async ({ params: { siteId } }: SitePageParams) => {
   }
   return (
     <>
+      <UpgradePlanCard type="domains" />
       {DOMAIN_SETTINGS.map((card, index) => (
         <NameInputCard
           key={index}
