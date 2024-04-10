@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import { usePathname } from "next/navigation";
 
 import AsideIcons from "@/components/dashboard/asideIcons";
@@ -20,8 +18,6 @@ const Aside = ({
   linkPrefix?: boolean;
   translate?: string;
 }) => {
-  const [close, setClose] = useState(false);
-  const handleClose = () => setClose(!close);
   const pathName = usePathname();
   return (
     <aside
@@ -30,13 +26,10 @@ const Aside = ({
         "bg-white dark:bg-navy-800 drop-shadow-sm",
         translate ? translate : "xl:translate-x-0",
         "transition-all duration-150 ease-linear -translate-x-96",
-        "fixed z-50 ",
+        "fixed z-50 "
       )}
     >
-      <section className="px-14 py-8 relative">
-        <button className="absolute top-2 right-2" onClick={handleClose}>
-          <MdKeyboardArrowLeft className="w-6 h-6" />
-        </button>
+      <section className="px-14 py-8">
         <Link href="/">
           <h1 className="text-center text-2xl font-semibold uppercase text-cloudBurst dark:text-white">
             NotionSite.io
@@ -55,7 +48,7 @@ const Aside = ({
                   isActive
                     ? "after:content-[''] after:w-1 after:h-8 after:right-0 after:bg-brandLinear after:rounded-l-md after:absolute"
                     : "",
-                  `flex items-center justify-start gap-x-4 group`,
+                  `flex items-center justify-start gap-x-4 group`
                 )}
               >
                 <AsideIcons icon={icon} />
