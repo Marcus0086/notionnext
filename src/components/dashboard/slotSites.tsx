@@ -58,7 +58,7 @@ const SlotSites = () => {
           </section>
         </>
       ) : (
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex w-full">
           <LoadingComponent />
         </div>
       )}
