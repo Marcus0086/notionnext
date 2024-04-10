@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
-import dynamic from "next/dynamic";
 
-const CreateSiteForm = dynamic(() => import("@/components/dashboard/form"));
+import CreateSiteForm from "@/components/dashboard/form";
 import Tabs from "@/components/dashboard/tabs";
 import LoadingCard from "@/components/dashboard/loadingCard";
 import RecentHistory from "@/components/dashboard/recentHistory";
