@@ -15,7 +15,11 @@ const getDomainsSiteCardById = cache(async (siteId: string) => {
         customDomain: true,
       },
     });
-    return data;
+    const domainsData = {
+      name: data?.name || undefined,
+      customDomain: data?.customDomain || undefined,
+    };
+    return domainsData;
   } catch (error) {
     console.log("[Site] error happended in getDomainsSiteCardById", error);
     return null;
