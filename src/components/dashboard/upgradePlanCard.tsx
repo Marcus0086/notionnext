@@ -11,7 +11,17 @@ import UpgardeButton from "@/components/dashboard/upgradeButton";
 
 import getSessionUser from "@/lib/getSessionUser";
 
-const UpgradePlanCard = async () => {
+const UpgradePlanCard = async ({ type }: { type: "code" | "domains" }) => {
+  const cardDescriptionMap = {
+    code: {
+      description:
+        "Upgrade to a paid plan to apply your HTML and JavaScript changes to the live site. Unleash the full power of customization!",
+    },
+    domains: {
+      description:
+        "Upgrade to a paid plan to apply your custom domain to the live site. Unleash the full power of customization!",
+    },
+  };
   const user = await getSessionUser();
   if (!user) {
     notFound();
@@ -32,9 +42,7 @@ const UpgradePlanCard = async () => {
               </div>
             </AccordionTrigger>
             <AccordionContent className="text-start text-xs leading-5 text-muted-foreground flex flex-col items-start justify-center gap-2">
-              {
-                "Upgrade to a paid plan to apply your HTML and JavaScript changes to the live site. Unleash the full power of customization!"
-              }
+              {cardDescriptionMap[type].description}
               <UpgardeButton />
             </AccordionContent>
           </AccordionItem>
