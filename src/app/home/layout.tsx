@@ -6,7 +6,7 @@ export default async function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="overflow-hidden">
+    <main className="overflow-hidden bg-neutral-950">
       <HomePageNavBar />
       {children}
     </main>
