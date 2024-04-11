@@ -1,6 +1,4 @@
-import HomePageNavBar from "@/components/homePageNavBar";
 import Hero from "@/components/hero";
-
 import Pricing from "@/components/pricing";
 
 const HomePage = () => {
