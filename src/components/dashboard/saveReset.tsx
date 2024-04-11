@@ -240,6 +240,7 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
           ...settings?.site,
           css: "",
           javascript: "",
+          html: "",
         },
         miscelanous: {},
       });
