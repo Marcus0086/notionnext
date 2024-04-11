@@ -44,7 +44,7 @@ const AisdeButtons = ({
           "hover:bg-blueZodiac/20 dark:hover:bg-navy-900 transition duration-150 ease-in",
           fullPathName === href
             ? "after:content-[''] sm:after:w-1 sm:after:h-8 after:w-full after:h-1 after:bottom-0 sm:after:bottom-auto sm:after:right-0 after:bg-brandLinear sm:after:!rounded-l-md after:rounded-b-md sm:after:rounded-b-none after:absolute"
-            : ""
+            : "",
         )}
       >
         <AsideIcons icon={icon} label={title} />
