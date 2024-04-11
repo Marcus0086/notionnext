@@ -45,7 +45,7 @@ const NameInputCard = ({
     <li
       className={cn(
         "bg-white dark:bg-navy-800 shadow w-full rounded-xl",
-        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal"
+        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal",
       )}
     >
       <div className="flex items-center justify-center gap-x-2">
