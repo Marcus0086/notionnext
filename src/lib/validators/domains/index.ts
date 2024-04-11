@@ -15,28 +15,27 @@ const subdomainSchema = z.string().refine(
   },
   {
     message: "Cannot create site with invalid subdomain name",
-  }
+  },
 );
 
 const customDomainSchema = z.string().refine(
   async (value) => {
     if (value.length <= 1 || value.length > 253) return false;
-    const customDomainRegex = /^[a-z0-9]+(-[a-z0-9]+)*\.[a-z]{2,}$/;
+    const customDomainRegex =
+      /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*\.[a-z]{2,}$/;
     return customDomainRegex.test(value);
   },
   {
     message: "Cannot add invalid custom domain name",
-  }
+  },
 );
 
 const isApexDomain = (
-  domain: string
-):
-  | {
-      recordType: RecordType;
-      expectedValue: string;
-    }
-  | undefined => {
+  domain: string,
+): {
+  recordType: RecordType;
+  expectedValue: string;
+} => {
   const dotCount = domain.split(".").length - 1;
   if (dotCount === 1) {
     return {
@@ -44,5 +43,9 @@ const isApexDomain = (
       expectedValue: process.env.SERVER_IP as string,
     };
   }
+  return {
+    recordType: "CNAME",
+    expectedValue: process.env.SERVER_DOMAIN as string,
+  };
 };
 export { subdomainSchema, customDomainSchema, isApexDomain };
