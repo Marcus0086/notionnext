@@ -7,8 +7,8 @@ import RecentHistory from "@/components/dashboard/recentHistory";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <section className="flex lg:flex-row flex-col items-start justify-between w-full gap-4">
-      <section className="pt-5 max-w-[55rem]">
+    <section className="flex xl:flex-row flex-col items-start justify-between w-full gap-4">
+      <section className="pt-5 w-full xl:max-w-[55rem]">
         <div className="rounded-3xl bg-white dark:bg-navy-800 drop-shadow-xl">
           <CreateSiteForm />
         </div>
@@ -23,7 +23,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
         </section>
       </section>
 
-      <section className="relative pt-5 lg:max-w-[28rem] w-full">
+      <section className="relative pt-5 xl:max-w-[28rem] w-full">
         <RecentHistory />
       </section>
     </section>
