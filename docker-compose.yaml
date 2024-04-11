@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./db:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     restart: always
 
   notionnext_redis:
@@ -20,7 +20,7 @@ services:
       - "6379:6379"
     restart: always
     volumes:
-      - ./redis:/data
+      - redis_data:/data
 
   notionnext:
     image: marcus18781xj/notionnext:latest
@@ -32,3 +32,9 @@ services:
       - notionnext_db
       - notionnext_redis
     restart: always
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
