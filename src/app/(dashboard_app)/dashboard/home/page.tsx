@@ -23,7 +23,7 @@ const DashboardHomePage = async ({
 
   const userSites = await getUserSites(
     filter.toLocaleUpperCase() as VisibilityFilter,
-    user.id
+    user.id,
   );
   return (
     <main className="mt-4 pb-20">
@@ -42,7 +42,7 @@ const DashboardHomePage = async ({
                 src="/images/dashboard/notfound.webp"
                 fill
                 alt="Not Found"
-                className="mix-blend-multiply"
+                className="mix-blend-color-burn"
               />
             </div>
             <h1 className="text-9xl sm:text-[14rem] leading-none">4</h1>
