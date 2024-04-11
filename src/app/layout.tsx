@@ -53,7 +53,7 @@ export default async function RootLayout({
         )}
       >
         <StyledJsxRegistry>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="dark">
             {children}
           </ThemeProvider>
         </StyledJsxRegistry>
