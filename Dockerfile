@@ -32,7 +32,9 @@ FROM base AS runner
 WORKDIR /app
 
 COPY --from=builder /app .
-
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+RUN chown -R appuser:appgroup /app/.next
+USER appuser
 EXPOSE 3000
 
 CMD ["npm", "start"]
