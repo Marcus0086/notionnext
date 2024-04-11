@@ -10,7 +10,7 @@ const dnsLookup = util.promisify(dns.resolve);
 const verifyDomainRecord = async (
   domain: string,
   expectedValue: string,
-  recordType: RecordType = "A"
+  recordType: RecordType = "A",
 ) => {
   try {
     const records = await dnsLookup(domain, recordType);
