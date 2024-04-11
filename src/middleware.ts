@@ -34,19 +34,19 @@ const middleware = (req: NextRequest) => {
     (locale) =>
       pathname.includes(`/${locale}/`) ||
       pathname === `/${locale}` ||
-      pathname.endsWith(`/${locale}`)
+      pathname.endsWith(`/${locale}`),
   );
   const pathNameLocale = locales.find(
     (locale) =>
       pathname.includes(`/${locale}`) ||
       pathname === `/${locale}` ||
-      pathname.endsWith(`/${locale}`)
+      pathname.endsWith(`/${locale}`),
   );
   const hostName = req.headers.get("host") || "demo.localhost";
 
   const currentHost = hostName.replace(
     ".localhost:3000",
-    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
   );
 
   console.log("Hostname and currentHost is:", { hostName, currentHost });
