@@ -37,7 +37,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 import { useParentPageSettings } from "@/context/parentPage";
 
@@ -89,7 +88,7 @@ const NameInput = ({
           name={name}
           className={cn(
             "w-full h-10 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || ""
+            className || "",
           )}
         />
       );
@@ -103,7 +102,7 @@ const NameInput = ({
           name={name}
           className={cn(
             "w-full h-40 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || ""
+            className || "",
           )}
         />
       );
@@ -226,7 +225,7 @@ const DropDownInput = ({
                 cn(
                   "flex items-center justify-start gap-x-4 cursor-pointer select-none pl-3 w-full rounded-md",
                   active ? "bg-selago dark:bg-blueZodiac" : "",
-                  "capitalize"
+                  "capitalize",
                 )
               }
             >
@@ -306,7 +305,7 @@ const MediaInput = ({ value }: CardInputComponent) => {
       className={cn(
         "flex items-center justify-center w-full px-3 py-6 text-center",
         "border-2 border-gray-300 border-dashed",
-        "rounded-lg bg-transparent"
+        "rounded-lg bg-transparent",
       )}
     >
       <label htmlFor="dropzone-file" className="cursor-pointer">
@@ -398,7 +397,7 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
             className={cn(
               "w-full h-10 rounded-xl",
               isDeleting ? "animate-pulse cursor-not-allowed" : "",
-              isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
+              isButtonDisabled ? "opacity-50 cursor-not-allowed" : "",
             )}
             disabled={isButtonDisabled}
           >
@@ -426,7 +425,7 @@ const InputAdd = ({ value }: CardInputComponent) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [textValue, setTextValue] = useState(value);
   const [isCustomDomainAdded, setIsCustomDomainAdded] = useState(
-    !!value || false
+    !!value || false,
   );
   const [cardContent, setCardContent] = useState<{
     description: string;
@@ -448,12 +447,12 @@ const InputAdd = ({ value }: CardInputComponent) => {
         await customDomainSchema.parseAsync(textValue);
         const customDomainUpdatedData = await addCustomDomain(
           textValue,
-          settings?.site?.id || ""
+          settings?.site?.id || "",
         );
         if (!customDomainUpdatedData) {
           toast.error(
             "Error adding custom domain. Please try again later.",
-            toastOptions
+            toastOptions,
           );
           return;
         }
@@ -557,20 +556,20 @@ const InputAdd = ({ value }: CardInputComponent) => {
                   Please add the following configuration to your DNS record to
                   verify your domain.
                 </CardDescription>
-                <div className="flex flex-col items-start text-xs rounded-md text-gray-500 bg-black mt-2 px-4 py-2">
-                  <div className="flex items-center justify-start space-x-4 h-5">
-                    <span className="font-semibold">Type</span>
-                    <Separator orientation="vertical" />
-                    <span className="font-semibold">Value</span>
-                  </div>
-                  <div className="flex items-center justify-start space-x-4 h-5">
-                    <span className="mr-[1.37rem]">
-                      {cardContent.recordType}
-                    </span>
-                    <Separator orientation="vertical" />
-                    <span>{cardContent.expectedValue}</span>
-                  </div>
-                </div>
+                <table className="table-auto w-full mt-2 bg-black text-gray-500 text-xs rounded-md">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2 font-semibold">Type</th>
+                      <th className="px-4 py-2 font-semibold">Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="px-4 py-2">{cardContent.recordType}</td>
+                      <td className="px-4 py-2">{cardContent.expectedValue}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </>
             ) : null}
           </CardContent>
@@ -584,7 +583,21 @@ const InputAdd = ({ value }: CardInputComponent) => {
             >
               Refresh
             </Button>
-            <Button onClick={handleDelete}>Delete</Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="destructive"
+                  disabled={cardContent.icon === "loading"}
+                >
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertBox
+                title={"Are you sure you want to delete this domain?"}
+                description={"This action cannot be undone."}
+                continueAction={handleDelete}
+              />
+            </AlertDialog>
           </CardFooter>
         </Card>
       ) : null}
