@@ -40,7 +40,7 @@ const deleteCustomDomain = async (siteId: string) => {
 };
 
 const domainVerification = async (
-  domain: string
+  domain: string,
 ): Promise<{
   message: string;
   domain?: string;
@@ -49,16 +49,11 @@ const domainVerification = async (
   verified?: boolean;
 }> => {
   const apexDomainData = isApexDomain(domain);
-  if (!apexDomainData) {
-    return {
-      message: "Invalid domain",
-    };
-  }
   const { recordType, expectedValue } = apexDomainData;
   const isValidDnsRecord = await verifyDomainRecord(
     domain,
     expectedValue,
-    recordType
+    recordType,
   );
   if (!isValidDnsRecord) {
     return {
