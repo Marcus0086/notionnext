@@ -13,7 +13,7 @@ const CreateSiteForm = () => {
       className="flex flex-col items-start justify-center py-10 px-8 md:py-12 md:px-16 font-normal antialiased"
     >
       {/* TODO: Ask chatgpt for a better copy text */}
-      <h1 className="relative z-10 text-4xl sm:text-5xl leading-[1.25] md:text-6xl md:leading-[1.25]  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+      <h1 className="relative z-10 text-4xl sm:text-5xl leading-[1.25] md:text-6xl md:leading-[1.25]  bg-clip-text text-transparent bg-gradient-to-b from-[#1F1F1F] to-neutral-500 dark:from-neutral-200 dark:to-neutral-600 text-center font-sans font-bold">
         Create Extraordinary Landing Pages
       </h1>
       <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
