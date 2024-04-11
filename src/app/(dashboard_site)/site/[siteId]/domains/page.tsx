@@ -8,7 +8,6 @@ import { getDomainsSiteCardById } from "@/lib/actions/site";
 
 import { CardInputs, SitePageParams } from "@/types";
 
-
 const DomainsSettingsPage = async ({ params: { siteId } }: SitePageParams) => {
   const domainsSiteCard = await getDomainsSiteCardById(siteId);
   if (!domainsSiteCard) {
