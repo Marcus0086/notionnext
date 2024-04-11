@@ -28,20 +28,20 @@ const CardInput = ({
     type === "text"
       ? name
       : type === "url"
-      ? !url
-        ? ""
-        : `https://notion.so/${url}`
-      : type === "font"
-      ? font
-      : type === "visibility"
-      ? visibility
-      : type === "opentext"
-      ? title
-      : type === "textarea"
-      ? description
-      : type === "listadd"
-      ? customDomain
-      : siteId;
+        ? !url
+          ? ""
+          : `https://notion.so/${url}`
+        : type === "font"
+          ? font
+          : type === "visibility"
+            ? visibility
+            : type === "opentext"
+              ? title
+              : type === "textarea"
+                ? description
+                : type === "listadd"
+                  ? customDomain
+                  : siteId;
   const Input = CardsInputFactory.getInput(type, value);
   return Input;
 };
