@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.19 AS base
+FROM node:20.12.2-alpine3.19 AS base
 
 # 1. Install dependencies only when needed
 FROM base AS deps
@@ -15,8 +15,6 @@ RUN \
     elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
     else echo "Lockfile not found." && exit 1; \
     fi
-
-
 # 2. Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -30,11 +28,7 @@ RUN npx prisma generate \
 # 3. Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
-
 COPY --from=builder /app .
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup \
-    && chown -R appuser:appgroup /app/.next
-USER appuser
 EXPOSE 3000
 
 CMD ["npm", "start"]
