@@ -25,6 +25,7 @@ export interface SiteConfig {
   isAiSearchEnabled?: boolean;
   isTopLoadingBarEnabled?: boolean;
   isSiteMapEnabled?: boolean;
+  isIndexingEnabled?: boolean;
   navbar_bg?: string;
   navbar_text_color?: string;
   main_bg?: string;
