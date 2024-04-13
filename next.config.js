@@ -2,16 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   webpack(config) {
-    (config.resolve.alias = {
-      ...config.resolve.alias,
-      handlebars: "handlebars/dist/handlebars.js",
-    }),
-      (config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        canvas: false,
-        encoding: false,
-      });
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      canvas: false,
+      encoding: false,
+    };
     return config;
   },
   images: {
@@ -35,10 +31,12 @@ const nextConfig = {
   //     ? require.resolve("./cacheHandler.js")
   //     : undefined,
   // cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
+  deploymentId:
+    process.env.NODE_ENV === "production"
+      ? process.env.DEPLOYMENT_ID
+      : undefined,
   experimental: {
     optimisticClientCache: false,
-    useDeploymentId: true,
-    useDeploymentIdServerActions: true,
   },
   env: {
     NEXT_PUBLIC_ROOT_DOMAIN:
