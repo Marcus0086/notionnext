@@ -41,7 +41,7 @@ const getSocialImage = (image: string, blockId: string) => {
 
 const getSiteMetaData = (
   pageData: PageProps,
-  type?: string,
+  type?: string
 ): JsonMetaData | Metadata => {
   const { pageId, recordMap, site }: PageProps = pageData;
   const keys = Object.keys(recordMap?.block || {});
@@ -78,8 +78,18 @@ const getSiteMetaData = (
         }
       : {}),
     robots: {
-      index: true,
-      follow: true,
+      index:
+        pageData?.accountType !== "FREE"
+          ? pageData?.config?.isIndexingEnabled
+            ? true
+            : false
+          : false,
+      follow:
+        pageData?.accountType !== "FREE"
+          ? pageData?.config?.isIndexingEnabled
+            ? true
+            : false
+          : false,
     },
     icons: {
       icon: icon,
