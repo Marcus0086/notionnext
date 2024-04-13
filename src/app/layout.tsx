@@ -17,7 +17,7 @@ import "styles/prism-theme.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const poppins = Poppins({
-  subsets: ["latin", "latin-ext", "devanagari"],
+  subsets: ["latin", "latin-ext"],
   weight: ["100", "300", "400", "500", "700", "900"],
   display: "swap",
 });
@@ -49,7 +49,7 @@ export default async function RootLayout({
       <body
         className={cn(
           poppins.className,
-          "w-full h-screen bg-white dark:bg-neutral-950 dark:text-white overflow-auto",
+          "w-full h-screen bg-white dark:bg-neutral-950 dark:text-white overflow-auto"
         )}
       >
         <StyledJsxRegistry>
