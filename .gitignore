@@ -46,7 +46,9 @@ next-env.d.ts
 .pnp.loader.mjs
 .yarnrc.yml
 yarn.lock
+bun.lockb
 packages/*
 certificates
 db/*
 redis/*
+*.nix
