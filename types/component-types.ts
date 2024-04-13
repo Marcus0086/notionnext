@@ -50,7 +50,8 @@ type ToggleInputs =
   | "twitter"
   | "toploader"
   | "prettyurls"
-  | "sitemap";
+  | "sitemap"
+  | "indexing";
 
 type ComponentItem = {
   name: string;
