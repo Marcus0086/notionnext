@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import Image from "next/image";
 
 const SiteCard = dynamic(() => import("@/components/dashboard/siteCard"));
 import getSessionUser from "@/lib/getSessionUser";
@@ -7,7 +9,7 @@ import getSessionUser from "@/lib/getSessionUser";
 import { VisibilityFilter } from "@prisma/client";
 import { getUserSites } from "@/lib/actions/site";
 import { authOptions } from "@/components/auth/constants";
-import Image from "next/image";
+import LoadingCard from "@/components/dashboard/loadingCard";
 
 const DashboardHomePage = async ({
   searchParams: { filter = "draft" },
@@ -23,15 +25,17 @@ const DashboardHomePage = async ({
 
   const userSites = await getUserSites(
     filter.toLocaleUpperCase() as VisibilityFilter,
-    user.id,
+    user.id
   );
   return (
     <main className="mt-4 pb-20">
       {userSites.length > 0 ? (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full items-center justify-center gap-4">
-          {userSites.map((site) => (
-            <SiteCard {...site} key={site.id} />
-          ))}
+          <Suspense fallback={<LoadingCard />}>
+            {userSites.map((site) => (
+              <SiteCard {...site} key={site.id} />
+            ))}
+          </Suspense>
         </ul>
       ) : (
         <div className="flex flex-col items-center justify-center w-full font-medium text-center">
