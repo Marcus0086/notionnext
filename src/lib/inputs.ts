@@ -23,6 +23,7 @@ const isToggleInput = (type: string): type is ToggleInputs => {
     "toploader",
     "prettyurls",
     "sitemap",
+    "indexing",
   ].includes(type);
 };
 
