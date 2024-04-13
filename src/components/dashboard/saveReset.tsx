@@ -28,7 +28,7 @@ const generateLogMessage = (updatedData: any) => {
       field: "description",
       message: `Changed description to ${updatedData?.description?.slice(
         0,
-        100,
+        100
       )}`,
     },
     { field: "css", message: "Changed css" },
@@ -79,7 +79,7 @@ const generateLogMessage = (updatedData: any) => {
 
 const getUpdatedData = (
   settings: SiteSettings,
-  savedUris: Record<string, string>,
+  savedUris: Record<string, string>
 ) => {
   const updatedData: any = {};
   if (settings?.miscelanous?.visibility) {
@@ -166,6 +166,7 @@ const getUpdatedData = (
     "isTopLoadingBarEnabled",
     "includeNotionIdInUrls",
     "isSiteMapEnabled",
+    "isIndexingEnabled",
   ];
 
   miscelanousSettings.forEach((setting) => {
@@ -229,7 +230,12 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
       await revalidateSite(currentSiteName);
     }
     queryClient.invalidateQueries({
-      predicate: (query) => query.queryKey[0] === "slotSite",
+      predicate: (query) =>
+        query.queryKey[0] === "slotSite" && query.queryKey[1] === siteId,
+    });
+    queryClient.invalidateQueries({
+      predicate: (query) =>
+        query.queryKey[0] === "options" && query.queryKey[1] === siteId,
     });
   };
   const handleReset = () => {
@@ -241,8 +247,24 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
           css: "",
           javascript: "",
           html: "",
+          fontFamily: "default",
         },
         miscelanous: {},
+        config: {
+          ...settings?.config,
+          id: settings?.config?.id || "",
+          rootNotionPageId: settings?.config?.rootNotionPageId || "",
+          rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+          name: settings?.config?.name || "",
+          domain: settings?.config?.domain || "",
+          author: settings?.config?.author || "",
+          main_bg: undefined,
+          navbar_bg: undefined,
+          main_text_color: undefined,
+          navbar_text_color: undefined,
+          main_title_size: undefined,
+          main_text_size: undefined,
+        },
       });
     }
   };
