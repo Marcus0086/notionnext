@@ -294,9 +294,10 @@ const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
 
 const SEO_SETTINGS: Settings<CardInputs | ToggleInputs> = [
   {
-    title: "Enable SiteMaps",
-    description: "Enable public sitemaps for your site",
-    type: "sitemap",
+    title: "Search Engine Indexing",
+    description:
+      "Choose whether to allow search engines to show results for your site",
+    type: "indexing",
   },
   {
     title: "Site Title",
@@ -308,6 +309,11 @@ const SEO_SETTINGS: Settings<CardInputs | ToggleInputs> = [
     title: "Site Description",
     type: "textarea",
     description: "The meta description of your site",
+  },
+  {
+    title: "Enable SiteMaps",
+    description: "Enable public sitemaps for your site",
+    type: "sitemap",
   },
 ];
 
