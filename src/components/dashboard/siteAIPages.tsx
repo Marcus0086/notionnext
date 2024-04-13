@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const KnowledgeBases = dynamic(
-  () => import("@/components/dashboard/knowledgeBases"),
+  () => import("@/components/dashboard/knowledgeBases")
 );
 import { DataTable } from "@/components/dashboard/dataTable";
 import { PageLinks, columns } from "@/components/dashboard/column";
+import LoadingCard from "@/components/dashboard/loadingCard";
 
 import { getSiteDocuments } from "@/lib/actions/site";
 import getQueryClient from "@/context/queryClient";
@@ -28,7 +29,7 @@ const SiteAIPages = async ({
     ([key], index) =>
       ({
         path: index === 0 ? "/home" : key,
-      }) as PageLinks,
+      } as PageLinks)
   );
   const queryClient = getQueryClient();
   try {
@@ -46,7 +47,7 @@ const SiteAIPages = async ({
       <h3>Pages</h3>
       <DataTable data={pageLinks} columns={columns} />
       <HydrationBoundary state={dehydratedState}>
-        <Suspense>
+        <Suspense fallback={<LoadingCard />}>
           <KnowledgeBases siteId={siteId} page={page} />
         </Suspense>
       </HydrationBoundary>
