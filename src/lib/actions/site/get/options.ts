@@ -22,6 +22,7 @@ const getOptionsSiteCardById = cache(async (siteId: string) => {
           includeNotionIdInUrls: true,
           isSiteMapEnabled: true,
           isPreviewImageSupportEnabled: true,
+          isIndexingEnabled: true,
         },
       },
     },
