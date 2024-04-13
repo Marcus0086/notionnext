@@ -1,4 +1,9 @@
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
 import HomePageNavBar from "@/components/homePageNavBar";
+import LoadingCard from "@/components/dashboard/loadingCard";
+const FeatureGrid = dynamic(() => import("@/components/featureGrid"));
 
 export default async function HomeLayout({
   children,
@@ -9,6 +14,9 @@ export default async function HomeLayout({
     <main className="overflow-hidden bg-neutral-950">
       <HomePageNavBar />
       {children}
+      <Suspense fallback={<LoadingCard />}>
+        <FeatureGrid />
+      </Suspense>
     </main>
   );
 }
