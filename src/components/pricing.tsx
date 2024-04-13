@@ -1,20 +1,24 @@
 import { CheckIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 import { PLANS } from "@/components/dashboard/constants";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3dCard";
 const LampComponent = dynamic(() => import("@/components/ui/lampContainer"));
+import LoadingCard from "@/components/dashboard/loadingCard";
 
 import { cn } from "@/lib/utils";
 
 const Pricing = () => {
   return (
     <section>
-      <LampComponent />
+      <Suspense fallback={<LoadingCard />}>
+        <LampComponent />
+      </Suspense>
       <div
         className={cn(
           "flex flex-wrap items-center justify-center flex-col md:flex-row",
-          "gap-8 -mt-72 px-2",
+          "gap-8 -mt-72 px-2"
         )}
       >
         {PLANS.map(
@@ -26,7 +30,7 @@ const Pricing = () => {
                   "group/card dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1]",
                   "dark:bg-black dark:border-white/[0.2] border-black/[0.1]",
                   "w-[305px] sm:w-full md:w-[350px] h-auto",
-                  "rounded-xl !p-6 border",
+                  "rounded-xl !p-6 border"
                 )}
               >
                 <CardItem
@@ -80,7 +84,7 @@ const Pricing = () => {
                 )}
               </CardBody>
             </CardContainer>
-          ),
+          )
         )}
       </div>
     </section>
