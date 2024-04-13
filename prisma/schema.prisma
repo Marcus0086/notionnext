@@ -94,6 +94,7 @@ model SiteConfig {
   isAiSearchEnabled            Boolean? @default(false)
   isTopLoadingBarEnabled       Boolean? @default(false)
   isSiteMapEnabled             Boolean? @default(false)
+  isIndexingEnabled            Boolean? @default(false)
   navbar_bg                    String?
   navbar_text_color            String?
   main_bg                      String?
