@@ -11,7 +11,11 @@ import UpgardeButton from "@/components/dashboard/upgradeButton";
 
 import getSessionUser from "@/lib/getSessionUser";
 
-const UpgradePlanCard = async ({ type }: { type: "code" | "domains" }) => {
+const UpgradePlanCard = async ({
+  type,
+}: {
+  type: "code" | "domains" | "seo";
+}) => {
   const cardDescriptionMap = {
     code: {
       description:
@@ -20,6 +24,10 @@ const UpgradePlanCard = async ({ type }: { type: "code" | "domains" }) => {
     domains: {
       description:
         "Upgrade to a paid plan to apply your custom domain to the live site. Unleash the full power of customization!",
+    },
+    seo: {
+      description:
+        "Upgrade to a paid plan to enable sitemaps and search engine indexing to the live site.",
     },
   };
   const user = await getSessionUser();
