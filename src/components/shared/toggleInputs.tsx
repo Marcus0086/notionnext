@@ -47,6 +47,10 @@ const ToggleButton = ({
               type === "sitemap"
                 ? !state.enabled
                 : settings?.config?.isSiteMapEnabled || false,
+            isIndexingEnabled:
+              type === "indexing"
+                ? !state.enabled
+                : settings?.config?.isIndexingEnabled || false,
           },
           miscelanous: {
             ...settings?.miscelanous,
@@ -73,6 +77,9 @@ const ToggleButton = ({
             }),
             ...(type === "sitemap" && {
               isSiteMapEnabled: !state.enabled,
+            }),
+            ...(type === "indexing" && {
+              isIndexingEnabled: !state.enabled,
             }),
           },
         }));
@@ -200,7 +207,7 @@ const IncludeNotionIdInUrlsToggle = ({ siteId }: { siteId: string }) => {
 
 const SiteMapToggle = ({ siteId }: { siteId: string }) => {
   const { data } = useQuery({
-    queryKey: ["options", siteId],
+    queryKey: ["seo", siteId],
     queryFn: () => getOptionsSiteCardById(siteId),
     placeholderData: null,
     staleTime: Infinity,
@@ -209,6 +216,19 @@ const SiteMapToggle = ({ siteId }: { siteId: string }) => {
   const value = data?.siteConfig?.isSiteMapEnabled || false;
 
   return <ToggleButton value={value} type="sitemap" />;
+};
+
+const IndexingToggle = ({ siteId }: { siteId: string }) => {
+  const { data } = useQuery({
+    queryKey: ["seo", siteId],
+    queryFn: () => getOptionsSiteCardById(siteId),
+    placeholderData: null,
+    staleTime: Infinity,
+  });
+
+  const value = data?.siteConfig?.isIndexingEnabled || false;
+
+  return <ToggleButton value={value} type="indexing" />;
 };
 
 export {
@@ -220,4 +240,5 @@ export {
   IncludeNotionIdInUrlsToggle,
   SiteMapToggle,
   PreviewToggle,
+  IndexingToggle,
 };
