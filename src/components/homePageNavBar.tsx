@@ -8,14 +8,14 @@ import HoverBorderGradient from "@/components/ui/hoverBorderGradient";
 import { cn } from "@/lib/utils";
 import { domainSuffix, httpPrefix } from "@/lib/config";
 
-const HomePageNavBar = async () => {
+const HomePageNavBar = () => {
   return (
     <header
       className={cn(
         "fixed right-0 left-0 top-0 p-4",
         "bg-black/40 backdrop-blur-lg z-[100]",
         "flex items-center justify-between",
-        "border-b border-neutral-900",
+        "border-b border-neutral-900"
       )}
     >
       <aside className="flex items-center gap-[2px]">
