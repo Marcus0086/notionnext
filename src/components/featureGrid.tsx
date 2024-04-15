@@ -254,7 +254,7 @@ const items = [
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
   },
   {
-    title: "Customization",
+    title: "Custom Designs",
     description: (
       <span className="text-sm">
         Make your site look the way you want by customizing themes and designs.
