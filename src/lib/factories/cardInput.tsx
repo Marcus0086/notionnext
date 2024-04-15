@@ -10,6 +10,8 @@ import {
   OpenTextInput,
   InputAdd,
   TextAreaInput,
+  NavTypeInput,
+  FooterTypeInput,
 } from "@/components/shared/inputs";
 
 import { CardInputFactory, CardInputs, CardInputComponent } from "@/types";
@@ -27,6 +29,8 @@ class DefaultCardInputFactory implements CardInputFactory {
     opentext: OpenTextInput,
     textarea: TextAreaInput,
     listadd: InputAdd,
+    navtype: NavTypeInput,
+    footertype: FooterTypeInput,
   };
   getInput(type: CardInputs, value?: string | undefined): JSX.Element {
     const InputComponent = DefaultCardInputFactory.inputFactory[type];
