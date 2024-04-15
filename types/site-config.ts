@@ -1,5 +1,7 @@
-import { NavigationLink, NavigationStyle } from "./navigation";
-import { PageUrlOverridesMap } from "./page-url-overrides-map";
+import { FooterStyle, NavigationStyle, PageUrlOverrides } from "@prisma/client";
+
+import { NavigationLink } from "./navigation";
+import { FooterIcon } from "./footer";
 
 export interface SiteConfig {
   id: string;
@@ -11,12 +13,6 @@ export interface SiteConfig {
   author: string;
   description?: string;
   language?: string;
-
-  twitter?: string;
-  github?: string;
-  linkedin?: string;
-  newsletter?: string;
-  youtube?: string;
 
   isPreviewImageSupportEnabled?: boolean;
   isTweetEmbedSupportEnabled?: boolean;
@@ -36,9 +32,10 @@ export interface SiteConfig {
   footer_text_color?: string;
 
   includeNotionIdInUrls?: boolean;
-  pageUrlOverrides?: PageUrlOverridesMap;
-  pageUrlAdditions?: PageUrlOverridesMap;
+  pageUrlOverrides?: Array<PageUrlOverrides>;
 
   navigationStyle?: NavigationStyle;
+  footerStyle?: FooterStyle;
   navigationLinks?: Array<NavigationLink>;
+  footerIcons?: Array<FooterIcon>;
 }
