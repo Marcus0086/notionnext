@@ -1,4 +1,4 @@
-import { VisibilityFilter } from "@prisma/client";
+import { FooterStyle, NavigationStyle, VisibilityFilter } from "@prisma/client";
 import { MdInfoOutline } from "react-icons/md";
 
 import CardInput from "@/components/dashboard/cardInput";
@@ -26,6 +26,8 @@ const NameInputCard = ({
   siteDescription,
   toolTip,
   customDomain,
+  navigationStyle,
+  footerStyle,
 }: {
   title: string;
   description?: string;
@@ -40,12 +42,14 @@ const NameInputCard = ({
   siteDescription: string;
   toolTip?: string;
   customDomain?: string;
+  navigationStyle?: NavigationStyle;
+  footerStyle?: FooterStyle;
 }>) => {
   return (
     <li
       className={cn(
         "bg-white dark:bg-navy-800 shadow w-full rounded-xl",
-        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal",
+        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal"
       )}
     >
       <div className="flex items-center justify-center gap-x-2">
@@ -74,6 +78,8 @@ const NameInputCard = ({
         title={siteTitle}
         description={siteDescription}
         customDomain={customDomain}
+        navigationStyle={navigationStyle}
+        footerStyle={footerStyle}
       />
     </li>
   );
