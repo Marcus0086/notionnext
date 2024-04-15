@@ -47,14 +47,26 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+const ListItem = (
+  {
+    title,
+    children,
+    className,
+    href,
+    ...props
+  }: {
+    title: string;
+    children: React.ReactNode;
+    className?: string;
+    href: string;
+  },
+  ref: React.Ref<HTMLAnchorElement>
+) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
+          href={href}
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
@@ -66,11 +78,11 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );
-});
+};
 
 ListItem.displayName = "ListItem";
 
@@ -84,7 +96,7 @@ const NavigationMenuContentDescription = () => {
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
-                  <a
+                  <Link
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
@@ -95,7 +107,7 @@ const NavigationMenuContentDescription = () => {
                     <p className="text-sm leading-tight text-muted-foreground">
                       Beautiful websites made easy.
                     </p>
-                  </a>
+                  </Link>
                 </NavigationMenuLink>
               </li>
               <ListItem
@@ -136,6 +148,13 @@ const NavigationMenuContentDescription = () => {
           <Link href="/docs" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Documentation
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/pricing" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Pricing
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
