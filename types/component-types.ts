@@ -40,7 +40,9 @@ type CardInputs =
   | "url"
   | "visibility"
   | "delete"
-  | "listadd";
+  | "listadd"
+  | "navtype"
+  | "footertype";
 
 type ToggleInputs =
   | "theme"
