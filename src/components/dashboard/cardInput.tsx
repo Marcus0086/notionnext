@@ -1,7 +1,8 @@
+import { FooterStyle, NavigationStyle, VisibilityFilter } from "@prisma/client";
+
 import { CardsInputFactory } from "@/lib/factories/cardInput";
 
 import { CardInputs } from "@/types";
-import { VisibilityFilter } from "@prisma/client";
 
 const CardInput = ({
   type,
@@ -13,6 +14,8 @@ const CardInput = ({
   title,
   description,
   customDomain,
+  navigationStyle,
+  footerStyle,
 }: {
   type: CardInputs;
   name?: string;
@@ -23,25 +26,31 @@ const CardInput = ({
   title?: string;
   description?: string;
   customDomain?: string;
+  navigationStyle?: NavigationStyle;
+  footerStyle?: FooterStyle;
 }) => {
   const value =
     type === "text"
       ? name
       : type === "url"
-        ? !url
-          ? ""
-          : `https://notion.so/${url}`
-        : type === "font"
-          ? font
-          : type === "visibility"
-            ? visibility
-            : type === "opentext"
-              ? title
-              : type === "textarea"
-                ? description
-                : type === "listadd"
-                  ? customDomain
-                  : siteId;
+      ? !url
+        ? ""
+        : `https://notion.so/${url}`
+      : type === "font"
+      ? font
+      : type === "visibility"
+      ? visibility
+      : type === "opentext"
+      ? title
+      : type === "textarea"
+      ? description
+      : type === "listadd"
+      ? customDomain
+      : type === "navtype"
+      ? (navigationStyle as string)
+      : type === "footertype"
+      ? (footerStyle as string)
+      : "";
   const Input = CardsInputFactory.getInput(type, value);
   return Input;
 };
