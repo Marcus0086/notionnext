@@ -11,12 +11,11 @@ const HomePage = () => {
   return (
     <>
       <Hero />
-      <section>
+      <section className="-mt-[200px]">
         <Suspense fallback={<LoadingCard />}>
           <HeroParallax products={DEMOS} />
         </Suspense>
       </section>
-      <Pricing />
     </>
   );
 };
