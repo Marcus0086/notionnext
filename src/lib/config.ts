@@ -1,4 +1,4 @@
-const uuid = process.env.NODE_ENV === "development" ? true : false;
+const uuid = false;
 
 const domainSuffix =
   process.env.NODE_ENV === "development"
