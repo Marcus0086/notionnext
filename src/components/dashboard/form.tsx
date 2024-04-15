@@ -43,7 +43,18 @@ const CreateSiteForm = () => {
           required
           className="w-full outline-none text-cloudBurst dark:text-white rounded-xl py-2 px-4 bg-selago dark:bg-blueZodiac/40"
         />
-        <FormSubmitButton>Create</FormSubmitButton>
+        <div className="flex items-center justify-center gap-x-4 mt-5">
+          <FormSubmitButton>Create</FormSubmitButton>
+          <div className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-400 rounded-xl">
+            <label
+              htmlFor="toggle"
+              className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Enable Private Pages
+            </label>
+            <input type="checkbox" name="toggle" />
+          </div>
+        </div>
       </div>
     </form>
   );
