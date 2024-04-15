@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import { useTheme } from "next-themes";
@@ -12,6 +12,8 @@ import { useServerInsertedHTML } from "next/navigation";
 import PageLink from "@/components/dashboard/pageLink";
 import Tweet from "@/components/shared/tweet";
 import NavHeader from "@/components/dashboard/navHeader";
+import HomePageNavBar from "@/components/homePageNavBar";
+import Footer from "@/components/footer";
 
 import {
   Code,
@@ -43,6 +45,25 @@ const NotionPage: React.FC<PageProps> = ({
   accountType,
 }) => {
   const { theme } = useTheme();
+
+  const getNavHeader = useCallback(
+    ({ block }: { block: CollectionViewPageBlock | PageBlock }) => {
+      return config?.navigationStyle === "shared" && isLive ? (
+        <HomePageNavBar />
+      ) : (
+        NavHeader({
+          block,
+          siteConfig: config,
+          site: site,
+          recordMap,
+          accountType,
+          isLive,
+        })
+      );
+    },
+    [accountType, config, isLive, recordMap, site]
+  );
+
   const components = useMemo<Partial<NotionComponents>>(
     () => ({
       nextImage: Image,
@@ -56,17 +77,9 @@ const NotionPage: React.FC<PageProps> = ({
       propertyLastEditedTimeValue,
       propertyDateValue,
       propertyTextValue,
-      Header: ({ block }: { block: CollectionViewPageBlock | PageBlock }) =>
-        NavHeader({
-          block,
-          siteConfig: config,
-          site: site,
-          recordMap,
-          accountType,
-          isLive,
-        }),
+      Header: getNavHeader,
     }),
-    [accountType, config, isLive, recordMap, site],
+    [getNavHeader]
   );
 
   const siteMapPageUrl = useMemo(() => {
@@ -77,55 +90,6 @@ const NotionPage: React.FC<PageProps> = ({
       return mapPageUrl(site, recordMap, searchParams);
     }
   }, [site, recordMap]);
-
-  // console.log('Notionpage data:', {
-  //     siteMapPageUrl: siteMapPageUrl?.(config?.rootNotionPageId || "")
-  // })
-
-  // const [newRecordMap, setNewRecordMap] = useState<ExtendedRecordMap | undefined>(undefined)
-
-  // useEffect(() => {
-  //     const getNewRecordMap = async () => {
-  //         if (recordMap) {
-  //             try {
-  //                 const parsedRecordMap = recordMap;
-  //                 const collectionKeys = Object.keys(parsedRecordMap.collection)
-
-  //                 const blockKeys = Object.keys(parsedRecordMap.block).reverse()
-
-  //                 const collectionQueryKeys = Object.keys(parsedRecordMap.collection_query[collectionKeys[0]])
-
-  //                 const firstBlock = parsedRecordMap.block[blockKeys[0]].value;
-
-  //                 const stringifiedRecordMap = JSON.stringify(recordMap)
-  //                 console.log('Stringified recordMap:', stringifiedRecordMap)
-  //                 const data = await getData()
-
-  //                 webTemplateEngine(stringifiedRecordMap, data).then((result) => {
-  //                     // for (let i in result) {
-  //                     //     const block = result[i];
-
-  //                     //     // delete parsedRecordMap.block[blockKeys[0]]
-
-  //                     //     parsedRecordMap.block[block.id] = {
-  //                     //         role: "reader",
-  //                     //         value: block
-  //                     //     }
-
-  //                     //     parsedRecordMap
-  //                     //         .collection_query[collectionKeys[0]][collectionQueryKeys[0]]
-  //                     //         .collection_group_results?.blockIds.push(block.id)
-  //                     // }
-  //                 })
-  //                 setNewRecordMap(parsedRecordMap)
-  //             } catch (error) {
-  //                 console.error('Error in recordMap:', error)
-  //                 setNewRecordMap(recordMap)
-  //             }
-  //         }
-  //     }
-  //     getNewRecordMap()
-  // }, [recordMap])
 
   const dynamicCss = site?.css || "";
   const html = site?.html || "";
@@ -148,6 +112,16 @@ const NotionPage: React.FC<PageProps> = ({
   const isBlogPost =
     block?.type === "page" && block?.parent_table === "collection";
 
+  const footer = useMemo(
+    () =>
+      config?.footerStyle === "shared" && isLive ? (
+        <Footer />
+      ) : config?.footerStyle === "none" ? null : config?.footerStyle ===
+        "custom" ? (
+        <></>
+      ) : null,
+    [config?.footerStyle, isLive]
+  );
   return (
     <>
       <style jsx global>{`
@@ -244,7 +218,7 @@ const NotionPage: React.FC<PageProps> = ({
       {recordMap ? (
         <NotionRenderer
           bodyClassName={cn(
-            pageId === site?.rootNotionPageId ? "index-page" : "",
+            pageId === site?.rootNotionPageId ? "index-page" : ""
           )}
           showTableOfContents={isBlogPost}
           components={components}
@@ -258,6 +232,7 @@ const NotionPage: React.FC<PageProps> = ({
             config?.isDarkModeEnabled && theme === "dark" ? true : false
           }
           searchNotion={(params) => searchNotion(params)}
+          footer={footer}
         />
       ) : (
         <></>
