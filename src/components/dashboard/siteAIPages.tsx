@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const KnowledgeBases = dynamic(
-  () => import("@/components/dashboard/knowledgeBases")
+  () => import("@/components/dashboard/knowledgeBases"),
 );
 import { DataTable } from "@/components/dashboard/dataTable";
 import { PageLinks, columns } from "@/components/dashboard/column";
@@ -29,7 +29,7 @@ const SiteAIPages = async ({
     ([key], index) =>
       ({
         path: index === 0 ? "/home" : key,
-      } as PageLinks)
+      }) as PageLinks,
   );
   const queryClient = getQueryClient();
   try {

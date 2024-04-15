@@ -31,8 +31,8 @@ const SiteCard = ({
     visibility === VisibilityFilter.LIVE
       ? ["bg-green-400", "border-green-400", "text-green-400"]
       : visibility === VisibilityFilter.DRAFT
-      ? ["bg-yellow-400", "border-yellow-400", "text-yellow-400"]
-      : ["bg-red-400", "border-red-400", "text-red-400"];
+        ? ["bg-yellow-400", "border-yellow-400", "text-yellow-400"]
+        : ["bg-red-400", "border-red-400", "text-red-400"];
   return (
     <li
       className={cn(
@@ -40,7 +40,7 @@ const SiteCard = ({
         settings ? "w-full" : "w-11/12",
         "rounded-[20px] bg-white dark:bg-navy-800 shadow transition duration-200 ease-in-out",
         "hover:shadow-xl px-4 py-4",
-        "flex flex-col items-start justify-between gap-y-3 font-normal mx-auto"
+        "flex flex-col items-start justify-between gap-y-3 font-normal mx-auto",
       )}
     >
       {!settings && (
@@ -61,7 +61,7 @@ const SiteCard = ({
         <h3
           className={cn(
             "text-cloudBurst dark:text-white capitalize",
-            settings ? "text-2xl font-semibold" : "text-base font-normal"
+            settings ? "text-2xl font-semibold" : "text-base font-normal",
           )}
         >
           {name || ""}
@@ -94,7 +94,7 @@ const SiteCard = ({
           className={cn(
             "px-2 py-1 rounded-3xl flex items-center justify-center gap-x-1",
             border,
-            "border border-solid"
+            "border border-solid",
           )}
         >
           <div className={cn("rounded-full w-1 h-1", bg)} />
