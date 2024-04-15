@@ -1,10 +1,14 @@
 import { getAllPagesInSpace, uuidToId } from "notion-utils";
 import pMemoize from "p-memoize";
-import { CanonicalPageMap, SiteConfig, SiteMap } from "../../types";
-import { getCanonicalPageId } from "./getCanonicalPageId";
-import { getNotionClient } from "./notion";
 
-const uuid_dev = process.env.NODE_ENV === "development" ? true : false;
+import { getCanonicalPageId } from "@/lib/getCanonicalPageId";
+import { getNotionClient } from "@/lib/notion";
+
+import { uuid } from "@/lib/config";
+
+import { CanonicalPageMap, SiteConfig, SiteMap } from "@/types";
+
+const uuid_dev = uuid;
 
 export async function getSiteMap(
   config: SiteConfig,
