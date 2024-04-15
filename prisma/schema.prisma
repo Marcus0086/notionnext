@@ -81,12 +81,6 @@ model SiteConfig {
   author   String
   language String?
 
-  twitter    String?
-  github     String?
-  linkedin   String?
-  newsletter String?
-  youtube    String?
-
   isPreviewImageSupportEnabled Boolean? @default(false)
   isTweetEmbedSupportEnabled   Boolean? @default(false)
   isDarkModeEnabled            Boolean? @default(false)
@@ -106,7 +100,9 @@ model SiteConfig {
 
   includeNotionIdInUrls Boolean?           @default(false)
   navigationStyle       NavigationStyle?   @default(default)
+  footerStyle           FooterStyle?       @default(none)
   navigationLinks       NavigationLink[]
+  footerIcons           FooterIcon[]
   PageUrlOverrides      PageUrlOverrides[]
   Site                  Site?
 }
@@ -114,7 +110,8 @@ model SiteConfig {
 model PageUrlOverrides {
   id           String     @id @default(uuid())
   pagePath     String
-  SiteConfig   SiteConfig @relation(fields: [siteConfigId], references: [id])
+  pageId       String
+  SiteConfig   SiteConfig @relation(fields: [siteConfigId], references: [id], onDelete: Cascade)
   siteConfigId String
 
   @@index([siteConfigId])
@@ -125,7 +122,18 @@ model NavigationLink {
   title        String
   pageId       String?
   url          String?
-  SiteConfig   SiteConfig @relation(fields: [siteConfigId], references: [id])
+  SiteConfig   SiteConfig @relation(fields: [siteConfigId], references: [id], onDelete: Cascade)
+  siteConfigId String
+
+  @@index([siteConfigId])
+}
+
+model FooterIcon {
+  id           String         @id @default(uuid())
+  title        String
+  icon         FooterIconType
+  url          String
+  SiteConfig   SiteConfig     @relation(fields: [siteConfigId], references: [id], onDelete: Cascade)
   siteConfigId String
 
   @@index([siteConfigId])
@@ -213,4 +221,31 @@ enum AccountType {
 enum NavigationStyle {
   default
   custom
+  shared
+}
+
+enum FooterStyle {
+  none
+  custom
+  shared
+}
+
+enum FooterIconType {
+  Twitter
+  Github
+  Linkedin
+  Newsletter
+  Youtube
+  Threads
+  WhatsApp
+  Instagram
+  Facebook
+  Pinterest
+  Snapchat
+  Reddit
+  Discord
+  Slack
+  Telegram
+  Twitch
+  GooglePlay
 }
