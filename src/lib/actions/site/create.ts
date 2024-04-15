@@ -9,14 +9,22 @@ import getSessionUser from "@/lib/getSessionUser";
 import prisma from "@/lib/prisma";
 import { subdomainSchema } from "@/lib/validators/domains";
 
+const takenSubDomains = ["app", "api"];
+
 const createSite = async (formData: FormData) => {
   const sitename = formData.get("sitename") as string;
   const name = sitename.toLocaleLowerCase();
   const rootNotionPageId = formData.get("url") as string;
+  const isPrivatePage = formData.get("toggle") === "on";
   const uuidRootNotionPageId = parsePageId(rootNotionPageId, {
     uuid: false,
   });
   try {
+    if (takenSubDomains.includes(name)) {
+      return {
+        error: "This subdomain is reserved",
+      };
+    }
     await subdomainSchema.parseAsync(name);
     const user = await getSessionUser();
     if (!user) {
@@ -55,8 +63,8 @@ const createSite = async (formData: FormData) => {
       data: {
         name: name,
         subDomain: name,
-        notionAuthToken: user?.notionAuthToken,
-        notionUserId: user?.notionUserId,
+        notionAuthToken: isPrivatePage ? user?.notionAuthToken : undefined,
+        notionUserId: isPrivatePage ? user?.notionUserId : undefined,
         user: {
           connect: {
             id: userId,
