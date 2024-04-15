@@ -1,5 +1,6 @@
 import { ExtendedRecordMap } from "notion-types";
 import { parsePageId } from "notion-utils";
+import { PageUrlOverrides } from "@prisma/client";
 
 import * as acl from "./acl";
 import { getPage } from "./getPage";
@@ -8,38 +9,41 @@ import { getSiteMap } from "./getSiteMap";
 import { PageUrlOverridesMap, Site, SiteConfig, _SiteData } from "@/types";
 
 function cleanPageUrlMap(
-  pageUrlMap: PageUrlOverridesMap,
+  pageUrlOverrides: PageUrlOverrides[],
   {
     label,
   }: {
     label: string;
-  },
+  }
 ): PageUrlOverridesMap {
-  return Object.keys(pageUrlMap).reduce((acc, uri) => {
-    const pageId = pageUrlMap[uri];
+  if (pageUrlOverrides.length === 0) {
+    return {};
+  }
+  const pageUrlMap = pageUrlOverrides.reduce((acc, { pageId, pagePath }) => {
     const uuid = parsePageId(pageId, { uuid: false });
 
     if (!uuid) {
       throw new Error(`Invalid ${label} page id "${pageId}"`);
     }
 
-    if (!uri) {
+    if (!pagePath) {
       throw new Error(`Missing ${label} value for page "${pageId}"`);
     }
 
-    if (!uri.startsWith("/")) {
+    if (!pagePath.startsWith("/")) {
       throw new Error(
-        `Invalid ${label} value for page "${pageId}": value "${uri}" should be a relative URI that starts with "/"`,
+        `Invalid ${label} value for page "${pageId}": value "${pagePath}" should be a relative URI that starts with "/"`
       );
     }
 
-    const path = uri.slice(1);
+    const path = pagePath.slice(1);
 
     return {
       ...acc,
       [path]: uuid,
     };
-  }, {});
+  });
+  return pageUrlMap;
 }
 
 export const resolveNotionPage = async (
@@ -47,7 +51,7 @@ export const resolveNotionPage = async (
   siteConfig: SiteConfig,
   rawPageId?: string,
   siteData?: _SiteData,
-  shouldAddImage?: boolean,
+  shouldAddImage?: boolean
 ) => {
   let pageId: string;
   let recordMap: ExtendedRecordMap;
@@ -82,17 +86,12 @@ export const resolveNotionPage = async (
     console.log("In rawpage Id", { pageId, rawPageId });
     if (!pageId) {
       const pageUrlOverrides = cleanPageUrlMap(
-        siteConfig?.pageUrlOverrides || {},
-        { label: "pageUrlOverrides" },
-      );
-      const pageUrlAdditions = cleanPageUrlMap(
-        siteConfig?.pageUrlAdditions || {},
-        { label: "pageUrlAdditions" },
+        siteConfig?.pageUrlOverrides || [],
+        { label: "pageUrlOverrides" }
       );
       // check if the site configuration provides an override or a fallback for
       // the page's URI
-      const override =
-        pageUrlOverrides[rawPageId] || pageUrlAdditions[rawPageId];
+      const override = pageUrlOverrides[rawPageId];
 
       if (override) {
         pageId = parsePageId(override);
