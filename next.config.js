@@ -35,9 +35,6 @@ const nextConfig = {
     process.env.NODE_ENV === "production"
       ? process.env.DEPLOYMENT_ID
       : undefined,
-  experimental: {
-    optimisticClientCache: false,
-  },
   env: {
     NEXT_PUBLIC_ROOT_DOMAIN:
       process.env.NODE_ENV === "production" && process.env.VERCEL === "1"
@@ -47,6 +44,16 @@ const nextConfig = {
   },
   generateBuildId: async () => {
     return process.env.GIT_HASH;
+  },
+  async rewrites() {
+    return {
+      fallback: [
+        {
+          source: "/home/features/:path*",
+          destination: `${process.env.DOCS_URL}/:path*`,
+        },
+      ],
+    };
   },
 };
 
