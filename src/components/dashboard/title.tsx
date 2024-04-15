@@ -11,7 +11,7 @@ const Titles: {
   ai: "AI",
   code: "Code",
   options: "Options",
-  navbar: "Navbar",
+  nav: "Navbar",
   footer: "Footer",
   domains: "Domains",
 };
