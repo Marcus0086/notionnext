@@ -359,6 +359,22 @@ const DOMAIN_SETTINGS: Settings<CardInputs> = [
   },
 ];
 
+const NAV_SETTINGS: Settings<CardInputs> = [
+  {
+    title: "Nav Type",
+    type: "navtype",
+    description: "Choose the type of navigation for your site",
+  },
+];
+
+const FOOTER_SETTINGS: Settings<CardInputs> = [
+  {
+    title: "Footer Type",
+    type: "footertype",
+    description: "Choose the type of footer for your site",
+  },
+];
+
 const GOOGLE_FONTS = ["Poppins", "Roboto", "Open Sans", "Lato", "Raleway"];
 
 const ALERT_MESSAGES = {
@@ -523,8 +539,7 @@ const DEMOS = [
 const PLANS = [
   {
     title: "Hobby",
-    price: "$0",
-    validity: "30 days",
+    price: "Free",
     description: "Get a glimpse of what you can do with Notionnext",
     features: [
       {
@@ -543,7 +558,7 @@ const PLANS = [
   },
   {
     title: "Pro",
-    price: "$10",
+    price: "$40",
     description: "Everything in Hobby plus",
     features: [
       {
@@ -582,7 +597,7 @@ const PLANS = [
   },
   {
     title: "Business",
-    price: "$50",
+    price: "$69",
     description: "Everything in Pro plus",
     contactSales: true,
     features: [
@@ -627,4 +642,6 @@ export {
   TESTIMONIALS,
   PLANS,
   DOMAIN_SETTINGS,
+  NAV_SETTINGS,
+  FOOTER_SETTINGS,
 };
