@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
   const currentHost = hostName.replace(
     ".localhost:3000",
-    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
+    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
   );
 
   const site = await getSiteSiteConfig({
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   const siteMapResponse = await getServerSideSitemap(pages);
   siteMapResponse.headers.set(
     "Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=3600"
+    "public, s-maxage=3600, stale-while-revalidate=3600",
   );
   return siteMapResponse;
 }

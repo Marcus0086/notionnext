@@ -6,7 +6,7 @@ import LoadingCard from "@/components/dashboard/loadingCard";
 import { GENERAL_SETTINGS } from "@/components/dashboard/constants";
 const SiteCard = dynamic(() => import("@/components/dashboard/siteCard"));
 const NameInputCard = dynamic(
-  () => import("@/components/dashboard/nameInputCard")
+  () => import("@/components/dashboard/nameInputCard"),
 );
 
 import { getGeneralSiteCardById } from "@/lib/actions/site";

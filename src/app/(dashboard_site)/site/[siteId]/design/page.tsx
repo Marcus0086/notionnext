@@ -7,13 +7,13 @@ import {
   DESIGN_SETTINGS_DROP_DOWN,
 } from "@/components/dashboard/constants";
 const NameInputCard = dynamic(
-  () => import("@/components/dashboard/nameInputCard")
+  () => import("@/components/dashboard/nameInputCard"),
 );
 const ColorPaletteDropDown = dynamic(
-  () => import("@/components/dashboard/colorPaletteDropDown")
+  () => import("@/components/dashboard/colorPaletteDropDown"),
 );
 const ColorPickerDropdown = dynamic(
-  () => import("@/components/dashboard/colorPickerDropdown")
+  () => import("@/components/dashboard/colorPickerDropdown"),
 );
 import LoadingCard from "@/components/dashboard/loadingCard";
 
