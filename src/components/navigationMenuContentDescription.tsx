@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { cn } from "@/lib/utils";
+import { config } from "@/config";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -41,7 +42,7 @@ const components: { title: string; href: string; description: string }[] = [
   },
   {
     title: "High Performance",
-    href: "/features/performance",
+    href: "/features/high-performance",
     description:
       "Get the best performance with latest technologies and optimizations.",
   },
@@ -67,7 +68,6 @@ const ListItem = (
       <NavigationMenuLink asChild>
         <Link
           href={href}
-          ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
@@ -102,7 +102,7 @@ const NavigationMenuContentDescription = () => {
                   >
                     {/* <Icons.logo className="h-6 w-6" /> */}
                     <div className="mb-2 mt-4 text-lg font-medium">
-                      Notionnext
+                      {config.COMAPNY_NAME}
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
                       Beautiful websites made easy.
@@ -114,7 +114,7 @@ const NavigationMenuContentDescription = () => {
                 href="/features/getting-started"
                 title="Creating a Site"
               >
-                Creating a site with Notionnext takes seconds.
+                Creating a site with {config.COMAPNY_NAME} takes seconds.
               </ListItem>
               <ListItem href="/features/customization" title="Customization">
                 Customize your site with themes and design.
@@ -144,19 +144,22 @@ const NavigationMenuContentDescription = () => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* <NavigationMenuItem>
           <Link href="/docs" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Documentation
             </NavigationMenuLink>
           </Link>
+        </NavigationMenuItem> */}
+        <NavigationMenuItem>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
+            <Link href="#showcase">Showcase</Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/pricing" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Pricing
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
+            <Link href="/pricing">Pricing</Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
