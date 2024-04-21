@@ -45,9 +45,9 @@ const getChildLinks = cache(
         });
         return acc;
       },
-      [] as PageLinks[],
+      [] as PageLinks[]
     );
-  },
+  }
 );
 
 const getDocuments = cache(
@@ -55,7 +55,7 @@ const getDocuments = cache(
     childLinks: PageLinks[],
     splitter: RecursiveCharacterTextSplitter,
     pagesSiteData: ProviderPageProps | undefined | null,
-    siteId: string,
+    siteId: string
   ) => {
     let documents: Document[] = [];
     if (childLinks.length > 0) {
@@ -74,7 +74,7 @@ const getDocuments = cache(
       }
     }
     return documents;
-  },
+  }
 );
 
 const getUniqueDocuments = cache(
@@ -83,10 +83,10 @@ const getUniqueDocuments = cache(
       return documents.reduce(
         (acc, document) => {
           const existingDocument = acc.find(
-            (item) => item.doc.source === document.source,
+            (item) => item.doc.source === document.source
           );
           const kb = knowledgeBases.find(
-            (kb) => kb.name === document.source.replace("/", ""),
+            (kb) => kb.name === document.source.replace("/", "")
           );
           if (existingDocument) {
             existingDocument.subDocuments.push(document);
@@ -103,17 +103,17 @@ const getUniqueDocuments = cache(
           doc: Document;
           subDocuments: Document[];
           kb?: KnowledgeBase;
-        }[],
+        }[]
       );
     }
     return [];
-  },
+  }
 );
 
 const getPageSlice = (
   pageMap: [string, string][],
   pageNumber: number,
-  pageSize: number,
+  pageSize: number
 ) => {
   const startIndex = pageNumber * pageSize;
   const endIndex = startIndex + pageSize;
@@ -124,30 +124,31 @@ const getPageSlice = (
 const getSiteDocuments = async (
   siteId: string,
   pageNumber: number = 0,
-  pageSize: number = 1,
+  pageSize: number = 1
 ) => {
-  const rootPageDataSiteMap: ProviderPageProps =
-    await getRootPageSiteData(siteId);
-  const allPagesSiteData = rootPageDataSiteMap;
+  const rootPageDataSiteData: ProviderPageProps = await getRootPageSiteData(
+    siteId
+  );
+  const allPagesSiteData = rootPageDataSiteData;
   const splitter = new RecursiveCharacterTextSplitter({
     chunkOverlap: 50,
     chunkSize: 1000,
   });
   const knowledgeBases = await getKnowledgeBases(siteId);
-  const indexPage = rootPageDataSiteMap?.pageId || "";
+  const indexPage = rootPageDataSiteData?.pageId || "";
   const canonicalPageMap = Object.entries(
-    rootPageDataSiteMap?.siteMap?.canonicalPageMap || {},
+    rootPageDataSiteData?.siteMap?.canonicalPageMap || {}
   );
   const pageSlice = getPageSlice(canonicalPageMap, pageNumber, pageSize);
-  if (rootPageDataSiteMap?.config) {
+  if (rootPageDataSiteData?.config) {
     for (const [key, value] of pageSlice) {
       const pageProps = await resolveNotionPage(
         siteId,
-        rootPageDataSiteMap.config,
-        value,
+        rootPageDataSiteData.config,
+        value
       );
       allPagesSiteData.allPageProps = {
-        ...rootPageDataSiteMap.allPageProps,
+        ...rootPageDataSiteData.allPageProps,
         [key]: pageProps,
       };
     }
@@ -157,11 +158,11 @@ const getSiteDocuments = async (
     childLinks,
     splitter,
     allPagesSiteData,
-    siteId,
+    siteId
   );
   let splittedDocumentsFromBlocks = getUniqueDocuments(
     documents,
-    knowledgeBases,
+    knowledgeBases
   );
 
   const nextCursor =
@@ -170,7 +171,6 @@ const getSiteDocuments = async (
       : null;
 
   return {
-    canonicalPageMap: childLinks,
     documents: splittedDocumentsFromBlocks,
     nextCursor,
   };
