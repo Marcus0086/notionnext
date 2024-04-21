@@ -1,10 +1,16 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { Separator } from "@/components/ui/separator";
 import AccountForm from "@/components/dashboard/accountForm";
 
 import getSessionUser from "@/lib/getSessionUser";
 import { getUserWithAccounts } from "@/lib/actions/user/account/get";
+
+export const metadata: Metadata = {
+  title: "Account | Dashboard",
+  description: "Add private page access or change your subscription.",
+};
 
 const SettingsAccountPage = async () => {
   const sessionUser = await getSessionUser();
