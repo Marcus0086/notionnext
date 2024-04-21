@@ -33,31 +33,32 @@ const HeroParallax = ({
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 1000]),
-    springConfig,
+    springConfig
   );
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, -1000]),
-    springConfig,
+    springConfig
   );
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
-    springConfig,
+    springConfig
   );
   const opacity = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
-    springConfig,
+    springConfig
   );
   const rotateZ = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [20, 0]),
-    springConfig,
+    springConfig
   );
   const translateY = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
-    springConfig,
+    springConfig
   );
   return (
     <div
       ref={ref}
+      id="showcase"
       className="h-[265vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-neutral-950"
     >
       <Header />
@@ -104,14 +105,15 @@ const HeroParallax = ({
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 px-4 w-full  left-0 top-0">
-      <h2 className="text-2xl md:text-7xl font-bold text-white">
-        The Ultimate Platform <br /> for your next website
+    <div className="max-w-7xl relative mx-auto py-20 px-4 w-full text-center left-0 top-0">
+      <h2 className="text-2xl md:text-6xl font-bold text-white">
+        Launch Your Website in Minutes
       </h2>
-      <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-200">
-        Create a website in couple of seconds that’s looks great, with instant
-        page loads, SEO optimization. Your content stays in your faviourite CMS
-        Notion while we handle the rest.
+      <p className="text-base md:text-xl mt-8 text-neutral-200">
+        Quickly launch your stunning website with fast page loads and built-in
+        SEO.
+        <br /> Keep using Notion, your preferred CMS, while we handle everything
+        else—effortlessly transforming your vision into reality.
       </p>
     </div>
   );
