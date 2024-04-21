@@ -38,38 +38,28 @@ const Code = dynamic(
       ]);
       return m.Code;
     }),
-  { ssr: false },
+  { ssr: false }
 );
 
 const Collection = dynamic(
   () =>
     import("react-notion-x/build/third-party/collection").then(
-      (m) => m.Collection,
+      (m) => m.Collection
     ),
-  { ssr: false },
+  { ssr: false }
 );
 const Equation = dynamic(() =>
-  import("react-notion-x/build/third-party/equation").then((m) => m.Equation),
+  import("react-notion-x/build/third-party/equation").then((m) => m.Equation)
 );
 const Pdf = dynamic(
   () => import("react-notion-x/build/third-party/pdf").then((m) => m.Pdf),
   {
     ssr: false,
-  },
-);
-const Modal = dynamic(
-  () =>
-    import("react-notion-x/build/third-party/modal").then((m) => {
-      m.Modal.setAppElement(".notion-viewport");
-      return m.Modal;
-    }),
-  {
-    ssr: false,
-  },
+  }
 );
 
 const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
   ssr: false,
 });
 
-export { Code, Collection, Pdf, Equation, Modal, MonacoEditor };
+export { Code, Collection, Pdf, Equation, MonacoEditor };
