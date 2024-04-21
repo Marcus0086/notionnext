@@ -219,6 +219,7 @@ enum AccountType {
 }
 
 enum NavigationStyle {
+  none
   default
   custom
   shared
