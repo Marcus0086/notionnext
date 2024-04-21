@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import { useTheme } from "next-themes";
@@ -8,6 +8,7 @@ import { NotionComponents, NotionRenderer } from "react-notion-x";
 import { CollectionViewPageBlock, PageBlock } from "notion-types";
 import parse from "html-react-parser";
 import { useServerInsertedHTML } from "next/navigation";
+import { Modal } from "react-notion-x/build/third-party/modal";
 
 import PageLink from "@/components/dashboard/pageLink";
 import Tweet from "@/components/shared/tweet";
@@ -15,13 +16,7 @@ import NavHeader from "@/components/dashboard/navHeader";
 import HomePageNavBar from "@/components/homePageNavBar";
 import Footer from "@/components/footer";
 
-import {
-  Code,
-  Collection,
-  Equation,
-  Modal,
-  Pdf,
-} from "@/lib/asyncPackageLoader";
+import { Code, Collection, Equation, Pdf } from "@/lib/asyncPackageLoader";
 import {
   propertyLastEditedTimeValue,
   propertyDateValue,
@@ -46,11 +41,17 @@ const NotionPage: React.FC<PageProps> = ({
 }) => {
   const { theme } = useTheme();
 
+  useEffect(() => {
+    if (recordMap) {
+      Modal.setAppElement(".notion-viewport");
+    }
+  }, [recordMap]);
+
   const getNavHeader = useCallback(
     ({ block }: { block: CollectionViewPageBlock | PageBlock }) => {
       return config?.navigationStyle === "shared" && isLive ? (
-        <HomePageNavBar />
-      ) : (
+        <HomePageNavBar block={block} siteConfig={config} />
+      ) : config?.navigationStyle === "none" ? null : (
         NavHeader({
           block,
           siteConfig: config,
@@ -183,6 +184,22 @@ const NotionPage: React.FC<PageProps> = ({
         `
           : ""}
 
+        ${config?.main_bg
+          ? `
+          .notion-search, .notion-search .searchInput {
+            background: ${config.main_bg} !important;
+          }
+        `
+          : ""}
+
+        ${config?.main_text_color
+          ? `
+          .notion-search .searchInput {
+            color: ${config.main_text_color} !important;
+          }
+        `
+          : ""}
+
         .notion-collection-page-properties {
           display: none !important;
         }
@@ -231,7 +248,7 @@ const NotionPage: React.FC<PageProps> = ({
           darkMode={
             config?.isDarkModeEnabled && theme === "dark" ? true : false
           }
-          searchNotion={(params) => searchNotion(params)}
+          searchNotion={config?.isSearchEnabled ? searchNotion : undefined}
           footer={footer}
         />
       ) : (
