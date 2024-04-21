@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import {
   Fragment,
   useCallback,
@@ -184,7 +185,10 @@ const DropDownInput = ({
   onChange: (value: string) => void;
 }) => {
   const values = useMemo(() => {
-    const optionsSet = new Set([...options, value]);
+    const optionsSet = new Set([
+      ...options.filter((option) => option !== value && option),
+      value,
+    ]);
     return [...optionsSet];
   }, [value, options]);
 
@@ -281,6 +285,8 @@ const FontInput = ({ value }: CardInputComponent) => {
 
 const NavTypeInput = ({ value }: CardInputComponent) => {
   const { setSettings } = useParentPageSettings();
+  const { data: session } = useSession();
+
   const setSelectedNavType = (value: string) => {
     setSettings((settings) => ({
       ...settings,
@@ -303,7 +309,12 @@ const NavTypeInput = ({ value }: CardInputComponent) => {
   return (
     <DropDownInput
       value={value}
-      options={["custom", "shared", "default"]}
+      options={[
+        "custom",
+        "default",
+        "none",
+        session?.user.role === "ADMIN" ? "shared" : "",
+      ]}
       onChange={setSelectedNavType}
     />
   );
@@ -311,6 +322,8 @@ const NavTypeInput = ({ value }: CardInputComponent) => {
 
 const FooterTypeInput = ({ value }: CardInputComponent) => {
   const { setSettings } = useParentPageSettings();
+  const { data: session } = useSession();
+
   const setSelectedFooterType = (value: string) => {
     setSettings((settings) => ({
       ...settings,
@@ -333,7 +346,11 @@ const FooterTypeInput = ({ value }: CardInputComponent) => {
   return (
     <DropDownInput
       value={value}
-      options={["none", "custom", "shared"]}
+      options={[
+        "none",
+        "custom",
+        session?.user.role === "ADMIN" ? "shared" : "",
+      ]}
       onChange={setSelectedFooterType}
     />
   );
@@ -424,6 +441,9 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
           await revalidateSite(isDeleted.data.subDomain);
         }
         setIsDeleting(false);
+        return {
+          success: true,
+        };
       } else {
         toast.error("Something went wrong!", toastOptions);
         ActivityLogger.deleteSite({
@@ -433,6 +453,9 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
             error: "Something went wrong!",
           },
         });
+        return {
+          success: false,
+        };
       }
     }
   };
@@ -468,8 +491,10 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
           title={ALERT_MESSAGES["DeleteSite"].title}
           description={ALERT_MESSAGES["DeleteSite"].description}
           continueAction={() => {
-            handleSubmit().then(() => {
-              router.push("/home");
+            handleSubmit().then((deletedData) => {
+              if (deletedData?.success) {
+                router.push("/home");
+              }
             });
           }}
         />
