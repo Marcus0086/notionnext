@@ -12,6 +12,7 @@ const getOptionsSiteCardById = cache(async (siteId: string) => {
       id: siteId,
     },
     select: {
+      name: true,
       siteConfig: {
         select: {
           isAiSearchEnabled: true,
