@@ -16,7 +16,7 @@ export const mapPageUrl =
     } else {
       return createUrl(
         `/${getCanonicalPageId(pageUuid, recordMap, { uuid })}`,
-        searchParams,
+        searchParams
       );
     }
   };
@@ -43,7 +43,7 @@ export const getCanonicalPageUrl =
         : `${httpPrefix}${site.subDomain}.${domainSuffix}/${getCanonicalPageId(
             pageUuid,
             recordMap,
-            { uuid },
+            { uuid }
           )}`;
     }
   };
