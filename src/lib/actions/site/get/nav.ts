@@ -11,6 +11,7 @@ const getNavSiteCardById = cache(async (siteId: string) => {
         id: siteId,
       },
       select: {
+        name: true,
         siteConfig: {
           select: {
             navigationLinks: true,

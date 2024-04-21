@@ -18,7 +18,10 @@ export async function generateMetadata({
 }: SitePageParams): Promise<Metadata> {
   const seoCard = await getOptionsSiteCardById(siteId);
   if (!seoCard) {
-    notFound();
+    return {
+      title: "Options Settings",
+      description: "Update your options settings.",
+    };
   }
   return {
     title: `${seoCard.name} | Options Settings`,

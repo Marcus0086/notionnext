@@ -14,7 +14,10 @@ export async function generateMetadata({
 }: SitePageParams): Promise<Metadata> {
   const domainCard = await getDomainsSiteCardById(siteId);
   if (!domainCard) {
-    notFound();
+    return {
+      title: "Domain Settings",
+      description: "Update your domain settings.",
+    };
   }
   return {
     title: `${domainCard.name} | Domain Settings`,

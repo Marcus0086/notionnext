@@ -27,7 +27,10 @@ export async function generateMetadata({
 }: SitePageParams): Promise<Metadata> {
   const designCard = await getDesignSiteCardById(siteId);
   if (!designCard) {
-    notFound();
+    return {
+      title: "Design Settings",
+      description: "Update your design settings.",
+    };
   }
   return {
     title: `${designCard.name} | Design Settings`,

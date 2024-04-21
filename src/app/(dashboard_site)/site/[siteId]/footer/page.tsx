@@ -8,6 +8,23 @@ import NameInputCard from "@/components/dashboard/nameInputCard";
 import { getFooterSiteCardById } from "@/lib/actions/site/get/footer";
 
 import { SitePageParams } from "@/types/site";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params: { siteId },
+}: SitePageParams): Promise<Metadata> {
+  const footerCard = await getFooterSiteCardById(siteId);
+  if (!footerCard) {
+    return {
+      title: "Footer Settings",
+      description: "Update your Footer settings.",
+    };
+  }
+  return {
+    title: `${footerCard.name} | Nav Settings`,
+    description: `Update your Nav settings for ${footerCard.name}.`,
+  };
+}
 
 const FooterSettings = async ({ params: { siteId } }: SitePageParams) => {
   const navSiteCard = await getFooterSiteCardById(siteId);

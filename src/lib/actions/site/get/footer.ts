@@ -11,6 +11,7 @@ const getFooterSiteCardById = cache(async (siteId: string) => {
         id: siteId,
       },
       select: {
+        name: true,
         siteConfig: {
           select: {
             footerIcons: true,

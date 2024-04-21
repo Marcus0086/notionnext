@@ -37,7 +37,10 @@ export async function generateMetadata({
 }: SitePageParams): Promise<Metadata> {
   const seoCard = await getOptionsSiteCardById(siteId);
   if (!seoCard) {
-    notFound();
+    return {
+      title: "SEO Settings",
+      description: "Update your SEO settings.",
+    };
   }
   return {
     title: `${seoCard.name} | SEO Settings`,
