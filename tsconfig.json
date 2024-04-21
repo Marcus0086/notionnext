@@ -16,13 +16,11 @@
     "baseUrl": ".",
     "incremental": true,
     "paths": {
-      "@/components/*": ["src/components/*"],
-      "@/lib/*": ["src/lib/*"],
+      "@/*": ["src/*"],
       "@/styles/*": ["styles/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/context/*": ["src/context/*"],
       "@/types/*": ["types/*"],
-      "@/types": ["types/index"]
+      "@/types": ["types/index"],
+      "@/config": ["global.config"]
     },
     "plugins": [
       {
