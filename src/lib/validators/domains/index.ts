@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { RecordType } from "@/lib/validators/domains/dns";
+import { config } from "@/config";
 
 const subdomainSchema = z.string().refine(
   async (value) => {
@@ -15,7 +16,7 @@ const subdomainSchema = z.string().refine(
   },
   {
     message: "Cannot create site with invalid subdomain name",
-  },
+  }
 );
 
 const customDomainSchema = z.string().refine(
@@ -27,11 +28,11 @@ const customDomainSchema = z.string().refine(
   },
   {
     message: "Cannot add invalid custom domain name",
-  },
+  }
 );
 
 const isApexDomain = (
-  domain: string,
+  domain: string
 ): {
   recordType: RecordType;
   expectedValue: string;
@@ -40,12 +41,12 @@ const isApexDomain = (
   if (dotCount === 1) {
     return {
       recordType: "A",
-      expectedValue: process.env.SERVER_IP as string,
+      expectedValue: config.SERVER_IP,
     };
   }
   return {
     recordType: "CNAME",
-    expectedValue: process.env.SERVER_DOMAIN as string,
+    expectedValue: config.SERVER_DOMAIN,
   };
 };
 export { subdomainSchema, customDomainSchema, isApexDomain };
