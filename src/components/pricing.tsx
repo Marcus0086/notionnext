@@ -18,11 +18,22 @@ const Pricing = () => {
       <div
         className={cn(
           "flex flex-wrap items-center justify-center flex-col md:flex-row",
-          "gap-8 -mt-72 px-2",
+          "gap-8 -mt-72 px-2"
         )}
       >
         {PLANS.map(
-          ({ title, price, description, features, contactSales }, index) => (
+          (
+            {
+              title,
+              price,
+              description,
+              features,
+              contactSales,
+              perse,
+              discount,
+            },
+            index
+          ) => (
             <CardContainer key={index}>
               <CardBody
                 className={cn(
@@ -30,15 +41,28 @@ const Pricing = () => {
                   "group/card dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1]",
                   "dark:bg-black dark:border-white/[0.2] border-black/[0.1]",
                   "w-[305px] sm:w-full md:w-[350px] h-auto",
-                  "rounded-xl !p-6 border",
+                  "rounded-xl !p-6 border"
                 )}
               >
                 <CardItem
+                  translateZ={60}
+                  className="text-sm max-w-sm mt-2 text-neutral-600 dark:text-white"
+                >
+                  {discount && (
+                    <div className="text-xs text-green-500 font-bold">
+                      {discount}
+                    </div>
+                  )}
+                </CardItem>
+                <CardItem
                   translateZ={50}
-                  className="text-xl font-bold text-neutral-600 dark:text-white"
+                  className="text-lg font-bold text-neutral-600 dark:text-white"
                 >
                   {title}
-                  <h2>{price}</h2>
+                  <h2 className="text-3xl mt-1">{price}</h2>
+                  <h3 className="text-sm dark:text-neutral-300 font-light mt-1">
+                    {perse}
+                  </h3>
                 </CardItem>
                 <CardItem
                   translateZ={60}
@@ -84,7 +108,7 @@ const Pricing = () => {
                 )}
               </CardBody>
             </CardContainer>
-          ),
+          )
         )}
       </div>
     </section>
