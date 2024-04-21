@@ -23,7 +23,7 @@ const UpgradePlanCard = async ({
     },
     domains: {
       description:
-        "Upgrade to a paid plan to apply your custom domain to the live site. Unleash the full power of customization!",
+        "Upgrade to a paid plan to allow your site to be available at your custom domain.",
     },
     seo: {
       description:
