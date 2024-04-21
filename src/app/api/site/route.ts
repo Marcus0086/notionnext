@@ -24,7 +24,7 @@ const GET = async (req: Request) => {
           },
           {
             status: 404,
-          },
+          }
         );
       }
       if (pageId) {
@@ -36,7 +36,7 @@ const GET = async (req: Request) => {
             },
             {
               status: 404,
-            },
+            }
           );
         }
       }
@@ -49,7 +49,7 @@ const GET = async (req: Request) => {
           },
           {
             status: 404,
-          },
+          }
         );
       }
 
@@ -71,7 +71,7 @@ const GET = async (req: Request) => {
       },
       {
         status: 404,
-      },
+      }
     );
   }
 };
