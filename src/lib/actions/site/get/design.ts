@@ -14,6 +14,7 @@ const getDesignSiteCardById = cache(async (siteId: string) => {
         id: siteId,
       },
       select: {
+        name: true,
         fontFamily: true,
         css: true,
       },
