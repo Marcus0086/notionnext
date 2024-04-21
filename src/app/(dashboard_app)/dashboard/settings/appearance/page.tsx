@@ -1,5 +1,12 @@
+import { Metadata } from "next";
+
 import { Separator } from "@/components/ui/separator";
 import AppearanceForm from "@/components/dashboard/appearanceForm";
+
+export const metadata: Metadata = {
+  title: "Appearance | Settings",
+  description: "Update your appearance settings.",
+};
 
 const SettingsAppearancePage = () => {
   return (

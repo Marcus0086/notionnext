@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import Image from "next/image";
+import { Metadata } from "next";
 
 const SiteCard = dynamic(() => import("@/components/dashboard/siteCard"));
 import getSessionUser from "@/lib/getSessionUser";
@@ -10,6 +11,11 @@ import { VisibilityFilter } from "@prisma/client";
 import { getUserSites } from "@/lib/actions/site";
 import { authOptions } from "@/components/auth/constants";
 import LoadingCard from "@/components/dashboard/loadingCard";
+
+export const metadata: Metadata = {
+  title: "Home | Dashboard",
+  description: "Your sites are here!",
+};
 
 const DashboardHomePage = async ({
   searchParams: { filter = "draft" },
@@ -25,7 +31,7 @@ const DashboardHomePage = async ({
 
   const userSites = await getUserSites(
     filter.toLocaleUpperCase() as VisibilityFilter,
-    user.id,
+    user.id
   );
   return (
     <main className="mt-4 pb-20">

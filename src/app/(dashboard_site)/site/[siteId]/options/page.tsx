@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { Metadata } from "next";
 
 import { OPTIONS_SETTINGS } from "@/components/dashboard/constants";
 const ToggleInput = dynamic(() => import("@/components/dashboard/toggleInput"));
@@ -11,6 +12,19 @@ import getQueryClient from "@/context/queryClient";
 import { getOptionsSiteCardById } from "@/lib/actions/site";
 
 import { SitePageParams } from "@/types";
+
+export async function generateMetadata({
+  params: { siteId },
+}: SitePageParams): Promise<Metadata> {
+  const seoCard = await getOptionsSiteCardById(siteId);
+  if (!seoCard) {
+    notFound();
+  }
+  return {
+    title: `${seoCard.name} | Options Settings`,
+    description: `Update your options settings for ${seoCard.name}.`,
+  };
+}
 
 const OptionsPage = async ({ params: { siteId } }: SitePageParams) => {
   const queryClient = getQueryClient();

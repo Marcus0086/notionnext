@@ -1,9 +1,15 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { Separator } from "@/components/ui/separator";
 import ProfileForm from "@/components/dashboard/profileForm";
 
 import getSessionUser from "@/lib/getSessionUser";
+
+export const metadata: Metadata = {
+  title: "Profile | Settings",
+  description: "Update your profile settings.",
+};
 
 const SettingsProfilePage = async () => {
   const sessionUser = await getSessionUser();

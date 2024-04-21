@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { DOMAIN_SETTINGS } from "@/components/dashboard/constants";
 import NameInputCard from "@/components/dashboard/nameInputCard";
@@ -7,6 +8,19 @@ import UpgradePlanCard from "@/components/dashboard/upgradePlanCard";
 import { getDomainsSiteCardById } from "@/lib/actions/site";
 
 import { CardInputs, SitePageParams } from "@/types";
+
+export async function generateMetadata({
+  params: { siteId },
+}: SitePageParams): Promise<Metadata> {
+  const domainCard = await getDomainsSiteCardById(siteId);
+  if (!domainCard) {
+    notFound();
+  }
+  return {
+    title: `${domainCard.name} | Domain Settings`,
+    description: `Update your options settings for ${domainCard.name}.`,
+  };
+}
 
 const DomainsSettingsPage = async ({ params: { siteId } }: SitePageParams) => {
   const domainsSiteCard = await getDomainsSiteCardById(siteId);
