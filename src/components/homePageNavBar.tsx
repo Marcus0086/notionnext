@@ -1,14 +1,28 @@
-import Link from "next/link";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
-import ThemeButton from "@/components/shared/themeButton";
+"use client";
 
+import Link from "next/link";
+import Image from "next/image";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { CollectionViewPageBlock, PageBlock } from "notion-types";
+import { Search } from "react-notion-x";
+
+import ThemeButton from "@/components/shared/themeButton";
 import NavigationMenuContentDescription from "@/components/navigationMenuContentDescription";
 import HoverBorderGradient from "@/components/ui/hoverBorderGradient";
 
 import { cn } from "@/lib/utils";
 import { domainSuffix, httpPrefix } from "@/lib/config";
+import { config } from "@/config";
 
-const HomePageNavBar = () => {
+import { SiteConfig } from "@/types";
+
+const HomePageNavBar = ({
+  siteConfig,
+  block,
+}: {
+  siteConfig?: SiteConfig;
+  block?: CollectionViewPageBlock | PageBlock;
+}) => {
   return (
     <header
       className={cn(
@@ -18,16 +32,28 @@ const HomePageNavBar = () => {
         "border-b border-neutral-900"
       )}
     >
-      <aside className="flex items-center gap-[2px]">
-        <Link href="/" className="font-bold tex-3xl text-white">
-          Nn
+      <aside className="flex items-center gap-2">
+        <Image
+          src="/favicon.ico"
+          width={24}
+          height={24}
+          alt={config.COMAPNY_NAME}
+        />
+        <Link href="/" className="font-bold text-2xl text-white">
+          {config.COMAPNY_NAME}
         </Link>
       </aside>
       <nav className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden lg:block">
         <NavigationMenuContentDescription />
       </nav>
       <aside className="flex items-center gap-4">
-        <Link href={`${httpPrefix}app.${domainSuffix}`}>
+        {siteConfig?.isSearchEnabled && block && (
+          <Search block={block} title={null} />
+        )}
+        <Link
+          className="hidden md:flex"
+          href={`${httpPrefix}app.${domainSuffix}`}
+        >
           <HoverBorderGradient>Dashboard</HoverBorderGradient>
         </Link>
         <HamburgerMenuIcon className="w-6 h-6 lg:hidden text-gray-300" />
