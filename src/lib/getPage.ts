@@ -1,5 +1,5 @@
 import { ExtendedRecordMap, SearchParams, SearchResults } from "notion-types";
-import { mergeRecordMaps } from "notion-utils";
+import { mergeRecordMaps, parsePageId } from "notion-utils";
 import pMap from "p-map";
 import pMemoize from "p-memoize";
 import { SiteConfig } from "../../types";
@@ -24,22 +24,22 @@ const getNavigationLinkPages = pMemoize(
           }),
         {
           concurrency: 4,
-        },
+        }
       );
     }
 
     return [];
-  },
+  }
 );
 
 export async function getPage(
   pageId: string,
-  config: SiteConfig,
+  config?: SiteConfig
 ): Promise<ExtendedRecordMap> {
-  const notion = await getNotionClient(config.id);
+  const notion = await getNotionClient(config?.id);
   let recordMap = await notion.getPage(pageId);
 
-  if (config.navigationStyle !== "default") {
+  if (config && config.navigationStyle !== "default") {
     // ensure that any pages linked to in the custom navigation header have
     // their block info fully resolved in the page record map so we know
     // the page title, slug, etc.
@@ -49,7 +49,7 @@ export async function getPage(
       recordMap = navigationLinkRecordMaps.reduce(
         (map, navigationLinkRecordMap) =>
           mergeRecordMaps(map, navigationLinkRecordMap),
-        recordMap,
+        recordMap
       );
     }
   }
@@ -57,7 +57,64 @@ export async function getPage(
   return recordMap;
 }
 
-export async function search(params: SearchParams): Promise<SearchResults> {
-  const notion = await getNotionClient();
-  return notion.search(params);
-}
+const fetchWrapper = async ({
+  endpoint,
+  body,
+  fetchOption,
+  headers: clientHeaders,
+}: {
+  endpoint: string;
+  body: object;
+  fetchOption: any;
+  headers?: HeadersInit;
+}) => {
+  const headers: HeadersInit = {
+    ...clientHeaders,
+    ...fetchOption?.headers,
+    "Content-Type": "application/json",
+  };
+
+  const url = `https://www.notion.so/api/v3/${endpoint}`;
+  const requestInit = {
+    method: "post",
+    body: JSON.stringify(body),
+    headers,
+    ...fetchOption,
+  };
+  if (fetchOption?.timeout !== undefined) {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), fetchOption.timeout);
+    requestInit.signal = ctrl.signal;
+  }
+
+  return fetch(url, requestInit).then((res) => res.json());
+};
+
+export const notionSearch = async (params: SearchParams, fetchOption?: any) => {
+  const body = {
+    type: "BlocksInAncestor",
+    source: "quick_find_filters",
+    ancestorId: parsePageId(params.ancestorId),
+    sort: { field: "relevance" },
+    limit: params.limit || 20,
+    query: params.query,
+    filters: {
+      isDeletedOnly: false,
+      navigableBlockContentOnly: false,
+      excludeTemplates: true,
+      requireEditPermissions: false,
+      ancestors: [],
+      createdBy: [],
+      editedBy: [],
+      lastEditedTime: {},
+      createdTime: {},
+      ...params.filters,
+    },
+  };
+
+  return fetchWrapper({
+    endpoint: "search",
+    body,
+    fetchOption,
+  });
+};
