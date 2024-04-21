@@ -31,7 +31,8 @@ const LampComponent = () => {
         }}
         className="text-center text-lg text-neutral-500 dark:text-neutral-400 mt-4"
       >
-        {"Doesn't"} like any of the plans? <br /> Contact us for a custom plan.
+        {"Doesn't"} like any of the plans? <br /> Or need more discount? <br />{" "}
+        Contact us for a custom plan.
       </motion.h2>
       <motion.button
         initial={{ opacity: 0.5, y: 100 }}
@@ -60,7 +61,7 @@ export const LampContainer = ({
     <div
       className={cn(
         "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-neutral-950 w-full z-0",
-        className,
+        className
       )}
     >
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
