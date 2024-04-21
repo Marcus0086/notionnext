@@ -50,7 +50,7 @@ const CardInput = ({
       ? (navigationStyle as string)
       : type === "footertype"
       ? (footerStyle as string)
-      : "";
+      : siteId;
   const Input = CardsInputFactory.getInput(type, value);
   return Input;
 };
