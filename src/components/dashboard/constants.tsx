@@ -1,4 +1,8 @@
+import React from "react";
+
 import { domainSuffix } from "@/lib/config";
+import { config } from "@/config";
+
 import {
   AsideMenuType,
   CardInputs,
@@ -74,12 +78,6 @@ const SETTINGS_ASIDE_MENU: AsideMenuType[] = [
     icon: "globe",
     isDefault: false,
     link: "/domains",
-  },
-  {
-    title: "AI",
-    icon: "AI",
-    isDefault: false,
-    link: "/ai",
   },
   {
     title: "Options",
@@ -294,12 +292,6 @@ const DESIGN_SETTINGS_DROP_DOWN: DesignSettingsDropDownType[] = [
 
 const SEO_SETTINGS: Settings<CardInputs | ToggleInputs> = [
   {
-    title: "Search Engine Indexing",
-    description:
-      "Choose whether to allow search engines to show results for your site",
-    type: "indexing",
-  },
-  {
     title: "Site Title",
     type: "text",
     description: "The meta title of your site",
@@ -309,6 +301,12 @@ const SEO_SETTINGS: Settings<CardInputs | ToggleInputs> = [
     title: "Site Description",
     type: "textarea",
     description: "The meta description of your site",
+  },
+  {
+    title: "Search Engine Indexing",
+    description:
+      "Choose whether to allow search engines to show results for your site",
+    type: "indexing",
   },
   {
     title: "Enable SiteMaps",
@@ -323,11 +321,11 @@ const OPTIONS_SETTINGS: Settings<ToggleInputs> = [
     description: "Toggle between light and dark mode",
     type: "theme",
   },
-  // {
-  //     title: 'Enable Search',
-  //     description: 'Search through your links or whole site',
-  //     type: 'search'
-  // },
+  {
+    title: "Enable Search",
+    description: "Search through your links or whole site",
+    type: "search",
+  },
   {
     title: "AI Chat",
     description: "Enable AI chat for your site",
@@ -395,10 +393,6 @@ const SIDEBAR_NAV_ITEMS = [
   {
     title: "Appearance",
     href: "/settings/appearance",
-  },
-  {
-    title: "Display",
-    href: "/settings/display",
   },
 ];
 
@@ -536,33 +530,55 @@ const DEMOS = [
   },
 ];
 
-const PLANS = [
+const PLANS: {
+  title: string;
+  price?: React.ReactNode;
+  description: string;
+  discount?: string;
+  perse?: string;
+  features: { title: string; info: string }[];
+  contactSales?: boolean;
+}[] = [
   {
     title: "Hobby",
-    price: "Free",
-    description: "Get a glimpse of what you can do with Notionnext",
+    discount: "100% off",
+    price: (
+      <span>
+        <s className="text-red-500">$17</s>
+        <span> Free</span>
+      </span>
+    ),
+    perse: "Per Site",
+    description: `Get a glimpse of what you can do with ${config.COMAPNY_NAME}`,
     features: [
       {
-        title: "Free hosting on notionnext domains",
-        info: "Create up to four custom sites with notionnext domains",
+        title: `Free hosting on ${config.COMAPNY_NAME} domains`,
+        info: `Create your faviourite sites with ${config.COMAPNY_NAME} domains`,
       },
       {
-        title: "Unlimited Customization",
+        title: "Unlimited Design Customization",
         info: "Customize your site with custom themes, fonts, and custom css",
       },
       {
-        title: "Marked with Powered by Notionnext badge",
-        info: "Your site will be marked with `Powered by Notionnext` badge",
+        title: "Manual publishing with previews",
+        info: "Publish your site manually to have more control over the content",
       },
     ],
   },
   {
     title: "Pro",
-    price: "$40",
+    discount: "30% off",
+    perse: "4 sites included, billed monthly",
+    price: (
+      <span>
+        <s className="text-red-500">$69</s>
+        <span> $48.3</span>
+      </span>
+    ),
     description: "Everything in Hobby plus",
     features: [
       {
-        title: "Custom Domain",
+        title: "Custom Domains",
         info: "Connect your existing custom domain",
       },
       {
@@ -578,27 +594,26 @@ const PLANS = [
         info: "Publish your site manually to have more control over the content",
       },
       {
-        title: "CDN cached sites",
-        info: "Your site will be cached on our CDN for faster load times",
-      },
-      {
         title: "Optimized for SEO",
-        info: "Get your site optimized for search engines (sitemap, robots, rss)",
+        info: "Get your site optimized for search engines (sitemap, robots)",
       },
       {
-        title: "No Notionnext badge",
-        info: "Your site will be free of `Powered by Notionnext` badge",
-      },
-      {
-        title: "Customer Support",
-        info: "Get help from our team of experts on email and chat",
+        title: `No ${config.COMAPNY_NAME} badge`,
+        info: `Your site will be free of 'Powered by ${config.COMAPNY_NAME}' badge`,
       },
     ],
   },
   {
     title: "Business",
-    price: "$69",
+    price: (
+      <span>
+        <s className="text-red-500">$169</s>
+        <span> $84.5</span>
+      </span>
+    ),
+    discount: "50% off",
     description: "Everything in Pro plus",
+    perse: "Upto 10 sites included, billed monthly",
     contactSales: true,
     features: [
       {
