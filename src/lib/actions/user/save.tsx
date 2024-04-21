@@ -1,8 +1,11 @@
 "use server";
 
-import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+import prisma from "@/lib/prisma";
+import { config } from "@/config";
+
+const ADMIN_MAIL = config.ADMIN_MAIL;
 const updateUser = async (userData: {
   id: string;
   username: string;
@@ -16,6 +19,8 @@ const updateUser = async (userData: {
       data: {
         name: userData.username,
         email: userData.email,
+        role: userData.email === ADMIN_MAIL ? "ADMIN" : "USER",
+        accountType: userData.email === ADMIN_MAIL ? "ENTERPRISE" : "FREE",
       },
       select: {
         id: true,
