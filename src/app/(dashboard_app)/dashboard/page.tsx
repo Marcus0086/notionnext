@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect, redirect } from "next/navigation";
 
 import { authOptions } from "@/components/auth/constants";
 
@@ -9,7 +9,7 @@ const DashboardPage = async () => {
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
-  redirect("/home");
+  permanentRedirect("/home");
 };
 
 export default DashboardPage;
