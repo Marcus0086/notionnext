@@ -50,7 +50,7 @@ const CreateSiteForm = () => {
               htmlFor="toggle"
               className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Enable Private Pages
+              Private Pages
             </label>
             <input type="checkbox" name="toggle" />
           </div>
