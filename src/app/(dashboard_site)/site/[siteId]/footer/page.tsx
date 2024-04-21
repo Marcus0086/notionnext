@@ -21,8 +21,8 @@ export async function generateMetadata({
     };
   }
   return {
-    title: `${footerCard.name} | Nav Settings`,
-    description: `Update your Nav settings for ${footerCard.name}.`,
+    title: `${footerCard.name} | Footer Settings`,
+    description: `Update your Footer settings for ${footerCard.name}.`,
   };
 }
 
