@@ -1,10 +1,16 @@
 import NextTopLoader from "nextjs-toploader";
 
+import AuthContext from "@/components/authContext";
+
 const SiteLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NextTopLoader showSpinner={false} />
-      <main className="w-full h-screen relative overflow-auto">{children}</main>
+      <AuthContext>
+        <main className="w-full h-screen relative overflow-auto">
+          {children}
+        </main>
+      </AuthContext>
     </>
   );
 };
