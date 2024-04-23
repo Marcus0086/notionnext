@@ -8,10 +8,6 @@ const date = new Date().getFullYear();
 
 const FooterLinks = [
   {
-    title: "Showcase",
-    href: "#showcase",
-  },
-  {
     title: "Pricing",
     href: "/pricing",
   },
@@ -45,8 +41,8 @@ const Footer = () => {
     <footer
       className={cn(
         "bg-neutral-950 border-gray-800 text-gray-400",
-        "mt-36 w-full gap-4 py-6 px-8 lg:px-32 border-t text-sm",
-        "flex flex-col items-start justify-center"
+        "w-full gap-4 py-6 px-8 lg:px-32 text-sm",
+        "flex flex-col items-start justify-center",
       )}
     >
       <nav className="flex items-center justify-center w-full sm:w-auto gap-2">
