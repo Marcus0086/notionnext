@@ -530,111 +530,198 @@ const DEMOS = [
   },
 ];
 
-const PLANS: {
-  title: string;
-  price?: React.ReactNode;
-  description: string;
-  discount?: string;
-  perse?: string;
-  features: { title: string; info: string }[];
-  contactSales?: boolean;
-}[] = [
-  {
-    title: "Hobby",
-    discount: "100% off",
-    price: (
-      <span>
-        <s className="text-red-500">$17</s>
-        <span> Free</span>
-      </span>
-    ),
-    perse: "Per Site",
-    description: `Get a glimpse of what you can do with ${config.COMAPNY_NAME}`,
-    features: [
-      {
-        title: `Free hosting on ${config.COMAPNY_NAME} domains`,
-        info: `Create your faviourite sites with ${config.COMAPNY_NAME} domains`,
-      },
-      {
-        title: "Unlimited Design Customization",
-        info: "Customize your site with custom themes, fonts, and custom css",
-      },
-      {
-        title: "Manual publishing with previews",
-        info: "Publish your site manually to have more control over the content",
-      },
-    ],
-  },
-  {
-    title: "Pro",
-    discount: "30% off",
-    perse: "4 sites included, billed monthly",
-    price: (
-      <span>
-        <s className="text-red-500">$69</s>
-        <span> $48.3</span>
-      </span>
-    ),
-    description: "Everything in Hobby plus",
-    features: [
-      {
-        title: "Custom Domains",
-        info: "Connect your existing custom domain",
-      },
-      {
-        title: "Custom Code",
-        info: "Add custom javscript to your site",
-      },
-      {
-        title: "Automatic SSL",
-        info: "Get automatic SSL for your custom domain",
-      },
-      {
-        title: "Manual publishing with previews",
-        info: "Publish your site manually to have more control over the content",
-      },
-      {
-        title: "Optimized for SEO",
-        info: "Get your site optimized for search engines (sitemap, robots)",
-      },
-      {
-        title: `No ${config.COMAPNY_NAME} badge`,
-        info: `Your site will be free of 'Powered by ${config.COMAPNY_NAME}' badge`,
-      },
-    ],
-  },
-  {
-    title: "Business",
-    price: (
-      <span>
-        <s className="text-red-500">$169</s>
-        <span> $84.5</span>
-      </span>
-    ),
-    discount: "50% off",
-    description: "Everything in Pro plus",
-    perse: "Upto 10 sites included, billed monthly",
-    contactSales: true,
-    features: [
-      {
-        title: "Priority Support",
-        info: "Get priority support from our team of experts",
-      },
-      {
-        title: "Custom Built Sites",
-        info: "Get a custom built site from our team of experts",
-      },
-      {
-        title: "Custom Built Themes",
-        info: "Get a custom built theme from our team of experts",
-      },
-      {
-        title: "Access to beta features",
-        info: "Get early access to new features and updates",
-      },
-    ],
-  },
-];
+interface PlanType {
+  [key: string]: {
+    title: string;
+    price: React.ReactNode;
+    discount?: string;
+    perse: string;
+    description: string;
+    features: { title: string; info: string }[];
+    contactSales?: boolean;
+  }[];
+}
+
+const PLANS: PlanType = {
+  Monthly: [
+    {
+      title: "Hobby",
+      price: "$5",
+      perse: "Per Site",
+      description: `Get a glimpse of what you can do with ${config.COMAPNY_NAME}`,
+      features: [
+        {
+          title: `Free hosting on ${config.COMAPNY_NAME} domains`,
+          info: `Create your faviourite sites with ${config.COMAPNY_NAME} domains`,
+        },
+        {
+          title: "Unlimited Design Customization",
+          info: "Customize your site with custom themes, fonts, and custom css",
+        },
+        {
+          title: "Manual publishing with previews",
+          info: "Publish your site manually to have more control over the content",
+        },
+      ],
+    },
+    {
+      title: "Pro",
+      perse: "4 sites included, billed monthly, $11/mo per site",
+      price: (
+        <span>
+          <span> $45</span>
+        </span>
+      ),
+      description: "Everything in Hobby plus",
+      features: [
+        {
+          title: "Custom Domains",
+          info: "Connect your existing custom domain",
+        },
+        {
+          title: "Custom Code",
+          info: "Add custom javscript to your site",
+        },
+        {
+          title: "Automatic SSL",
+          info: "Get automatic SSL for your custom domain",
+        },
+        {
+          title: "Manual publishing with previews",
+          info: "Publish your site manually to have more control over the content",
+        },
+        {
+          title: "Optimized for SEO",
+          info: "Get your site optimized for search engines (sitemap, robots)",
+        },
+        {
+          title: `No ${config.COMAPNY_NAME} badge`,
+          info: `Your site will be free of 'Powered by ${config.COMAPNY_NAME}' badge`,
+        },
+      ],
+    },
+    {
+      title: "Business",
+      price: (
+        <span>
+          <span> $110</span>
+        </span>
+      ),
+      description: "Everything in Pro plus",
+      perse: "Upto 10 sites included, billed monthly, $11/mo per site",
+      contactSales: true,
+      features: [
+        {
+          title: "Priority Support",
+          info: "Get priority support from our team of experts",
+        },
+        {
+          title: "Custom Built Sites",
+          info: "Get a custom built site from our team of experts",
+        },
+        {
+          title: "Custom Built Themes",
+          info: "Get a custom built theme from our team of experts",
+        },
+        {
+          title: "Access to beta features",
+          info: "Get early access to new features and updates",
+        },
+      ],
+    },
+  ],
+  Annually: [
+    {
+      title: "Hobby",
+      price: "$60",
+      perse: "Per Site billed anually, $5/mo per site",
+      description: `Create something great with ${config.COMAPNY_NAME}`,
+      features: [
+        {
+          title: `Free hosting on ${config.COMAPNY_NAME} domains`,
+          info: `Create your faviourite sites with ${config.COMAPNY_NAME} domains`,
+        },
+        {
+          title: "Unlimited Design Customization",
+          info: "Customize your site with custom themes, fonts, and custom css",
+        },
+        {
+          title: "Manual publishing with previews",
+          info: "Publish your site manually to have more control over the content",
+        },
+      ],
+    },
+    {
+      title: "Pro",
+      discount: "30% off",
+      perse: "Upto 5 sites included, billed anually, $7/mo per site",
+      price: (
+        <span>
+          <s className="text-red-500">$600</s>
+          <span> $420</span>
+        </span>
+      ),
+      description: "Everything in Hobby plus",
+      features: [
+        {
+          title: "Custom Domains",
+          info: "Connect your existing custom domain",
+        },
+        {
+          title: "Custom Code",
+          info: "Add custom javscript to your site",
+        },
+        {
+          title: "Automatic SSL",
+          info: "Get automatic SSL for your custom domain",
+        },
+        {
+          title: "Manual publishing with previews",
+          info: "Publish your site manually to have more control over the content",
+        },
+        {
+          title: "Optimized for SEO",
+          info: "Get your site optimized for search engines (sitemap, robots)",
+        },
+        {
+          title: `No ${config.COMAPNY_NAME} badge`,
+          info: `Your site will be free of 'Powered by ${config.COMAPNY_NAME}' badge`,
+        },
+      ],
+    },
+    {
+      title: "Business",
+      price: (
+        <span>
+          <s className="text-red-500">$1500</s>
+          <span> $750</span>
+        </span>
+      ),
+      discount: "50% off",
+      description: "Everything in Pro plus",
+      perse: "Unlimited sites included, billed anually, < $3/mo per site",
+      contactSales: true,
+      features: [
+        {
+          title: "Priority Support",
+          info: "Get priority support from our team of experts",
+        },
+        {
+          title: "Custom Built Sites",
+          info: "Get a custom built site from our team of experts",
+        },
+        {
+          title: "Custom Built Themes",
+          info: "Get a custom built theme from our team of experts",
+        },
+        {
+          title: "Access to beta features",
+          info: "Get early access to new features and updates",
+        },
+      ],
+    },
+  ],
+};
 
 export {
   META_DATA,
