@@ -41,7 +41,7 @@ export const config = {
     },
     {
       question: `Can I use ${COMAPNY_NAME} for free?`,
-      answer: `Yes, you can begin building your fully responsive ${COMAPNY_NAME} site at no cost, and enjoy the benefits of our free plan indefinitely.`,
+      answer: `Yes, you can begin building your fully responsive ${COMAPNY_NAME} site at no cost, and enjoy the benefits of our free plan for upto a month.`,
     },
   ],
 };
