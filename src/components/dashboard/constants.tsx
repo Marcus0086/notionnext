@@ -587,10 +587,6 @@ const PLANS: PlanType = {
           info: "Get automatic SSL for your custom domain",
         },
         {
-          title: "Manual publishing with previews",
-          info: "Publish your site manually to have more control over the content",
-        },
-        {
           title: "Optimized for SEO",
           info: "Get your site optimized for search engines (sitemap, robots)",
         },
@@ -674,10 +670,6 @@ const PLANS: PlanType = {
         {
           title: "Automatic SSL",
           info: "Get automatic SSL for your custom domain",
-        },
-        {
-          title: "Manual publishing with previews",
-          info: "Publish your site manually to have more control over the content",
         },
         {
           title: "Optimized for SEO",
