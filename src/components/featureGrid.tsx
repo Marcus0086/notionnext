@@ -11,6 +11,7 @@ import {
   IconTableColumn,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 import { BentoGrid, BentoGridItem } from "@/components/bentoGrid";
 import TryNowButton from "@/components/tryNow";
@@ -19,21 +20,23 @@ import { cn } from "@/lib/utils";
 
 export default function FeatureGrid() {
   return (
-    <section className="flex flex-col items-center justify-center gap-y-16 mt-16 mx-8">
+    <section className="flex flex-col items-center justify-center gap-y-16 mx-8">
       <TryNowButton />
       <h3 className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600 text-2xl sm:text-4xl md:text-6xl font-semibold">
         Features
       </h3>
       <BentoGrid className="mx-auto md:auto-rows-[20rem]">
         {items.map((item, i) => (
-          <BentoGridItem
-            key={i}
-            title={item.title}
-            description={item.description}
-            header={item.header}
-            className={cn("[&>p:text-lg]", item.className)}
-            icon={item.icon}
-          />
+          <Link href={item.href} key={i} className={cn(item.className)}>
+            <BentoGridItem
+              key={i}
+              title={item.title}
+              description={item.description}
+              header={item.header}
+              className={cn("[&>p:text-lg]")}
+              icon={item.icon}
+            />
+          </Link>
         ))}
       </BentoGrid>
     </section>
@@ -241,6 +244,7 @@ const items = [
     header: <SkeletonOne />,
     className: "md:col-span-1",
     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
+    href: "/features/custom-domains",
   },
   {
     title: "Enhanced SEO",
@@ -252,6 +256,7 @@ const items = [
     header: <SkeletonTwo />,
     className: "md:col-span-1",
     icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
+    href: "/features/seo",
   },
   {
     title: "Custom Designs",
@@ -263,6 +268,7 @@ const items = [
     header: <SkeletonThree />,
     className: "md:col-span-1",
     icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
+    href: "/features/customization",
   },
   {
     title: "Unlimited Flexibility & Integrations",
@@ -274,5 +280,6 @@ const items = [
     header: <SkeletonFour />,
     className: "md:col-span-3",
     icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
+    href: "/features/custom-code",
   },
 ];
