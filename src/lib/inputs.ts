@@ -3,13 +3,19 @@ import { CardInputs, ToggleInputs } from "@/types/component-types";
 const isCardInput = (type: string): type is CardInputs => {
   return [
     "text",
-    "opentext",
-    "textarea",
+    "url",
     "font",
     "media",
-    "url",
     "visibility",
     "delete",
+    "opentext",
+    "textarea",
+    "listadd",
+    "linksadd",
+    "navtype",
+    "footertype",
+    "footernote",
+    "footertitle",
   ].includes(type);
 };
 
@@ -24,6 +30,7 @@ const isToggleInput = (type: string): type is ToggleInputs => {
     "prettyurls",
     "sitemap",
     "indexing",
+    "footerdivider",
   ].includes(type);
 };
 
