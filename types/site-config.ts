@@ -1,4 +1,9 @@
-import { FooterStyle, NavigationStyle, PageUrlOverrides } from "@prisma/client";
+import {
+  FooterMenuItems,
+  FooterStyle,
+  NavigationStyle,
+  PageUrlOverrides,
+} from "@prisma/client";
 
 import { NavigationLink } from "./navigation";
 import { FooterIcon } from "./footer";
@@ -30,6 +35,9 @@ export interface SiteConfig {
   main_text_size?: string;
   footer_bg?: string;
   footer_text_color?: string;
+  footer_footnote?: string;
+  footer_title?: string;
+  footer_divider?: boolean;
 
   includeNotionIdInUrls?: boolean;
   pageUrlOverrides?: Array<PageUrlOverrides>;
@@ -38,4 +46,5 @@ export interface SiteConfig {
   footerStyle?: FooterStyle;
   navigationLinks?: Array<NavigationLink>;
   footerIcons?: Array<FooterIcon>;
+  footerMenuItems?: Array<FooterMenuItems>;
 }
