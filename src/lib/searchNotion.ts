@@ -8,5 +8,5 @@ export const searchNotion = cache(
   async (params: SearchParams): Promise<SearchResults> => {
     const results = await notionSearch(params);
     return results;
-  }
+  },
 );
