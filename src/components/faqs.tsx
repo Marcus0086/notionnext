@@ -70,11 +70,11 @@ const Faqs = () => {
         {config.FAQ_DATA.map(({ question, answer }, index) => (
           <AccordionItem value={`item-${index}`} key={index}>
             <AccordionTrigger>
-              <h4 className="text-xs md:text-base text-start text-white">
+              <h4 className="md:text-lg lg:text-xl text-start text-white">
                 {question}
               </h4>
             </AccordionTrigger>
-            <AccordionContent className="text-white leading-6 font-light">
+            <AccordionContent className="text-white leading-6 font-light text-sm md:text-base lg:text-lg">
               {answer}
             </AccordionContent>
           </AccordionItem>
