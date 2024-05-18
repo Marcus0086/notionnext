@@ -1,5 +1,6 @@
 "use client";
 
+import { nanoid } from "nanoid";
 import { useSession } from "next-auth/react";
 import {
   Fragment,
@@ -20,7 +21,12 @@ import { IoChevronUp } from "react-icons/io5";
 import { RxNotionLogo } from "react-icons/rx";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { FooterStyle, NavigationStyle, VisibilityFilter } from "@prisma/client";
+import {
+  FooterIconType,
+  FooterStyle,
+  NavigationStyle,
+  VisibilityFilter,
+} from "@prisma/client";
 import { z } from "zod";
 import { RiLoader4Line } from "react-icons/ri";
 import { MdError } from "react-icons/md";
@@ -38,6 +44,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import { useParentPageSettings } from "@/context/parentPage";
 
@@ -52,10 +78,12 @@ import {
   deleteCustomDomain,
   domainVerification,
 } from "@/lib/actions/domains";
+import { IconsFactory } from "@/lib/factories/icon";
 
 import useToast from "@/hooks/useToast";
 
-import { CardInputComponent } from "@/types";
+import { CardInputComponent, Icons } from "@/types";
+import { FooterIcon } from "@/types/footer";
 
 const NameInput = ({
   value,
@@ -88,8 +116,9 @@ const NameInput = ({
           placeholder={placeholder}
           name={name}
           className={cn(
+            disabled ? "text-gray-700" : "",
             "w-full h-10 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || ""
+            className || "",
           )}
         />
       );
@@ -103,7 +132,7 @@ const NameInput = ({
           name={name}
           className={cn(
             "w-full h-40 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || ""
+            className || "",
           )}
         />
       );
@@ -229,7 +258,7 @@ const DropDownInput = ({
                 cn(
                   "flex items-center justify-start gap-x-4 cursor-pointer select-none pl-3 w-full rounded-md",
                   active ? "bg-selago dark:bg-blueZodiac" : "",
-                  "capitalize"
+                  "capitalize",
                 )
               }
             >
@@ -312,7 +341,7 @@ const NavTypeInput = ({ value }: CardInputComponent) => {
       options={[
         "custom",
         "default",
-        "none",
+        "hidden",
         session?.user.role === "ADMIN" ? "shared" : "",
       ]}
       onChange={setSelectedNavType}
@@ -382,7 +411,7 @@ const MediaInput = ({ value }: CardInputComponent) => {
       className={cn(
         "flex items-center justify-center w-full px-3 py-6 text-center",
         "border-2 border-gray-300 border-dashed",
-        "rounded-lg bg-transparent"
+        "rounded-lg bg-transparent",
       )}
     >
       <label htmlFor="dropzone-file" className="cursor-pointer">
@@ -480,7 +509,7 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
             className={cn(
               "w-full h-10 rounded-xl",
               isDeleting ? "animate-pulse cursor-not-allowed" : "",
-              isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
+              isButtonDisabled ? "opacity-50 cursor-not-allowed" : "",
             )}
             disabled={isButtonDisabled}
           >
@@ -510,7 +539,7 @@ const InputAdd = ({ value }: CardInputComponent) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [textValue, setTextValue] = useState(value);
   const [isCustomDomainAdded, setIsCustomDomainAdded] = useState(
-    !!value || false
+    !!value || false,
   );
   const [cardContent, setCardContent] = useState<{
     description: string;
@@ -532,12 +561,12 @@ const InputAdd = ({ value }: CardInputComponent) => {
         await customDomainSchema.parseAsync(textValue);
         const customDomainUpdatedData = await addCustomDomain(
           textValue,
-          settings?.site?.id || ""
+          settings?.site?.id || "",
         );
         if (!customDomainUpdatedData) {
           toast.error(
             "Error adding custom domain. Please try again later.",
-            toastOptions
+            toastOptions,
           );
           return;
         }
@@ -690,6 +719,264 @@ const InputAdd = ({ value }: CardInputComponent) => {
   );
 };
 
+const SocialLinksAddInput = ({ value }: { value?: any }) => {
+  const toastOptions = useToast();
+  const { settings, setSettings } = useParentPageSettings();
+  const Delete = IconsFactory.getIcon("delete");
+  const socialIcons = useMemo(() => IconsFactory.getSocialIcons(), []);
+  const [currentIcon, setCurrentIcon] = useState<FooterIconType>();
+  const [icons, setIcons] = useState<FooterIcon[]>([...(value || [])]);
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+  const [open, setOpen] = useState(false);
+  const handleValueChange = (value: FooterIconType) => {
+    setCurrentIcon(value);
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+  const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUrl(e.target.value);
+  };
+
+  const formAction = async (data: FormData) => {
+    if (!currentIcon) {
+      toast.error("Please select an icon", toastOptions);
+      return;
+    }
+    const icon = {
+      icon: currentIcon,
+      title: title || currentIcon.toString(),
+      url,
+    };
+    if (
+      settings?.config?.footerIcons?.some(
+        (existingIcon) => existingIcon.title === icon.title,
+      )
+    ) {
+      toast.error("An icon with same title already exists", toastOptions);
+      return;
+    }
+    setIcons((icons) => [...icons, icon]);
+    setSettings((settings) => ({
+      ...settings,
+      miscelanous: {
+        ...settings?.miscelanous,
+      },
+      config: {
+        ...settings?.config,
+        id: settings?.config?.id || "",
+        rootNotionPageId: settings?.config?.rootNotionPageId || "",
+        rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+        name: settings?.config?.name || "",
+        domain: settings?.config?.domain || "",
+        author: settings?.config?.author || "",
+        footerIcons: [...(settings?.config?.footerIcons || []), icon],
+      },
+    }));
+    setTitle("");
+    setUrl("");
+    setCurrentIcon(undefined);
+    setOpen(false);
+  };
+
+  const handleDelete = (title: string) => {
+    setIcons((icons) => icons.filter((icon) => icon.title !== title));
+    setSettings((settings) => ({
+      ...settings,
+      miscelanous: {
+        ...settings?.miscelanous,
+      },
+      config: {
+        ...settings?.config,
+        id: settings?.config?.id || "",
+        rootNotionPageId: settings?.config?.rootNotionPageId || "",
+        rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+        name: settings?.config?.name || "",
+        domain: settings?.config?.domain || "",
+        author: settings?.config?.author || "",
+        footerIcons: settings?.config?.footerIcons?.filter(
+          (icon) => icon.title !== title,
+        ),
+      },
+    }));
+  };
+  return (
+    <>
+      <div className="flex items-center justify-center gap-x-2 w-full">
+        <Select onValueChange={handleValueChange}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select an Icon" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Select an Icon</SelectLabel>
+              {socialIcons.map((icon, index) => {
+                const Icon = IconsFactory.getIcon(icon);
+                return (
+                  <SelectItem key={index} value={icon}>
+                    <div className="flex items-center justify-start w-full gap-4">
+                      <Icon className="w-5 h-5" />
+                      {icon}
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button
+              variant="secondary"
+              className="w-1/4 h-10 rounded-md bg-blue-600 hover:bg-blue-700 !text-white"
+            >
+              Add
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Add Icon</DialogTitle>
+              <DialogDescription>
+                Add Title and Url for your icon
+              </DialogDescription>
+            </DialogHeader>
+            <form action={formAction}>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="title" className="text-right">
+                    Title
+                  </Label>
+                  <Input
+                    id="title"
+                    value={title}
+                    onChange={handleTitleChange}
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="url" className="text-right">
+                    URL
+                  </Label>
+                  <Input
+                    id="url"
+                    value={url}
+                    onChange={handleUrlChange}
+                    className="col-span-3"
+                    required
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <ul className="flex flex-col w-full items-center justify-center gap-4">
+        {icons.map((icon, index) => {
+          const Icon = IconsFactory.getIcon(icon.icon);
+          return (
+            <li
+              key={index}
+              className="flex items-center justify-between w-full px-4 py-2 border border-gray-300 rounded-lg bg-transparent dark:border-gray-700 dark:bg-navy-900"
+            >
+              <a
+                href={icon.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs flex items-center justify-center gap-2"
+              >
+                <Icon className="w-5 h-5" />
+                {icon.title}
+              </a>
+              <Button
+                onClick={() => handleDelete(icon.title)}
+                variant="ghost"
+                className="rounded-md"
+              >
+                <Delete className="w-5 h-5" />
+              </Button>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+};
+
+const FooterNoteInput = ({ value }: CardInputComponent) => {
+  const [textValue, setTextValue] = useState(value);
+  const { settings, setSettings } = useParentPageSettings();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTextValue(e.target.value);
+    setSettings((settings) => ({
+      ...settings,
+      miscelanous: {
+        ...settings?.miscelanous,
+        footer_footnote: e.target.value,
+      },
+      config: {
+        ...settings?.config,
+        id: settings?.config?.id || "",
+        rootNotionPageId: settings?.config?.rootNotionPageId || "",
+        rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+        name: settings?.config?.name || "",
+        domain: settings?.config?.domain || "",
+        author: settings?.config?.author || "",
+        footer_footnote: e.target.value,
+      },
+    }));
+  };
+  return (
+    <>
+      <NameInput
+        value={textValue}
+        disabled={settings?.config?.footerStyle !== "custom" || false}
+        onChange={handleChange}
+        name="footernote"
+      />
+    </>
+  );
+};
+
+const FooterTitleInput = ({ value }: CardInputComponent) => {
+  const [textValue, setTextValue] = useState(value);
+  const { settings, setSettings } = useParentPageSettings();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTextValue(e.target.value);
+    setSettings((settings) => ({
+      ...settings,
+      miscelanous: {
+        ...settings?.miscelanous,
+        footer_title: e.target.value,
+      },
+      config: {
+        ...settings?.config,
+        id: settings?.config?.id || "",
+        rootNotionPageId: settings?.config?.rootNotionPageId || "",
+        rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+        name: settings?.config?.name || "",
+        domain: settings?.config?.domain || "",
+        author: settings?.config?.author || "",
+        footer_title: e.target.value,
+      },
+    }));
+  };
+  return (
+    <>
+      <NameInput
+        value={textValue}
+        disabled={settings?.config?.footerStyle !== "custom" || false}
+        onChange={handleChange}
+        name="footertitle"
+      />
+    </>
+  );
+};
+
 export {
   NameInput,
   UrlInput,
@@ -702,4 +989,7 @@ export {
   InputAdd,
   NavTypeInput,
   FooterTypeInput,
+  FooterNoteInput,
+  FooterTitleInput,
+  SocialLinksAddInput,
 };
