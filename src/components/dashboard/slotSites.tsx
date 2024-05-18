@@ -52,7 +52,7 @@ const SlotSites = () => {
             )}
           >
             <SettingsNav pageProps={pageProps} />
-            <div className="flex items-center justify-center h-full overflow-auto no-scroll">
+            <div className="flex items-center justify-center h-[calc(100%-40px)] overflow-auto no-scroll">
               <ClientNotionPage pageProps={pageProps} />
             </div>
           </section>
