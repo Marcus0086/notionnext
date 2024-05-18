@@ -8,6 +8,7 @@ import { useParentPageSettings } from "@/context/parentPage";
 import { getOptionsSiteCardById } from "@/lib/actions/site";
 
 import { ToggleInputs, ToggleState, ToggleAction } from "@/types";
+import { getFooterSiteCardById } from "@/lib/actions/site/get/footer";
 
 const ToggleButton = ({
   value,
@@ -16,7 +17,7 @@ const ToggleButton = ({
   value?: boolean;
   type: ToggleInputs;
 }) => {
-  const { setSettings } = useParentPageSettings();
+  const { settings, setSettings } = useParentPageSettings();
 
   const themeReducer = (state: ToggleState, action: ToggleAction) => {
     switch (action.type) {
@@ -51,6 +52,10 @@ const ToggleButton = ({
               type === "indexing"
                 ? !state.enabled
                 : settings?.config?.isIndexingEnabled || false,
+            footer_divider:
+              type === "footerdivider"
+                ? !state.enabled
+                : settings?.config?.footer_divider || false,
           },
           miscelanous: {
             ...settings?.miscelanous,
@@ -81,6 +86,9 @@ const ToggleButton = ({
             ...(type === "indexing" && {
               isIndexingEnabled: !state.enabled,
             }),
+            ...(type === "footerdivider" && {
+              footer_divider: !state.enabled,
+            }),
           },
         }));
         return { enabled: !state.enabled };
@@ -98,6 +106,11 @@ const ToggleButton = ({
 
   return (
     <Switch
+      disabled={
+        (type === "footerdivider" &&
+          settings?.config?.footerStyle !== "custom") ||
+        false
+      }
       checked={enabled}
       onChange={handleChecked}
       className={`${
@@ -231,6 +244,19 @@ const IndexingToggle = ({ siteId }: { siteId: string }) => {
   return <ToggleButton value={value} type="indexing" />;
 };
 
+const FooterDividerToggle = ({ siteId }: { siteId: string }) => {
+  const { data } = useQuery({
+    queryKey: ["footer", siteId],
+    queryFn: () => getFooterSiteCardById(siteId),
+    placeholderData: null,
+    staleTime: Infinity,
+  });
+
+  const value = data?.siteConfig?.footer_divider || false;
+
+  return <ToggleButton value={value} type="footerdivider" />;
+};
+
 export {
   ThemeToggle,
   SearchToggle,
@@ -241,4 +267,5 @@ export {
   SiteMapToggle,
   PreviewToggle,
   IndexingToggle,
+  FooterDividerToggle,
 };
