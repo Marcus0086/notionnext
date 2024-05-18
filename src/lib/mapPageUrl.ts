@@ -16,7 +16,7 @@ export const mapPageUrl =
     } else {
       return createUrl(
         `/${getCanonicalPageId(pageUuid, recordMap, { uuid })}`,
-        searchParams
+        searchParams,
       );
     }
   };
@@ -26,13 +26,6 @@ export const getCanonicalPageUrl =
   (pageId = "") => {
     const pageUuid = parsePageId(pageId, { uuid: true });
     const uuidPageUid = uuidToId(pageId);
-    console.log("Page ID UUID", {
-      uuidPageUid,
-      pageId,
-      site,
-      pageUuid,
-      rootId: uuidToId(site.rootNotionPageId),
-    });
     if (uuidPageUid === uuidToId(site.rootNotionPageId)) {
       return site?.customDomain
         ? `${httpPrefix}${site.customDomain}`
@@ -43,7 +36,7 @@ export const getCanonicalPageUrl =
         : `${httpPrefix}${site.subDomain}.${domainSuffix}/${getCanonicalPageId(
             pageUuid,
             recordMap,
-            { uuid }
+            { uuid },
           )}`;
     }
   };
