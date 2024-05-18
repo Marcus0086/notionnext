@@ -1,5 +1,7 @@
 "use client";
 
+import { getBlockTitle } from "notion-utils";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import Image from "next/image";
 import Script from "next/script";
@@ -26,9 +28,12 @@ import { searchNotion } from "@/lib/searchNotion";
 import { cn } from "@/lib/utils";
 import { mapPageUrl } from "@/lib/mapPageUrl";
 import ErrorBoundary from "@/lib/errorBoundary";
+import { getIconUrl } from "@/lib/siteMetaData";
+
 import useBodyClassName from "@/hooks/useBodyClassName";
 
 import { PageProps } from "@/types";
+import { IconsFactory } from "@/lib/factories/icon";
 
 const NotionPage: React.FC<PageProps> = ({
   recordMap,
@@ -40,7 +45,6 @@ const NotionPage: React.FC<PageProps> = ({
   accountType,
 }) => {
   const { theme } = useTheme();
-
   useEffect(() => {
     if (recordMap) {
       Modal.setAppElement(".notion-viewport");
@@ -51,7 +55,7 @@ const NotionPage: React.FC<PageProps> = ({
     ({ block }: { block: CollectionViewPageBlock | PageBlock }) => {
       return config?.navigationStyle === "shared" && isLive ? (
         <HomePageNavBar block={block} siteConfig={config} />
-      ) : config?.navigationStyle === "none" ? null : (
+      ) : config?.navigationStyle === "hidden" ? null : (
         NavHeader({
           block,
           siteConfig: config,
@@ -113,15 +117,74 @@ const NotionPage: React.FC<PageProps> = ({
   const isBlogPost =
     block?.type === "page" && block?.parent_table === "collection";
 
+  const title =
+    block && site ? getBlockTitle(block, recordMap) || site.name : "";
+
+  const icon = block
+    ? getIconUrl(block.id, block.format?.page_icon)
+    : "/favicon.ico";
+
   const footer = useMemo(
     () =>
       config?.footerStyle === "shared" && isLive ? (
         <Footer />
       ) : config?.footerStyle === "none" ? null : config?.footerStyle ===
         "custom" ? (
-        <></>
+        <footer
+          className={cn(
+            "notion-footer",
+            "w-full max-w-[1600px] gap-4 py-20 px-8 lg:px-24 text-sm my-4",
+            "flex flex-col items-start justify-center"
+          )}
+        >
+          <nav className="flex flex-wrap items-center justify-between w-full">
+            <div className="flex items-center justify-center gap-2">
+              {!config?.footer_title && (
+                <Image
+                  src={icon}
+                  width={24}
+                  height={24}
+                  alt={title}
+                  className="rounded-sm"
+                />
+              )}
+              <Link
+                href="/"
+                className="font-bold text-base md:text-2xl text-gray-950 dark:text-white"
+              >
+                {config?.footer_title || title}
+              </Link>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
+              {config?.footerIcons?.map((icon, index) => {
+                const Icon = IconsFactory.getIcon(icon.icon);
+                return (
+                  <Link key={index} href={icon.url}>
+                    <Icon className="w-5 h-5 sm:w-7 sm:h-7" />
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+          {config?.footer_divider && (
+            <hr className="w-full h-0.5 bg-gray-800 dark:bg-gray-300 my-4" />
+          )}
+          <nav className="w-full flex flex-col sm:flex-row items-center sm:justify-between gap-4 text-neutral-500 text-xs">
+            <p>{config.footer_footnote}</p>
+            <div className="sm:ml-auto flex gap-4 sm:gap-6"></div>
+          </nav>
+        </footer>
       ) : null,
-    [config?.footerStyle, isLive]
+    [
+      config?.footerStyle,
+      config?.footer_divider,
+      config?.footer_footnote,
+      config?.footer_title,
+      config?.footerIcons,
+      icon,
+      isLive,
+      title,
+    ]
   );
   return (
     <>
@@ -146,7 +209,7 @@ const NotionPage: React.FC<PageProps> = ({
         ${config?.navbar_bg
           ? `
         .notion-header {
-          background: ${config.navbar_bg}
+          background: ${config.navbar_bg} !important;
         }
         `
           : ""}
@@ -198,6 +261,13 @@ const NotionPage: React.FC<PageProps> = ({
             color: ${config.main_text_color} !important;
           }
         `
+          : ""}
+
+        ${config?.footer_bg
+          ? `.notion-footer { background: ${config.footer_bg} !important; }`
+          : ""}
+        ${config?.footer_text_color
+          ? `.notion-footer a, .notion-footer nav { color: ${config.footer_text_color} !important; }`
           : ""}
 
         .notion-collection-page-properties {
