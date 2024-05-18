@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const KnowledgeBases = dynamic(
-  () => import("@/components/dashboard/knowledgeBases")
+  () => import("@/components/dashboard/knowledgeBases"),
 );
 import LoadingCard from "@/components/dashboard/loadingCard";
 
