@@ -24,7 +24,17 @@ const getSiteSiteConfig = async ({ site }: RootParams) => {
             customDomain: site,
           },
       include: {
-        siteConfig: true,
+        siteConfig: {
+          include: {
+            footerIcons: {
+              select: {
+                icon: true,
+                title: true,
+                url: true,
+              },
+            },
+          },
+        },
         user: {
           select: {
             accountType: true,
