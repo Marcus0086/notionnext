@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import { CardInputs } from "@/types";
+import { FooterIcon } from "@/types/footer";
 
 const NameInputCard = ({
   title,
@@ -28,6 +29,9 @@ const NameInputCard = ({
   customDomain,
   navigationStyle,
   footerStyle,
+  footerFootNote,
+  footerTitle,
+  footerIcons,
 }: {
   title: string;
   description?: string;
@@ -43,13 +47,16 @@ const NameInputCard = ({
   toolTip?: string;
   customDomain?: string;
   navigationStyle?: NavigationStyle;
-  footerStyle?: FooterStyle;
+  footerStyle?: FooterStyle | null;
+  footerFootNote?: string | null;
+  footerTitle?: string | null;
+  footerIcons?: FooterIcon[];
 }>) => {
   return (
     <li
       className={cn(
         "bg-white dark:bg-navy-800 shadow w-full rounded-xl",
-        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal"
+        "p-4 flex flex-col items-start justify-between gap-y-3 font-normal",
       )}
     >
       <div className="flex items-center justify-center gap-x-2">
@@ -80,6 +87,9 @@ const NameInputCard = ({
         customDomain={customDomain}
         navigationStyle={navigationStyle}
         footerStyle={footerStyle}
+        footerFootNote={footerFootNote}
+        footerTitle={footerTitle}
+        footerIcons={footerIcons}
       />
     </li>
   );
