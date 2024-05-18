@@ -131,4 +131,4 @@ const getSiteMetaData = (
   return metadata;
 };
 
-export { getSiteMetaData };
+export { getSiteMetaData, getIconUrl };
