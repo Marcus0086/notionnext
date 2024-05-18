@@ -1,3 +1,4 @@
+import { FooterIconType } from "@prisma/client";
 import { IconType } from "react-icons";
 
 type Display = "mobile" | "tablet" | "desktop";
@@ -18,7 +19,8 @@ type Icons =
   | "code"
   | "globe"
   | Display
-  | RecentHistoryIcons;
+  | RecentHistoryIcons
+  | FooterIconType;
 
 type AsideMenuType = {
   title: string;
@@ -42,7 +44,10 @@ type CardInputs =
   | "delete"
   | "listadd"
   | "navtype"
-  | "footertype";
+  | "footertype"
+  | "footernote"
+  | "footertitle"
+  | "linksadd";
 
 type ToggleInputs =
   | "theme"
@@ -53,7 +58,8 @@ type ToggleInputs =
   | "toploader"
   | "prettyurls"
   | "sitemap"
-  | "indexing";
+  | "indexing"
+  | "footerdivider";
 
 type ComponentItem = {
   name: string;
