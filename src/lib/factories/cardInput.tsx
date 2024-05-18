@@ -12,6 +12,9 @@ import {
   TextAreaInput,
   NavTypeInput,
   FooterTypeInput,
+  FooterNoteInput,
+  FooterTitleInput,
+  SocialLinksAddInput,
 } from "@/components/shared/inputs";
 
 import { CardInputFactory, CardInputs, CardInputComponent } from "@/types";
@@ -31,10 +34,13 @@ class DefaultCardInputFactory implements CardInputFactory {
     listadd: InputAdd,
     navtype: NavTypeInput,
     footertype: FooterTypeInput,
+    footernote: FooterNoteInput,
+    footertitle: FooterTitleInput,
+    linksadd: SocialLinksAddInput,
   };
-  getInput(type: CardInputs, value?: string | undefined): JSX.Element {
+  getInput(type: CardInputs, value?: string | any | null): JSX.Element {
     const InputComponent = DefaultCardInputFactory.inputFactory[type];
-    return <InputComponent value={value} />;
+    return <InputComponent value={value !== null ? value : undefined} />;
   }
 }
 
