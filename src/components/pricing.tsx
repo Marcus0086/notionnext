@@ -26,7 +26,7 @@ const Pricing = () => {
       <div
         className={cn(
           "flex flex-wrap items-center justify-center flex-col md:flex-row",
-          "gap-8 -mt-72 px-2 relative"
+          "gap-8 -mt-72 px-2 relative",
         )}
       >
         <Toggle
@@ -46,7 +46,7 @@ const Pricing = () => {
               perse,
               discount,
             },
-            index
+            index,
           ) => (
             <CardContainer key={index}>
               <CardBody
@@ -55,7 +55,7 @@ const Pricing = () => {
                   "group/card dark:hover:shadow-2xl dark:hover:shadow-neutral-500/[0.1]",
                   "dark:bg-black dark:border-white/[0.2] border-black/[0.1]",
                   "w-[305px] sm:w-full md:w-[350px] h-auto",
-                  "rounded-xl !p-6 border"
+                  "rounded-xl !p-6 border",
                 )}
               >
                 <CardItem
@@ -122,7 +122,7 @@ const Pricing = () => {
                 )}
               </CardBody>
             </CardContainer>
-          )
+          ),
         )}
       </div>
     </section>

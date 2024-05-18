@@ -31,7 +31,7 @@ const DashboardHomePage = async ({
 
   const userSites = await getUserSites(
     filter.toLocaleUpperCase() as VisibilityFilter,
-    user.id
+    user.id,
   );
   return (
     <main className="mt-4 pb-20">

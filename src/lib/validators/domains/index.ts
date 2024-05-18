@@ -16,7 +16,7 @@ const subdomainSchema = z.string().refine(
   },
   {
     message: "Cannot create site with invalid subdomain name",
-  }
+  },
 );
 
 const customDomainSchema = z.string().refine(
@@ -28,11 +28,11 @@ const customDomainSchema = z.string().refine(
   },
   {
     message: "Cannot add invalid custom domain name",
-  }
+  },
 );
 
 const isApexDomain = (
-  domain: string
+  domain: string,
 ): {
   recordType: RecordType;
   expectedValue: string;

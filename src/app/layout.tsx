@@ -49,7 +49,7 @@ export default async function RootLayout({
       <body
         className={cn(
           poppins.className,
-          "w-full h-screen bg-white dark:bg-neutral-950 dark:text-white overflow-auto"
+          "w-full h-screen bg-white dark:bg-neutral-950 dark:text-white overflow-auto",
         )}
       >
         <StyledJsxRegistry>

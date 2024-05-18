@@ -14,7 +14,7 @@ const Hero = () => {
         "bg-black/[0.96] bg-grid-white/[0.02]",
         "rounded-md relative",
         "w-full h-full",
-        "flex flex-col items-center antialiased"
+        "flex flex-col items-center antialiased",
       )}
     >
       <Spotlight
