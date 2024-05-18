@@ -14,7 +14,7 @@ function cleanPageUrlMap(
     label,
   }: {
     label: string;
-  }
+  },
 ): PageUrlOverridesMap {
   if (pageUrlOverrides.length === 0) {
     return {};
@@ -32,7 +32,7 @@ function cleanPageUrlMap(
 
     if (!pagePath.startsWith("/")) {
       throw new Error(
-        `Invalid ${label} value for page "${pageId}": value "${pagePath}" should be a relative URI that starts with "/"`
+        `Invalid ${label} value for page "${pageId}": value "${pagePath}" should be a relative URI that starts with "/"`,
       );
     }
 
@@ -51,7 +51,7 @@ export const resolveNotionPage = async (
   siteConfig: SiteConfig,
   rawPageId?: string,
   siteData?: _SiteData,
-  shouldAddImage?: boolean
+  shouldAddImage?: boolean,
 ) => {
   let pageId: string;
   let recordMap: ExtendedRecordMap;
@@ -83,11 +83,10 @@ export const resolveNotionPage = async (
 
   if (rawPageId && rawPageId !== "index") {
     pageId = parsePageId(rawPageId);
-    console.log("In rawpage Id", { pageId, rawPageId });
     if (!pageId) {
       const pageUrlOverrides = cleanPageUrlMap(
         siteConfig?.pageUrlOverrides || [],
-        { label: "pageUrlOverrides" }
+        { label: "pageUrlOverrides" },
       );
       // check if the site configuration provides an override or a fallback for
       // the page's URI
@@ -96,8 +95,6 @@ export const resolveNotionPage = async (
       if (override) {
         pageId = parsePageId(override);
       }
-
-      console.log("Page id if pageid doesnot exist", { pageId, rawPageId });
     }
 
     if (pageId) {
@@ -106,7 +103,6 @@ export const resolveNotionPage = async (
       // handle mapping of user-friendly canonical page paths to Notion page IDs
       // e.g., /developer-x-entrepreneur versus /71201624b204481f862630ea25ce62fe
       const siteMap = await getSiteMap(siteConfig);
-      console.log("Here!", { pageId, siteConfig });
       pageId = siteMap?.canonicalPageMap[rawPageId];
 
       if (pageId) {
