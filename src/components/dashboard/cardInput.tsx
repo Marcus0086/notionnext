@@ -40,30 +40,30 @@ const CardInput = ({
     type === "text"
       ? name
       : type === "url"
-      ? !url
-        ? ""
-        : `https://notion.so/${url}`
-      : type === "font"
-      ? font
-      : type === "visibility"
-      ? visibility
-      : type === "opentext"
-      ? title
-      : type === "textarea"
-      ? description
-      : type === "listadd"
-      ? customDomain
-      : type === "navtype"
-      ? (navigationStyle as string)
-      : type === "footertype"
-      ? (footerStyle as string)
-      : type === "footernote"
-      ? footerFootNote
-      : type === "footertitle"
-      ? footerTitle
-      : type === "linksadd"
-      ? footerIcons
-      : siteId;
+        ? !url
+          ? ""
+          : `https://notion.so/${url}`
+        : type === "font"
+          ? font
+          : type === "visibility"
+            ? visibility
+            : type === "opentext"
+              ? title
+              : type === "textarea"
+                ? description
+                : type === "listadd"
+                  ? customDomain
+                  : type === "navtype"
+                    ? (navigationStyle as string)
+                    : type === "footertype"
+                      ? (footerStyle as string)
+                      : type === "footernote"
+                        ? footerFootNote
+                        : type === "footertitle"
+                          ? footerTitle
+                          : type === "linksadd"
+                            ? footerIcons
+                            : siteId;
   const Input = CardsInputFactory.getInput(type, value);
   return Input;
 };
