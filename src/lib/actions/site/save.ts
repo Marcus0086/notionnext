@@ -9,6 +9,7 @@ import prisma from "@/lib/prisma";
 import { getRedisClient } from "@/lib/redis";
 
 import { _SiteData } from "@/types";
+import { FooterIcon } from "@/types/footer";
 
 const saveSiteData = async (siteId: string, value: any) => {
   let site: {
@@ -72,6 +73,45 @@ const saveSiteData = async (siteId: string, value: any) => {
   }
 };
 
+const saveFooterIcons = async (
+  siteConfigId: string,
+  footerIcons: FooterIcon[],
+) => {
+  let data;
+  try {
+    await prisma.footerIcon.deleteMany({
+      where: {
+        siteConfigId: siteConfigId,
+      },
+    });
+    if (footerIcons.length) {
+      data = await prisma.footerIcon.createMany({
+        data: footerIcons.map((icon) => ({
+          ...icon,
+          siteConfigId: siteConfigId,
+        })),
+      });
+    }
+    return {
+      footerIcons: data,
+      error: null,
+    };
+  } catch (error) {
+    console.error("[Site] error happened in saveFooterIcons", error);
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return {
+        error: "Site already exists",
+      };
+    }
+    return {
+      error: "Something went wrong",
+    };
+  }
+};
+
 const compressData = async (data: string) => {
   try {
     const buffer = Buffer.from(data, "utf-8");
@@ -97,4 +137,4 @@ const saveFilesInRedis = async (files: Record<string, string>) => {
   return uris;
 };
 
-export { saveSiteData, saveFilesInRedis };
+export { saveSiteData, saveFilesInRedis, saveFooterIcons };
