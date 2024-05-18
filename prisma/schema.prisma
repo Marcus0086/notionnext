@@ -97,12 +97,16 @@ model SiteConfig {
   main_title_size              String?
   footer_bg                    String?
   footer_text_color            String?
+  footer_footnote              String?
+  footer_title                 String?
+  footer_divider               Boolean? @default(false)
 
   includeNotionIdInUrls Boolean?           @default(false)
   navigationStyle       NavigationStyle?   @default(default)
   footerStyle           FooterStyle?       @default(none)
   navigationLinks       NavigationLink[]
   footerIcons           FooterIcon[]
+  footerMenuItems       FooterMenuItems[]
   PageUrlOverrides      PageUrlOverrides[]
   Site                  Site?
 }
@@ -128,9 +132,37 @@ model NavigationLink {
   @@index([siteConfigId])
 }
 
+model FooterMenuItems {
+  id   String              @id @default(uuid())
+  type FooterMenuItemsType
+
+  SiteConfig   SiteConfig @relation(fields: [siteConfigId], references: [id], onDelete: Cascade)
+  siteConfigId String
+
+  @@index([siteConfigId])
+}
+
+model Page {
+  id    String @id @default(uuid())
+  title String
+  slug  String
+}
+
+model Link {
+  id    String @id @default(uuid())
+  title String
+  url   String
+}
+
+model List {
+  id    String       @id @default(uuid())
+  title String
+  type  ListItemType
+}
+
 model FooterIcon {
   id           String         @id @default(uuid())
-  title        String
+  title        String         @unique
   icon         FooterIconType
   url          String
   SiteConfig   SiteConfig     @relation(fields: [siteConfigId], references: [id], onDelete: Cascade)
@@ -219,7 +251,7 @@ enum AccountType {
 }
 
 enum NavigationStyle {
-  none
+  hidden
   default
   custom
   shared
@@ -249,4 +281,15 @@ enum FooterIconType {
   Telegram
   Twitch
   GooglePlay
+}
+
+enum ListItemType {
+  Link
+  Page
+}
+
+enum FooterMenuItemsType {
+  Link
+  Page
+  List
 }
