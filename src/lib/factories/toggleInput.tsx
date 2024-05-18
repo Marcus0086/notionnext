@@ -8,6 +8,7 @@ import {
   SiteMapToggle,
   PreviewToggle,
   IndexingToggle,
+  FooterDividerToggle,
 } from "@/components/shared/toggleInputs";
 
 import {
@@ -29,6 +30,7 @@ class DefaultToggleInputFactory implements ToggleInputFactory {
     prettyurls: IncludeNotionIdInUrlsToggle,
     sitemap: SiteMapToggle,
     indexing: IndexingToggle,
+    footerdivider: FooterDividerToggle,
   };
 
   getInput(type: ToggleInputs, siteId: string): JSX.Element {
