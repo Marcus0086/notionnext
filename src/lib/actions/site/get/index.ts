@@ -19,7 +19,17 @@ const getSiteById = cache(async (siteId: string) => {
         id: siteId,
       },
       include: {
-        siteConfig: true,
+        siteConfig: {
+          include: {
+            footerIcons: {
+              select: {
+                icon: true,
+                title: true,
+                url: true,
+              },
+            },
+          },
+        },
       },
     })) as unknown as _SiteData;
     const uris = {
