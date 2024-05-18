@@ -6,7 +6,6 @@ import HomePageNavBar from "@/components/homePageNavBar";
 import LoadingCard from "@/components/dashboard/loadingCard";
 import Footer from "@/components/footer";
 import Faqs from "@/components/faqs";
-import StartFreeDemo from "@/components/startDemoFold";
 const FeatureGrid = dynamic(() => import("@/components/featureGrid"));
 
 export default async function HomeLayout({
@@ -17,14 +16,13 @@ export default async function HomeLayout({
   return (
     <>
       <NextTopLoader showSpinner={false} />
-      <main className="overflow-hidden bg-neutral-950">
+      <main className="bg-neutral-950 relative">
         <HomePageNavBar />
         {children}
         <Suspense fallback={<LoadingCard />}>
           <FeatureGrid />
         </Suspense>
         <Faqs />
-        <StartFreeDemo />
         <Footer />
       </main>
     </>
