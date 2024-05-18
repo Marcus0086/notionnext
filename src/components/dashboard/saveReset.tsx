@@ -8,7 +8,7 @@ import { useParentPageSettings } from "@/context/parentPage";
 
 import { saveSiteData } from "@/lib/actions/site";
 
-import { saveFilesInRedis } from "@/lib/actions/site/save";
+import { saveFilesInRedis, saveFooterIcons } from "@/lib/actions/site/save";
 import ActivityLogger from "@/lib/logger";
 import { domainSuffix } from "@/lib/config";
 
@@ -28,7 +28,7 @@ const generateLogMessage = (updatedData: any) => {
       field: "description",
       message: `Changed description to ${updatedData?.description?.slice(
         0,
-        100
+        100,
       )}`,
     },
     { field: "css", message: "Changed css" },
@@ -79,7 +79,7 @@ const generateLogMessage = (updatedData: any) => {
 
 const getUpdatedData = (
   settings: SiteSettings,
-  savedUris: Record<string, string>
+  savedUris: Record<string, string>,
 ) => {
   const updatedData: any = {};
   if (settings?.miscelanous?.visibility) {
@@ -125,6 +125,13 @@ const getUpdatedData = (
     updatedData["siteConfig"]["navbar_bg"] = settings.miscelanous.navbar_bg;
   }
 
+  if (typeof settings?.miscelanous?.footer_bg === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["footer_bg"] = settings.miscelanous.footer_bg;
+  }
+
   if (typeof settings?.miscelanous?.main_text_color === "string") {
     if (!updatedData["siteConfig"]) {
       updatedData["siteConfig"] = {};
@@ -139,6 +146,14 @@ const getUpdatedData = (
     }
     updatedData["siteConfig"]["navbar_text_color"] =
       settings.miscelanous.navbar_text_color;
+  }
+
+  if (typeof settings?.miscelanous?.footer_text_color === "string") {
+    if (!updatedData["siteConfig"]) {
+      updatedData["siteConfig"] = {};
+    }
+    updatedData["siteConfig"]["footer_text_color"] =
+      settings.miscelanous.footer_text_color;
   }
 
   if (typeof settings?.miscelanous?.main_title_size === "string") {
@@ -169,6 +184,9 @@ const getUpdatedData = (
     "isIndexingEnabled",
     "navigationStyle",
     "footerStyle",
+    "footer_footnote",
+    "footer_title",
+    "footer_divider",
   ];
 
   miscelanousSettings.forEach((setting) => {
@@ -204,12 +222,43 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
     const savedUris = await saveFilesInRedis(files);
     const updatedData: any = getUpdatedData(settings, savedUris);
     const isSiteNameChanged = Object.keys(updatedData).includes("name");
-    const siteData = await saveSiteData(siteId, updatedData);
+    let footerIconsData;
+    if (settings?.config?.footerIcons !== undefined && settings?.config?.id) {
+      footerIconsData = saveFooterIcons(
+        settings?.config.id,
+        settings?.config.footerIcons,
+      );
+    }
+    const siteData = saveSiteData(siteId, updatedData);
+    const results = await Promise.allSettled([siteData, footerIconsData]);
+
+    const [siteDataResult, footerIconsResult] = results;
+
+    if (footerIconsResult.status === "rejected") {
+      toast.error(footerIconsResult.reason, toastOptions);
+    }
+
+    if (siteDataResult.status === "rejected") {
+      toast.error(siteDataResult.reason, toastOptions);
+    }
+
+    const updatedFooterIconsData =
+      footerIconsResult.status === "fulfilled" ? footerIconsResult.value : null;
+    const updatedSiteData =
+      siteDataResult.status === "fulfilled" ? siteDataResult.value : null;
+
     const siteName =
-      siteData?.site?.customDomain ||
-      `${siteData?.site?.subDomain}.${domainSuffix}`.replace(":3000", "") ||
+      updatedSiteData?.site?.customDomain ||
+      `${updatedSiteData?.site?.subDomain}.${domainSuffix}`.replace(
+        ":3000",
+        "",
+      ) ||
       "";
-    if (siteData && siteData?.site?.id) {
+
+    if (
+      (updatedSiteData && updatedSiteData?.site?.id) ||
+      updatedFooterIconsData?.footerIcons
+    ) {
       toast.success("Site saved successfully!", toastOptions);
       ActivityLogger.updateSite({
         data: {
@@ -217,13 +266,13 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
           log: generateLogMessage(updatedData),
         },
       });
-    } else if (siteData.error) {
-      toast.error(siteData.error, toastOptions);
+    } else if (updatedSiteData?.error) {
+      toast.error(updatedSiteData.error, toastOptions);
       ActivityLogger.updateSite({
         data: {
           site: siteName,
           log: `Failed to update site ${siteName}.`,
-          error: siteData.error,
+          error: updatedSiteData.error,
         },
       });
     }
