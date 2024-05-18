@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import { FooterIconType } from "@prisma/client";
 
 import { domainSuffix } from "@/lib/config";
 import { config } from "@/config";
@@ -365,11 +367,31 @@ const NAV_SETTINGS: Settings<CardInputs> = [
   },
 ];
 
-const FOOTER_SETTINGS: Settings<CardInputs> = [
+const FOOTER_SETTINGS: Settings<CardInputs | ToggleInputs> = [
   {
-    title: "Footer Type",
+    title: "Type",
     type: "footertype",
     description: "Choose the type of footer for your site",
+  },
+  {
+    title: "Title",
+    type: "footertitle",
+    description: "Add a title to your foote",
+  },
+  {
+    title: "Foot Note",
+    type: "footernote",
+    description: "Add a note to your footer",
+  },
+  {
+    title: "Divider",
+    type: "footerdivider",
+    description: "Enable a divider for your footer",
+  },
+  {
+    title: "Social Links",
+    type: "linksadd",
+    description: "Add social links to your footer",
   },
 ];
 
@@ -594,6 +616,10 @@ const PLANS: PlanType = {
           title: `No ${config.COMAPNY_NAME} badge`,
           info: `Your site will be free of 'Powered by ${config.COMAPNY_NAME}' badge`,
         },
+        {
+          title: "Content Search",
+          info: "Search through your site's content",
+        },
       ],
     },
     {
@@ -679,6 +705,10 @@ const PLANS: PlanType = {
           title: `No ${config.COMAPNY_NAME} badge`,
           info: `Your site will be free of 'Powered by ${config.COMAPNY_NAME}' badge`,
         },
+        {
+          title: "Content Search",
+          info: "Search through your site's content",
+        },
       ],
     },
     {
@@ -715,6 +745,86 @@ const PLANS: PlanType = {
   ],
 };
 
+const FOOTER_LINKS = [
+  {
+    title: "Pricing",
+    href: "/pricing",
+  },
+  {
+    title: "SEO",
+    href: "/features/seo",
+  },
+  {
+    title: "Domains",
+    href: "/features/custom-domains",
+  },
+  {
+    title: "Code",
+    href: "/features/custom-code",
+  },
+  {
+    title: "Customization",
+    href: "/features/customization",
+  },
+  {
+    title: "Create a site",
+    href: "/features/getting-started",
+  },
+  {
+    title: "High Performance",
+    href: "/features/high-performance",
+  },
+];
+
+const PRODUCT_TIMELINE = [
+  {
+    title: "Create a Page in Notion",
+    description:
+      "Create a page in Notion and add your content. You can use any Notion page as a source for your site.",
+    content: (
+      <div className="h-full w-full bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] flex items-center justify-center text-white">
+        Create a Page in Notion
+      </div>
+    ),
+  },
+  {
+    title: "Share your Notion Page",
+    description:
+      "Share your Notion page by clicking on the share button and making it public.",
+    content: (
+      <div className="h-full w-full  flex items-center justify-center text-white">
+        <Image
+          src="/images/home/demo.webp"
+          width={300}
+          height={300}
+          className="h-full w-full object-cover"
+          alt="linear board demo"
+        />
+      </div>
+    ),
+  },
+  {
+    title: "Connect your Notion Page",
+    description:
+      "Connect your Notion page to our platform by pasting the link of your Notion page.",
+    content: (
+      <div className="h-full w-full bg-[linear-gradient(to_bottom_right,var(--orange-500),var(--yellow-500))] flex items-center justify-center text-white">
+        Connect your Notion Page
+      </div>
+    ),
+  },
+  {
+    title: "Publish your Site",
+    description:
+      "Publish your site and share the link with the world. Now, you can customize your site with design, themes, and more.",
+    content: (
+      <div className="h-full w-full bg-[linear-gradient(to_bottom_right,var(--cyan-500),var(--emerald-500))] flex items-center justify-center text-white">
+        Publish
+      </div>
+    ),
+  },
+];
+
 export {
   META_DATA,
   ASIDE_MENU,
@@ -738,4 +848,6 @@ export {
   DOMAIN_SETTINGS,
   NAV_SETTINGS,
   FOOTER_SETTINGS,
+  FOOTER_LINKS,
+  PRODUCT_TIMELINE,
 };
