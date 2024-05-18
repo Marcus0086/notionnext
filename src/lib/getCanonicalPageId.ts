@@ -7,7 +7,7 @@ import {
 export function getCanonicalPageId(
   pageId: string,
   recordMap: ExtendedRecordMap,
-  { uuid = true }: { uuid?: boolean } = {}
+  { uuid = true }: { uuid?: boolean } = {},
 ): string | null {
   const cleanPageId = parsePageId(pageId, { uuid: false });
   if (!cleanPageId) {
@@ -15,6 +15,5 @@ export function getCanonicalPageId(
   }
 
   const canonicalPageId = getCanonicalPageIdImpl(pageId, recordMap, { uuid });
-  console.log("Canonical page ID is:", { canonicalPageId });
   return canonicalPageId;
 }
