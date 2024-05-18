@@ -12,13 +12,13 @@ const uuid_dev = uuid;
 
 export async function getSiteMap(
   config: SiteConfig,
-  uuid?: boolean
+  uuid?: boolean,
 ): Promise<SiteMap> {
   const partialSiteMap = await getAllPages(
     config.rootNotionPageId,
     config?.rootNotionSpaceId || "",
     config.id,
-    uuid
+    uuid,
   );
 
   return {
@@ -34,7 +34,7 @@ async function getAllPagesImpl(
   rootNotionPageId: string,
   rootNotionSpaceId: string,
   id: string,
-  uuid?: boolean
+  uuid?: boolean,
 ): Promise<Partial<SiteMap>> {
   const getPage = async (pageId: string, ...args: any[]) => {
     const notion = await getNotionClient(id);
@@ -48,7 +48,7 @@ async function getAllPagesImpl(
     getPage,
     {
       concurrency: 8,
-    }
+    },
   );
 
   const canonicalPageMap = Object.keys(pageMap).reduce<CanonicalPageMap>(
@@ -80,7 +80,7 @@ async function getAllPagesImpl(
         };
       }
     },
-    {}
+    {},
   );
 
   return {
