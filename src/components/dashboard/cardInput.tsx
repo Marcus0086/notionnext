@@ -3,6 +3,7 @@ import { FooterStyle, NavigationStyle, VisibilityFilter } from "@prisma/client";
 import { CardsInputFactory } from "@/lib/factories/cardInput";
 
 import { CardInputs } from "@/types";
+import { FooterIcon } from "@/types/footer";
 
 const CardInput = ({
   type,
@@ -16,6 +17,9 @@ const CardInput = ({
   customDomain,
   navigationStyle,
   footerStyle,
+  footerFootNote,
+  footerTitle,
+  footerIcons,
 }: {
   type: CardInputs;
   name?: string;
@@ -27,7 +31,10 @@ const CardInput = ({
   description?: string;
   customDomain?: string;
   navigationStyle?: NavigationStyle;
-  footerStyle?: FooterStyle;
+  footerStyle?: FooterStyle | null;
+  footerFootNote?: string | null;
+  footerTitle?: string | null;
+  footerIcons?: FooterIcon[];
 }) => {
   const value =
     type === "text"
@@ -50,6 +57,12 @@ const CardInput = ({
       ? (navigationStyle as string)
       : type === "footertype"
       ? (footerStyle as string)
+      : type === "footernote"
+      ? footerFootNote
+      : type === "footertitle"
+      ? footerTitle
+      : type === "linksadd"
+      ? footerIcons
       : siteId;
   const Input = CardsInputFactory.getInput(type, value);
   return Input;
