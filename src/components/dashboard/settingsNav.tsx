@@ -2,6 +2,7 @@ import { Dispatch, useReducer, useState } from "react";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { RiLoader4Line } from "react-icons/ri";
+import { FaLock } from "react-icons/fa6";
 
 import { useParentPageSettings } from "@/context/parentPage";
 import useToast from "@/hooks/useToast";
@@ -29,7 +30,7 @@ const DisplayButton = ({
       onClick={() => setDisplay(name)}
       className={cn(
         "hover:opacity-100",
-        display === name ? "opacity-100" : "opacity-50",
+        display === name ? "opacity-100" : "opacity-50"
       )}
     >
       {children}
@@ -42,8 +43,8 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
   const siteUrl = !site
     ? undefined
     : site?.customDomain
-      ? `${site.customDomain}`
-      : `${site?.name}.${domainSuffix}`;
+    ? `${site.customDomain}`
+    : `${site?.name}.${domainSuffix}`;
 
   const subDomainUrl =
     !site || !site?.name ? undefined : `${site.name}.${domainSuffix}`;
@@ -127,7 +128,7 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
     dark:bg-blueZodiac h-11 px-5 border-b border-gray-300 dark:border-gray-800"
     >
       <div className="flex items-center justify-center gap-x-1">
-        {["mobile", "tablet", "desktop"].map((name, index) => {
+        {/* {["mobile", "tablet", "desktop"].map((name, index) => {
           const DisplayIcon = IconsFactory.getIcon(name as Icons);
           return (
             <DisplayButton
@@ -139,9 +140,23 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
               <DisplayIcon className="w-5 h-5" />
             </DisplayButton>
           );
-        })}
+        })} */}
+        {[1, 2, 3].map((_, index) => (
+          <div
+            key={index}
+            className={cn(
+              "w-3 h-3 rounded-full",
+              index === 0
+                ? "bg-red-500"
+                : index === 1
+                ? "bg-gray-500"
+                : "bg-green-500"
+            )}
+          />
+        ))}
       </div>
-      <div>
+      <div className="border border-blue-400 rounded-md px-4 py-1 flex items-center justify-center gap-2">
+        <FaLock className="w-3 h-3 text-yellow-500" />
         {siteUrl && (
           <Link
             href={`${httpPrefix}${siteUrl}`}
@@ -157,7 +172,7 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
           onClick={handlePublish}
           className={cn(
             "flex items-center justify-center gap-x-1 text-sm bg-brand-500 text-center px-4 py-1 rounded-md text-white",
-            saved ? "opacity-50 cursor-not-allowed" : "",
+            saved ? "opacity-50 cursor-not-allowed" : ""
           )}
         >
           Publish
