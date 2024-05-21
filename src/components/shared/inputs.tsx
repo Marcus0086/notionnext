@@ -118,7 +118,7 @@ const NameInput = ({
           className={cn(
             disabled ? "text-gray-700" : "",
             "w-full h-10 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || "",
+            className || ""
           )}
         />
       );
@@ -132,7 +132,7 @@ const NameInput = ({
           name={name}
           className={cn(
             "w-full h-40 p-2 text-xs rounded-md border border-gray-300 bg-transparent focus:outline-none",
-            className || "",
+            className || ""
           )}
         />
       );
@@ -258,7 +258,7 @@ const DropDownInput = ({
                 cn(
                   "flex items-center justify-start gap-x-4 cursor-pointer select-none pl-3 w-full rounded-md",
                   active ? "bg-selago dark:bg-blueZodiac" : "",
-                  "capitalize",
+                  "capitalize"
                 )
               }
             >
@@ -411,7 +411,7 @@ const MediaInput = ({ value }: CardInputComponent) => {
       className={cn(
         "flex items-center justify-center w-full px-3 py-6 text-center",
         "border-2 border-gray-300 border-dashed",
-        "rounded-lg bg-transparent",
+        "rounded-lg bg-transparent"
       )}
     >
       <label htmlFor="dropzone-file" className="cursor-pointer">
@@ -509,7 +509,7 @@ const DeleteInput = ({ value: siteId }: CardInputComponent) => {
             className={cn(
               "w-full h-10 rounded-xl",
               isDeleting ? "animate-pulse cursor-not-allowed" : "",
-              isButtonDisabled ? "opacity-50 cursor-not-allowed" : "",
+              isButtonDisabled ? "opacity-50 cursor-not-allowed" : ""
             )}
             disabled={isButtonDisabled}
           >
@@ -539,7 +539,7 @@ const InputAdd = ({ value }: CardInputComponent) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [textValue, setTextValue] = useState(value);
   const [isCustomDomainAdded, setIsCustomDomainAdded] = useState(
-    !!value || false,
+    !!value || false
   );
   const [cardContent, setCardContent] = useState<{
     description: string;
@@ -561,12 +561,12 @@ const InputAdd = ({ value }: CardInputComponent) => {
         await customDomainSchema.parseAsync(textValue);
         const customDomainUpdatedData = await addCustomDomain(
           textValue,
-          settings?.site?.id || "",
+          settings?.site?.id || ""
         );
         if (!customDomainUpdatedData) {
           toast.error(
             "Error adding custom domain. Please try again later.",
-            toastOptions,
+            toastOptions
           );
           return;
         }
@@ -752,7 +752,7 @@ const SocialLinksAddInput = ({ value }: { value?: any }) => {
     };
     if (
       settings?.config?.footerIcons?.some(
-        (existingIcon) => existingIcon.title === icon.title,
+        (existingIcon) => existingIcon.title === icon.title
       )
     ) {
       toast.error("An icon with same title already exists", toastOptions);
@@ -797,7 +797,7 @@ const SocialLinksAddInput = ({ value }: { value?: any }) => {
         domain: settings?.config?.domain || "",
         author: settings?.config?.author || "",
         footerIcons: settings?.config?.footerIcons?.filter(
-          (icon) => icon.title !== title,
+          (icon) => icon.title !== title
         ),
       },
     }));
@@ -897,7 +897,7 @@ const SocialLinksAddInput = ({ value }: { value?: any }) => {
                 variant="ghost"
                 className="rounded-md"
               >
-                <Delete className="w-5 h-5" />
+                <Delete className="w-5 h-5 text-red-400" />
               </Button>
             </li>
           );
