@@ -90,13 +90,19 @@ model SiteConfig {
   isSiteMapEnabled             Boolean? @default(false)
   isIndexingEnabled            Boolean? @default(false)
   navbar_bg                    String?
+  navbar_bg_dark               String?
   navbar_text_color            String?
+  navbar_text_color_dark       String?
   main_bg                      String?
+  main_bg_dark                 String?
   main_text_color              String?
+  main_text_color_dark         String?
   main_text_size               String?
   main_title_size              String?
   footer_bg                    String?
+  footer_bg_dark               String?
   footer_text_color            String?
+  footer_text_color_dark       String?
   footer_footnote              String?
   footer_title                 String?
   footer_divider               Boolean? @default(false)
