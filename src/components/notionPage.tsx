@@ -66,7 +66,7 @@ const NotionPage: React.FC<PageProps> = ({
         })
       );
     },
-    [accountType, config, isLive, recordMap, site],
+    [accountType, config, isLive, recordMap, site]
   );
 
   const components = useMemo<Partial<NotionComponents>>(
@@ -84,7 +84,7 @@ const NotionPage: React.FC<PageProps> = ({
       propertyTextValue,
       Header: getNavHeader,
     }),
-    [getNavHeader],
+    [getNavHeader]
   );
 
   const siteMapPageUrl = useMemo(() => {
@@ -134,7 +134,7 @@ const NotionPage: React.FC<PageProps> = ({
           className={cn(
             "notion-footer",
             "w-full max-w-[1600px] gap-4 py-20 px-8 lg:px-24 text-sm my-4",
-            "flex flex-col items-start justify-center",
+            "flex flex-col items-start justify-center"
           )}
         >
           <nav className="flex flex-wrap items-center justify-between w-full">
@@ -184,7 +184,7 @@ const NotionPage: React.FC<PageProps> = ({
       icon,
       isLive,
       title,
-    ],
+    ]
   );
   return (
     <>
@@ -206,10 +206,26 @@ const NotionPage: React.FC<PageProps> = ({
         `
           : ""}
 
+        ${config?.main_bg_dark && theme === "dark"
+          ? `
+        .notion-page-scroller {
+          background: ${config.main_bg_dark}
+        }
+        `
+          : ""}
+
         ${config?.navbar_bg
           ? `
         .notion-header {
           background: ${config.navbar_bg} !important;
+        }
+        `
+          : ""}
+
+        ${config?.navbar_bg_dark && theme === "dark"
+          ? `
+        .notion-header {
+          background: ${config.navbar_bg_dark} !important;
         }
         `
           : ""}
@@ -223,10 +239,26 @@ const NotionPage: React.FC<PageProps> = ({
         `
           : ""}
 
+        ${config?.main_text_color_dark && theme === "dark"
+          ? `
+          .notion-page {
+            color: ${config.main_text_color_dark}
+          }
+        `
+          : ""}
+
         ${config?.navbar_text_color
           ? `
           .notion-header .breadcrumb {
             color: ${config.navbar_text_color}
+          }
+        `
+          : ""}
+
+        ${config?.navbar_text_color_dark && theme === "dark"
+          ? `
+          .notion-header .breadcrumb {
+            color: ${config.navbar_text_color_dark}
           }
         `
           : ""}
@@ -247,27 +279,19 @@ const NotionPage: React.FC<PageProps> = ({
         `
           : ""}
 
-        ${config?.main_bg
-          ? `
-          .notion-search, .notion-search .searchInput {
-            background: ${config.main_bg} !important;
-          }
-        `
-          : ""}
-
-        ${config?.main_text_color
-          ? `
-          .notion-search .searchInput {
-            color: ${config.main_text_color} !important;
-          }
-        `
-          : ""}
 
         ${config?.footer_bg
           ? `.notion-footer { background: ${config.footer_bg} !important; }`
           : ""}
         ${config?.footer_text_color
           ? `.notion-footer a, .notion-footer nav { color: ${config.footer_text_color} !important; }`
+          : ""}
+
+        ${config?.footer_bg_dark && theme === "dark"
+          ? `.notion-footer { background: ${config.footer_bg_dark} !important; }`
+          : ""}
+        ${config?.footer_text_color_dark && theme === "dark"
+          ? `.notion-footer a, .notion-footer nav { color: ${config.footer_text_color_dark} !important; }`
           : ""}
 
         .notion-collection-page-properties {
@@ -305,7 +329,7 @@ const NotionPage: React.FC<PageProps> = ({
       {recordMap ? (
         <NotionRenderer
           bodyClassName={cn(
-            pageId === site?.rootNotionPageId ? "index-page" : "",
+            pageId === site?.rootNotionPageId ? "index-page" : ""
           )}
           showTableOfContents={isBlogPost}
           components={components}
