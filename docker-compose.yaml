@@ -1,25 +1,4 @@
 services:
-  notionnext_db:
-    image: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: raghavgu132
-      MYSQL_DATABASE: notionnext
-      MYSQL_USER: user
-      MYSQL_PASSWORD: notionnext
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    restart: always
-
-  notionnext_redis:
-    image: redis
-    ports:
-      - "6379:6379"
-    restart: always
-    volumes:
-      - redis_data:/data
-
   notionnext:
     image: marcus18781xj/notionnext:latest
     ports:
@@ -30,9 +9,3 @@ services:
       - notionnext_db
       - notionnext_redis
     restart: always
-
-volumes:
-  mysql_data:
-    driver: local
-  redis_data:
-    driver: local
