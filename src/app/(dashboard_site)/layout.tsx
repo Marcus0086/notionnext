@@ -7,9 +7,11 @@ const SiteLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <NextTopLoader showSpinner={false} />
       <AuthContext>
-        <main className="w-full h-screen relative overflow-auto">
-          {children}
-        </main>
+        <section className="w-full h-full p-6 flex">
+          <main className="w-full relative overflow-hidden border rounded-2xl drop-shadow-xl">
+            {children}
+          </main>
+        </section>
       </AuthContext>
     </>
   );
