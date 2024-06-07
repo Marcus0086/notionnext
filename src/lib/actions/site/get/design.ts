@@ -3,7 +3,7 @@
 import { cache } from "react";
 
 import prisma from "@/lib/prisma";
-import { getFilesFromRedis } from "@/lib/actions/site";
+import { getDecompressedFiles } from "@/lib/actions/site";
 
 import { _SiteData } from "@/types";
 
@@ -22,7 +22,7 @@ const getDesignSiteCardById = cache(async (siteId: string) => {
     const uris = {
       css: data?.css || undefined,
     };
-    const files = await getFilesFromRedis(uris);
+    const files = await getDecompressedFiles(uris);
     const designDataWithFiles = {
       ...data,
       css: files?.["css"],
