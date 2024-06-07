@@ -5,9 +5,9 @@ import { cache } from "react";
 
 import prisma from "./prisma";
 import { resolveNotionPage } from "./resolveNotionPage";
-import { getFilesFromRedis } from "@/lib/actions/site";
 
 import { PageProps, RootParams, _SiteData } from "@/types";
+import { getDecompressedFiles } from "./actions/site/get";
 
 const getSiteSiteConfig = async ({ site }: RootParams) => {
   const subDomain = site.endsWith(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -50,7 +50,7 @@ const getSiteSiteConfig = async ({ site }: RootParams) => {
       javascript: data.javascript,
       html: data.html,
     };
-    const files = await getFilesFromRedis(uris);
+    const files = await getDecompressedFiles(uris);
     const siteDataWithFiles = {
       ...data,
       css: files?.["css"],
