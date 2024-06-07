@@ -3,10 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import zlib from "zlib";
-import { v4 as uuidv4 } from "uuid";
 
 import prisma from "@/lib/prisma";
-import { getRedisClient } from "@/lib/redis";
 
 import { _SiteData } from "@/types";
 import { FooterIcon } from "@/types/footer";
@@ -123,18 +121,15 @@ const compressData = async (data: string) => {
   }
 };
 
-const saveFilesInRedis = async (files: Record<string, string>) => {
+const getCompressedFiles = async (files: Record<string, string>) => {
   const uris: Record<string, string> = {};
-  const redisClient = await getRedisClient();
   for (const [key, value] of Object.entries(files)) {
-    const uri = key + "_" + uuidv4();
     const compressedData = await compressData(value);
     if (compressedData) {
-      await redisClient.set(uri, compressedData);
-      uris[key] = uri;
+      uris[key] = compressedData;
     }
   }
   return uris;
 };
 
-export { saveSiteData, saveFilesInRedis, saveFooterIcons };
+export { saveSiteData, getCompressedFiles, saveFooterIcons };
