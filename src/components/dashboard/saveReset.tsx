@@ -8,7 +8,7 @@ import { useParentPageSettings } from "@/context/parentPage";
 
 import { saveSiteData } from "@/lib/actions/site";
 
-import { saveFilesInRedis, saveFooterIcons } from "@/lib/actions/site/save";
+import { getCompressedFiles, saveFooterIcons } from "@/lib/actions/site/save";
 import ActivityLogger from "@/lib/logger";
 import { domainSuffix } from "@/lib/config";
 
@@ -111,51 +111,6 @@ const getUpdatedData = (
     updatedData.description = settings.miscelanous.description;
   }
 
-  if (typeof settings?.miscelanous?.main_bg === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["main_bg"] = settings.miscelanous.main_bg;
-  }
-
-  if (typeof settings?.miscelanous?.navbar_bg === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["navbar_bg"] = settings.miscelanous.navbar_bg;
-  }
-
-  if (typeof settings?.miscelanous?.footer_bg === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["footer_bg"] = settings.miscelanous.footer_bg;
-  }
-
-  if (typeof settings?.miscelanous?.main_text_color === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["main_text_color"] =
-      settings.miscelanous.main_text_color;
-  }
-
-  if (typeof settings?.miscelanous?.navbar_text_color === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["navbar_text_color"] =
-      settings.miscelanous.navbar_text_color;
-  }
-
-  if (typeof settings?.miscelanous?.footer_text_color === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["footer_text_color"] =
-      settings.miscelanous.footer_text_color;
-  }
-
   if (typeof settings?.miscelanous?.main_title_size === "string") {
     if (!updatedData["siteConfig"]) {
       updatedData["siteConfig"] = {};
@@ -189,12 +144,37 @@ const getUpdatedData = (
     "footer_divider",
   ];
 
+  const colorKeys = [
+    "main_bg",
+    "main_bg_dark",
+    "navbar_bg",
+    "navbar_bg_dark",
+    "footer_bg",
+    "footer_bg_dark",
+    "main_text_color",
+    "main_text_color_dark",
+    "navbar_text_color",
+    "navbar_text_color_dark",
+    "footer_text_color",
+    "footer_text_color_dark",
+  ];
+
   miscelanousSettings.forEach((setting) => {
     if (settings?.miscelanous?.[setting] !== undefined) {
       if (!updatedData["siteConfig"]) {
         updatedData["siteConfig"] = {};
       }
       updatedData["siteConfig"][setting] = settings.miscelanous[setting];
+    }
+  });
+
+  colorKeys.forEach((colorKey) => {
+    const color = settings?.miscelanous?.[colorKey];
+    if (typeof color === "string") {
+      if (!updatedData["siteConfig"]) {
+        updatedData["siteConfig"] = {};
+      }
+      updatedData["siteConfig"][colorKey] = color;
     }
   });
 
@@ -219,7 +199,7 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
       settings?.site?.customDomain ||
       `${settings?.site?.subDomain}.${domainSuffix}`.replace(":3000", "") ||
       "";
-    const savedUris = await saveFilesInRedis(files);
+    const savedUris = await getCompressedFiles(files);
     const updatedData: any = getUpdatedData(settings, savedUris);
     const isSiteNameChanged = Object.keys(updatedData).includes("name");
     let footerIconsData;
