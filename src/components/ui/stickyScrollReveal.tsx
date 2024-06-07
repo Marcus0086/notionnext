@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { motion } from "framer-motion";
 
@@ -20,11 +20,7 @@ export const StickyScroll = ({
   const [activeCard, setActiveCard] = React.useState(0);
   const ref = useRef<any>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    // container: ref,
-    offset: ["start center", "end center"],
-  });
+  const { scrollYProgress } = useScroll({ target: ref });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const cardLength = content.length;
@@ -42,11 +38,7 @@ export const StickyScroll = ({
     setActiveCard(closestBreakpointIndex);
   });
 
-  const backgroundColors = [
-    "var(--neutral-950)",
-    "var(--blueZodiac)",
-    "var(--slate-950)",
-  ];
+  const backgroundColors = ["var(--neutral-950)"];
   const linearGradients = [
     "linear-gradient(to bottom right, var(--cyan-500), var(--emerald-500))",
     "linear-gradient(to bottom right, var(--pink-500), var(--indigo-500))",
@@ -64,7 +56,7 @@ export const StickyScroll = ({
       <h2 className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600 text-2xl sm:text-4xl md:text-6xl font-semibold leading-snug">
         Use Notion as Website
       </h2>
-      <div className="flex flex-wrap justify-center items-start gap-10 w-full">
+      <div className="flex flex-wrap justify-between items-start gap-10 w-full">
         <div className="relative flex items-start px-4 order-1">
           <div>
             {content.map((item, index) => (
@@ -93,7 +85,7 @@ export const StickyScroll = ({
             background: linearGradients[activeCard % linearGradients.length],
           }}
           className={cn(
-            "sticky top-48 bottom-20 w-96 h-60 rounded-md overflow-hidden order-2 block box-border",
+            "sticky top-52 bottom-20 w-[1024px] h-96 lg:h-[600px] rounded-md overflow-hidden order-2 block box-border",
             contentClassName,
           )}
         >
