@@ -6,6 +6,7 @@ import AisdeButtons from "@/components/dashboard/asideButtons";
 import LoadingComponent from "@/components/dashboard/loadingComponent";
 
 import { cn } from "@/lib/utils";
+import { config } from "@/config";
 
 import { AsideMenuType } from "@/types";
 
@@ -22,7 +23,7 @@ const SettingsAside = ({
         <section className="w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center">
           <Link href="/home">
             <h1 className="text-center text-2xl font-semibold uppercase text-cloudBurst dark:text-white italic">
-              NS
+              {config.COMAPNY_NAME_SHORT}
             </h1>
           </Link>
         </section>
@@ -46,15 +47,16 @@ const SettingsAside = ({
       <aside
         className={cn(
           "bg-white dark:bg-navy-800 drop-shadow-sm",
-          "hidden sm:flex flex-col min-h-full",
+          "hidden sm:flex flex-col h-[calc(100vh-50px)]",
           "transition-all duration-150 ease-linear",
-          "fixed z-50 ",
+          "fixed z-50",
+          "rounded-tl-2xl rounded-bl-2xl",
         )}
       >
         <section className="w-20 h-20 flex items-center justify-center">
           <Link href="/home">
             <h1 className="text-center text-2xl font-semibold uppercase text-cloudBurst dark:text-white italic">
-              NS
+              {config.COMAPNY_NAME_SHORT}
             </h1>
           </Link>
         </section>
