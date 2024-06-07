@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import AsideIcons from "@/components/dashboard/asideIcons";
 
 import { cn } from "@/lib/utils";
+import { config } from "@/config";
 
 import { AsideMenuType } from "@/types";
 
@@ -22,17 +23,18 @@ const Aside = ({
   return (
     <aside
       className={cn(
-        "flex flex-col min-h-full ",
+        "flex flex-col w-72 h-[calc(100vh-50px)]",
         "bg-white dark:bg-navy-800 drop-shadow-sm",
         translate ? translate : "md:translate-x-0",
         "transition-all duration-150 ease-linear -translate-x-96",
         "fixed z-50",
+        "rounded-tl-2xl rounded-bl-2xl",
       )}
     >
       <section className="px-14 py-8">
         <Link href="/">
           <h1 className="text-center text-2xl font-semibold uppercase text-cloudBurst dark:text-white">
-            NotionSite.io
+            {config.COMAPNY_NAME}
           </h1>
         </Link>
       </section>
