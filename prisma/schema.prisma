@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -180,9 +180,9 @@ model FooterIcon {
 model Site {
   id             String           @id @default(cuid())
   name           String
-  html           String?          @db.LongText
-  css            String?          @db.LongText
-  javascript     String?          @db.LongText
+  html           String?          @db.Text
+  css            String?          @db.Text
+  javascript     String?          @db.Text
   description    String?          @db.Text
   logo           String?
   fontFamily     String           @default("default")
