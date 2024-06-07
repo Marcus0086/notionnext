@@ -3,7 +3,7 @@ export { getSiteById, siteImage, sitePage } from "@/lib/actions/site/get";
 export { deleteSiteById } from "@/lib/actions/site/delete";
 export { saveSiteData } from "@/lib/actions/site/save";
 export { getSiteDocuments } from "@/lib/actions/site/get/ai";
-export { getFilesFromRedis } from "@/lib/actions/site/get";
+export { getDecompressedFiles } from "@/lib/actions/site/get";
 export { getUserSites } from "@/lib/actions/site/get/users";
 export { getDesignSiteCardById } from "@/lib/actions/site/get/design";
 export { getGeneralSiteCardById } from "@/lib/actions/site/get/general";
