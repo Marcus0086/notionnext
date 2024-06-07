@@ -39,9 +39,5 @@ export const config = {
       question: "How do I connect a custom domain to my website?",
       answer: `Connecting your own domain is a breeze with ${COMAPNY_NAME}. Our intuitive dashboard allows you to link your custom domain, giving your website a personal touch and making it easy for visitors to find you online.`,
     },
-    {
-      question: `Can I use ${COMAPNY_NAME} for free?`,
-      answer: `Yes, you can begin building your fully responsive ${COMAPNY_NAME} site at no cost, and enjoy the benefits of our free plan for upto a month.`,
-    },
   ],
 };
