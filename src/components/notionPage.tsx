@@ -66,7 +66,7 @@ const NotionPage: React.FC<PageProps> = ({
         })
       );
     },
-    [accountType, config, isLive, recordMap, site]
+    [accountType, config, isLive, recordMap, site],
   );
 
   const components = useMemo<Partial<NotionComponents>>(
@@ -84,7 +84,7 @@ const NotionPage: React.FC<PageProps> = ({
       propertyTextValue,
       Header: getNavHeader,
     }),
-    [getNavHeader]
+    [getNavHeader],
   );
 
   const siteMapPageUrl = useMemo(() => {
@@ -134,7 +134,7 @@ const NotionPage: React.FC<PageProps> = ({
           className={cn(
             "notion-footer",
             "w-full max-w-[1600px] gap-4 py-20 px-8 lg:px-24 text-sm my-4",
-            "flex flex-col items-start justify-center"
+            "flex flex-col items-start justify-center",
           )}
         >
           <nav className="flex flex-wrap items-center justify-between w-full">
@@ -184,7 +184,7 @@ const NotionPage: React.FC<PageProps> = ({
       icon,
       isLive,
       title,
-    ]
+    ],
   );
   return (
     <>
@@ -329,7 +329,7 @@ const NotionPage: React.FC<PageProps> = ({
       {recordMap ? (
         <NotionRenderer
           bodyClassName={cn(
-            pageId === site?.rootNotionPageId ? "index-page" : ""
+            pageId === site?.rootNotionPageId ? "index-page" : "",
           )}
           showTableOfContents={isBlogPost}
           components={components}

@@ -20,7 +20,7 @@ const ColorPickerDropdown = ({
 }: DesignSettingsDropDownType) => {
   const popover = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean[]>(
-    new Array(componentItems.length).fill(false)
+    new Array(componentItems.length).fill(false),
   );
 
   const { theme } = useTheme();
@@ -105,7 +105,7 @@ const ColorPickerDropdown = ({
       }
       setIsOpen(new Array(componentItems.length).fill(false));
     },
-    [componentItems.length]
+    [componentItems.length],
   );
   useClickOutside(popover, close);
 
@@ -209,34 +209,34 @@ const ColorPickerDropdown = ({
               "text-base font-medium text-cloudBurst dark:text-selago",
               "w-full flex justify-between items-start outline-none cursor-pointer p-2 rounded-lg",
               "border border-gray-300 dark:border-navy-700",
-              "bg-white dark:bg-navy-800"
+              "bg-white dark:bg-navy-800",
             )}
           >
             {title}
             <FiChevronUp
               className={cn(
                 "w-5 h-5 transition-transform duration-150 ease-in-out",
-                open ? "transform rotate-180" : ""
+                open ? "transform rotate-180" : "",
               )}
             />
           </Disclosure.Button>
           <Disclosure.Panel
             className={cn(
-              "flex flex-col items-center justify-center gap-y-6 p-4 bg-white dark:bg-navy-800 rounded-md"
+              "flex flex-col items-center justify-center gap-y-6 p-4 bg-white dark:bg-navy-800 rounded-md",
             )}
           >
             {componentItems.map((item, index) => (
               <div
                 key={index}
                 className={cn(
-                  "flex items-center justify-between gap-x-2 w-full "
+                  "flex items-center justify-between gap-x-2 w-full ",
                 )}
               >
                 <span className="text-sm">{item.name}</span>
                 {item.type === "Color" ? (
                   <button
                     className={cn(
-                      "relative border border-gray-300 !p-0 !w-4 !h-4 !rounded-full !cursor-pointer !min-h-4  !flex-grow-0"
+                      "relative border border-gray-300 !p-0 !w-4 !h-4 !rounded-full !cursor-pointer !min-h-4  !flex-grow-0",
                     )}
                     style={{
                       background: styleMap[item.id]?.["color"]
