@@ -55,6 +55,12 @@ const ColorPaletteDropDown = () => {
         main_text_color: "",
         navbar_text_color: "",
         footer_text_color: "",
+        main_bg_dark: "",
+        navbar_bg_dark: "",
+        footer_bg_dark: "",
+        main_text_color_dark: "",
+        navbar_text_color_dark: "",
+        footer_text_color_dark: "",
       },
       config: {
         ...settings?.config,
@@ -70,6 +76,12 @@ const ColorPaletteDropDown = () => {
         main_text_color: "",
         navbar_text_color: "",
         footer_text_color: "",
+        main_bg_dark: "",
+        navbar_bg_dark: "",
+        footer_bg_dark: "",
+        main_text_color_dark: "",
+        navbar_text_color_dark: "",
+        footer_text_color_dark: "",
       },
     });
     setSelectedTheme(name);
