@@ -797,7 +797,8 @@ const PRODUCT_TIMELINE = [
           src="/images/home/demo.webp"
           width={300}
           height={300}
-          className="h-full w-full object-cover"
+          unoptimized
+          className="h-full w-full object-fill"
           alt="linear board demo"
         />
       </div>
