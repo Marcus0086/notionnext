@@ -8,7 +8,6 @@ import { resolveNotionPage } from "@/lib/resolveNotionPage";
 import { getSiteMap } from "@/lib/getSiteMap";
 
 import prisma from "@/lib/prisma";
-import { getRedisClient } from "@/lib/redis";
 
 import { _SiteData } from "@/types";
 
@@ -37,7 +36,7 @@ const getSiteById = cache(async (siteId: string) => {
       javascript: site.javascript,
       html: site.html,
     };
-    const files = await getFilesFromRedis(uris);
+    const files = await getDecompressedFiles(uris);
     const siteDataWithFiles = {
       ...site,
       css: files?.["css"],
@@ -121,13 +120,13 @@ const decompressData = async (data: any) => {
   }
 };
 
-const getFilesFromRedis = async (uris: Record<string, string | undefined>) => {
+const getDecompressedFiles = async (
+  uris: Record<string, string | undefined>,
+) => {
   const files: Record<string, string> = {};
-  const redisClient = await getRedisClient();
   for (const [key, value] of Object.entries(uris)) {
     if (value) {
-      const file = await redisClient.get(value);
-      const decomressedFile = await decompressData(file);
+      const decomressedFile = await decompressData(value);
       if (decomressedFile) {
         files[key] = decomressedFile;
       }
@@ -136,4 +135,4 @@ const getFilesFromRedis = async (uris: Record<string, string | undefined>) => {
   return files;
 };
 
-export { getSiteById, sitePage, siteImage, getFilesFromRedis };
+export { getSiteById, sitePage, siteImage, getDecompressedFiles };
