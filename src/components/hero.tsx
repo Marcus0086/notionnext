@@ -26,7 +26,7 @@ const Hero = () => {
           titleComponent={
             <div className="flex items-center flex-col">
               <TryNowButton />
-              <h1 className="text-3xl md:text-5xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-600 font-sans font-bold">
+              <h1 className="text-3xl md:text-5xl lg:text-8xl bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-600 font-sans font-bold mb-4">
                 Craft Beautiful Websites Today With Notion
               </h1>
             </div>
@@ -37,7 +37,7 @@ const Hero = () => {
             alt="hero"
             height={720}
             width={1400}
-            className="mx-auto rounded-2xl h-full object-left-top"
+            className="mx-auto rounded-2xl h-full object-fill"
           />
         </ContainerScroll>
       </div>
