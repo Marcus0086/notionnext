@@ -33,6 +33,10 @@ export interface SiteSettings {
   recordMap?: ExtendedRecordMap;
   siteMap?: SiteMap;
   miscelanous?: Record<string, string | boolean>;
+  fullSiteClone?: {
+    site?: Site;
+    config?: SiteConfig;
+  };
 }
 
 export interface _SiteData extends Site {
