@@ -36,7 +36,7 @@ const FooterSettings = async ({ params: { siteId } }: SitePageParams) => {
   if (!footerSiteCard || !footerSiteCard.siteConfig) {
     notFound();
   }
-  const queryClient = getQueryClient();
+  const queryClient = await getQueryClient();
   try {
     await queryClient.prefetchQuery({
       queryKey: ["footer", siteId],
@@ -76,3 +76,9 @@ const FooterSettings = async ({ params: { siteId } }: SitePageParams) => {
 };
 
 export default FooterSettings;
+
+export const dynamicParams = true;
+
+export const generateStaticParams = async () => {
+  return [];
+};
