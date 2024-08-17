@@ -125,7 +125,7 @@ const SettingsNav = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
   return (
     <nav
       className="flex items-center justify-between w-full bg-white 
-    dark:bg-blueZodiac h-11 px-5 border-b border-gray-300 dark:border-gray-800"
+    dark:bg-navy-900 h-11 px-5 border-b border-gray-300 dark:border-gray-800"
     >
       <div className="flex items-center justify-center gap-x-1">
         {/* {["mobile", "tablet", "desktop"].map((name, index) => {
