@@ -66,7 +66,7 @@ const RecentHistory = () => {
     }
   };
   return (
-    <div className="px-16 py-4 bg-white dark:bg-navy-800 rounded-3xl drop-shadow-xl min-h-[600px]">
+    <div className="px-16 py-4 bg-white dark:bg-navy-800 rounded-3xl shadow-xl min-h-[600px]">
       <div className="antialiased mx-auto">
         <div className="text-center text-2xl">Recent History</div>
         <ul className="flex items-start justify-between flex-col mt-4 gap-4">
