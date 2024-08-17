@@ -2,191 +2,38 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
 
 import SaveResetButtons from "@/components/dashboard/saveResetButtons";
 import { useParentPageSettings } from "@/context/parentPage";
 
 import { saveSiteData } from "@/lib/actions/site";
 
-import { getCompressedFiles, saveFooterIcons } from "@/lib/actions/site/save";
 import ActivityLogger from "@/lib/logger";
+import { getCompressedFiles, saveFooterIcons } from "@/lib/actions/site/save";
 import { domainSuffix } from "@/lib/config";
+import { revalidateSite } from "@/lib/siteDb";
+import {
+  generateLogMessage,
+  getUpdatedData,
+  getResetDesignSettings,
+  getResetGeneralSettings,
+  getResetSeoSettings,
+} from "@/lib/saveReset";
 
 import useToast from "@/hooks/useToast";
-
-import { SiteSettings } from "@/types/site";
-import { revalidateSite } from "@/lib/siteDb";
-
-const generateLogMessage = (updatedData: any) => {
-  const changes = [
-    {
-      field: "visibility",
-      message: `Changed visibility to ${updatedData?.visibility}`,
-    },
-    { field: "name", message: `Changed name to ${updatedData?.name}` },
-    {
-      field: "description",
-      message: `Changed description to ${updatedData?.description?.slice(
-        0,
-        100,
-      )}`,
-    },
-    { field: "css", message: "Changed css" },
-    { field: "html", message: "Changed html" },
-    { field: "javascript", message: "Changed javascript" },
-    {
-      field: "fontFamily",
-      message: `Changed fontFamily to ${updatedData?.fontFamily}`,
-    },
-    {
-      field: "isSearchEnabled",
-      message: `Changed isSearchEnabled to ${updatedData?.isSearchEnabled}`,
-    },
-    {
-      field: "isAiSearchEnabled",
-      message: `Changed isAiSearchEnabled to ${updatedData?.isAiSearchEnabled}`,
-    },
-    {
-      field: "isDarkModeEnabled",
-      message: `Changed isDarkModeEnabled to ${updatedData?.isDarkModeEnabled}`,
-    },
-    {
-      field: "isTweetEmbedSupportEnabled",
-      message: `Changed isTweetEmbedSupportEnabled to ${updatedData?.isTweetEmbedSupportEnabled}`,
-    },
-    {
-      field: "isPreviewImageSupportEnabled",
-      message: `Changed isPreviewImageSupportEnabled to ${updatedData?.isPreviewImageSupportEnabled}`,
-    },
-    {
-      field: "isTopLoadingBarEnabled",
-      message: `Changed isTopLoadingBarEnabled to ${updatedData?.isTopLoadingBarEnabled}`,
-    },
-    {
-      field: "includeNotionIdInUrls",
-      message: `Changed includeNotionIdInUrls to ${updatedData?.includeNotionIdInUrls}`,
-    },
-  ];
-
-  for (const change of changes) {
-    if (updatedData?.[change.field] !== undefined) {
-      return change.message;
-    }
-  }
-
-  return "Updated site successfully";
-};
-
-const getUpdatedData = (
-  settings: SiteSettings,
-  savedUris: Record<string, string>,
-) => {
-  const updatedData: any = {};
-  if (settings?.miscelanous?.visibility) {
-    updatedData.visibility = settings.miscelanous.visibility;
-  }
-
-  if (typeof settings?.miscelanous?.css === "string") {
-    updatedData.css = savedUris["css"];
-  }
-
-  if (typeof settings?.miscelanous?.html === "string") {
-    updatedData.html = savedUris["html"];
-  }
-
-  if (typeof settings?.miscelanous?.javascript === "string") {
-    updatedData.javascript = savedUris["javascript"];
-  }
-
-  if (settings?.miscelanous?.fontFamily) {
-    updatedData.fontFamily = settings.miscelanous.fontFamily;
-  }
-
-  if (settings?.miscelanous?.name) {
-    updatedData.name = settings.miscelanous.name;
-    updatedData.subDomain = settings.miscelanous.name;
-  }
-
-  if (typeof settings?.miscelanous?.description === "string") {
-    updatedData.description = settings.miscelanous.description;
-  }
-
-  if (typeof settings?.miscelanous?.main_title_size === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["main_title_size"] =
-      settings.miscelanous.main_title_size;
-  }
-
-  if (typeof settings?.miscelanous?.main_text_size === "string") {
-    if (!updatedData["siteConfig"]) {
-      updatedData["siteConfig"] = {};
-    }
-    updatedData["siteConfig"]["main_text_size"] =
-      settings.miscelanous.main_text_size;
-  }
-
-  const miscelanousSettings = [
-    "isSearchEnabled",
-    "isAiSearchEnabled",
-    "isDarkModeEnabled",
-    "isTweetEmbedSupportEnabled",
-    "isPreviewImageSupportEnabled",
-    "isTopLoadingBarEnabled",
-    "includeNotionIdInUrls",
-    "isSiteMapEnabled",
-    "isIndexingEnabled",
-    "navigationStyle",
-    "footerStyle",
-    "footer_footnote",
-    "footer_title",
-    "footer_divider",
-  ];
-
-  const colorKeys = [
-    "main_bg",
-    "main_bg_dark",
-    "navbar_bg",
-    "navbar_bg_dark",
-    "footer_bg",
-    "footer_bg_dark",
-    "main_text_color",
-    "main_text_color_dark",
-    "navbar_text_color",
-    "navbar_text_color_dark",
-    "footer_text_color",
-    "footer_text_color_dark",
-  ];
-
-  miscelanousSettings.forEach((setting) => {
-    if (settings?.miscelanous?.[setting] !== undefined) {
-      if (!updatedData["siteConfig"]) {
-        updatedData["siteConfig"] = {};
-      }
-      updatedData["siteConfig"][setting] = settings.miscelanous[setting];
-    }
-  });
-
-  colorKeys.forEach((colorKey) => {
-    const color = settings?.miscelanous?.[colorKey];
-    if (typeof color === "string") {
-      if (!updatedData["siteConfig"]) {
-        updatedData["siteConfig"] = {};
-      }
-      updatedData["siteConfig"][colorKey] = color;
-    }
-  });
-
-  return updatedData;
-};
 
 const SaveReset = ({ siteId }: { siteId: string }) => {
   const toastOptions = useToast();
   const { settings, setSettings } = useParentPageSettings();
   const [saved, setSaved] = useState(false);
+  const path = usePathname();
 
   const queryClient = useQueryClient();
+
+  const currentSettings = structuredClone(settings);
+
+  const miscelanousSettings = structuredClone(settings?.miscelanous);
 
   const handleSave = async () => {
     setSaved(true);
@@ -206,7 +53,7 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
     if (settings?.config?.footerIcons !== undefined && settings?.config?.id) {
       footerIconsData = saveFooterIcons(
         settings?.config.id,
-        settings?.config.footerIcons,
+        settings?.config.footerIcons
       );
     }
     const siteData = saveSiteData(siteId, updatedData);
@@ -231,7 +78,7 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
       updatedSiteData?.site?.customDomain ||
       `${updatedSiteData?.site?.subDomain}.${domainSuffix}`.replace(
         ":3000",
-        "",
+        ""
       ) ||
       "";
 
@@ -269,35 +116,86 @@ const SaveReset = ({ siteId }: { siteId: string }) => {
         query.queryKey[0] === "options" && query.queryKey[1] === siteId,
     });
   };
+
   const handleReset = () => {
-    if (settings?.site) {
+    if (miscelanousSettings) {
+      const resetGeneralSettings = getResetGeneralSettings(
+        currentSettings,
+        miscelanousSettings
+      );
       setSettings({
         ...settings,
-        site: {
-          ...settings?.site,
-          css: "",
-          javascript: "",
-          html: "",
-          fontFamily: "default",
-        },
-        miscelanous: {},
-        config: {
-          ...settings?.config,
-          id: settings?.config?.id || "",
-          rootNotionPageId: settings?.config?.rootNotionPageId || "",
-          rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
-          name: settings?.config?.name || "",
-          domain: settings?.config?.domain || "",
-          author: settings?.config?.author || "",
-          main_bg: undefined,
-          navbar_bg: undefined,
-          main_text_color: undefined,
-          navbar_text_color: undefined,
-          main_title_size: undefined,
-          main_text_size: undefined,
+        miscelanous: {
+          ...resetGeneralSettings,
         },
       });
+      if (path.includes("/design")) {
+        const resetDesignSettings = getResetDesignSettings(miscelanousSettings);
+        setSettings({
+          ...settings,
+          site: {
+            ...settings?.site,
+            ...currentSettings?.fullSiteClone?.site,
+            id: settings?.site?.id || "",
+            userId: settings?.site?.userId || "",
+            name: settings?.site?.name || "",
+            rootNotionPageId: settings?.site?.rootNotionPageId || "",
+            rootNotionSpaceId: settings?.site?.rootNotionSpaceId || "",
+            fontFamily: currentSettings?.fullSiteClone?.site?.fontFamily || "",
+          },
+          config: {
+            ...settings?.config,
+            ...currentSettings?.fullSiteClone?.config,
+            id: settings?.config?.id || "",
+            rootNotionPageId: settings?.config?.rootNotionPageId || "",
+            name: settings?.config?.name || "",
+            domain: settings?.config?.domain || "",
+            author: settings?.config?.author || "",
+          },
+          miscelanous: {
+            ...resetDesignSettings,
+          },
+        });
+      }
+      if (path.includes("/seo")) {
+        const resetSeoSettings = getResetSeoSettings(miscelanousSettings);
+        setSettings({
+          ...settings,
+          miscelanous: {
+            ...resetSeoSettings,
+          },
+        });
+      }
     }
+
+    // if (settings?.site) {
+    //   setSettings({
+    //     ...settings,
+    //     site: {
+    //       ...settings?.site,
+    //       css: "",
+    //       javascript: "",
+    //       html: "",
+    //       fontFamily: "default",
+    //     },
+    //     miscelanous: {},
+    //     config: {
+    //       ...settings?.config,
+    //       id: settings?.config?.id || "",
+    //       rootNotionPageId: settings?.config?.rootNotionPageId || "",
+    //       rootNotionSpaceId: settings?.config?.rootNotionSpaceId || "",
+    //       name: settings?.config?.name || "",
+    //       domain: settings?.config?.domain || "",
+    //       author: settings?.config?.author || "",
+    //       main_bg: undefined,
+    //       navbar_bg: undefined,
+    //       main_text_color: undefined,
+    //       navbar_text_color: undefined,
+    //       main_title_size: undefined,
+    //       main_text_size: undefined,
+    //     },
+    //   });
+    // }
   };
   return (
     <SaveResetButtons
