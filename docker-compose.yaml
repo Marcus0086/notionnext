@@ -6,6 +6,5 @@ services:
     env_file:
       - .env.production
     depends_on:
-      - notionnext_db
       - notionnext_redis
     restart: always
