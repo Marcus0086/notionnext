@@ -19,7 +19,7 @@ const ColorPaletteDropDown = () => {
   const handleThemeChange = (
     background: string,
     name: string,
-    type: string,
+    type: string
   ) => {
     if (type !== theme || (type !== "dark" && type !== "light")) {
       return;
@@ -33,6 +33,25 @@ const ColorPaletteDropDown = () => {
     const newSettingsCss = settingsCss.includes(css)
       ? settingsCss.replace(css, "") + css
       : settingsCss + css;
+
+    const themeSettingsLight = {
+      main_bg: "",
+      navbar_bg: "",
+      footer_bg: "",
+      main_text_color: "",
+      navbar_text_color: "",
+      footer_text_color: "",
+    };
+
+    const themeSettingsDark = {
+      main_bg_dark: "",
+      navbar_bg_dark: "",
+      footer_bg_dark: "",
+      main_text_color_dark: "",
+      navbar_text_color_dark: "",
+      footer_text_color_dark: "",
+    };
+
     setSettings({
       ...settings,
       site: {
@@ -49,18 +68,7 @@ const ColorPaletteDropDown = () => {
       miscelanous: {
         ...settings?.miscelanous,
         css: newSettingsCss,
-        main_bg: "",
-        navbar_bg: "",
-        footer_bg: "",
-        main_text_color: "",
-        navbar_text_color: "",
-        footer_text_color: "",
-        main_bg_dark: "",
-        navbar_bg_dark: "",
-        footer_bg_dark: "",
-        main_text_color_dark: "",
-        navbar_text_color_dark: "",
-        footer_text_color_dark: "",
+        ...(type === "dark" ? themeSettingsDark : themeSettingsLight),
       },
       config: {
         ...settings?.config,
@@ -70,18 +78,7 @@ const ColorPaletteDropDown = () => {
         name: settings?.config?.name || "",
         domain: settings?.config?.domain || "",
         author: settings?.config?.author || "",
-        main_bg: "",
-        navbar_bg: "",
-        footer_bg: "",
-        main_text_color: "",
-        navbar_text_color: "",
-        footer_text_color: "",
-        main_bg_dark: "",
-        navbar_bg_dark: "",
-        footer_bg_dark: "",
-        main_text_color_dark: "",
-        navbar_text_color_dark: "",
-        footer_text_color_dark: "",
+        ...(type === "dark" ? themeSettingsDark : themeSettingsLight),
       },
     });
     setSelectedTheme(name);
@@ -119,20 +116,20 @@ const ColorPaletteDropDown = () => {
               "text-base font-medium text-cloudBurst dark:text-selago",
               "w-full flex justify-between items-start outline-none cursor-pointer p-2 rounded-lg",
               "border border-gray-300 dark:border-navy-700",
-              "bg-white dark:bg-navy-800",
+              "bg-white dark:bg-navy-800"
             )}
           >
             Color Palette
             <FiChevronUp
               className={cn(
                 "w-5 h-5 transition-transform duration-150 ease-in-out",
-                open ? "transform rotate-180" : "",
+                open ? "transform rotate-180" : ""
               )}
             />
           </Disclosure.Button>
           <Disclosure.Panel
             className={cn(
-              "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4",
+              "grid grid-cols-3 3xl:grid-cols-4 items-center justify-center gap-4 bg-selago dark:bg-navy-800 rounded-md p-2"
             )}
           >
             {PALETTE.map(
@@ -144,7 +141,7 @@ const ColorPaletteDropDown = () => {
                       "rounded-md cursor-pointer hover:shadow-lg",
                       selectedTheme === name
                         ? "ring-2 ring-offset-2 ring-brandLinear"
-                        : "",
+                        : ""
                     )}
                     onClick={() => {
                       if (background) {
@@ -163,7 +160,7 @@ const ColorPaletteDropDown = () => {
                     {name}
                   </h6>
                 </li>
-              ),
+              )
             )}
           </Disclosure.Panel>
         </>
