@@ -73,3 +73,9 @@ const DesignPage = async ({ params: { siteId } }: SitePageParams) => {
 };
 
 export default DesignPage;
+
+export const dynamicParams = true;
+
+export const generateStaticParams = async () => {
+  return [];
+};
