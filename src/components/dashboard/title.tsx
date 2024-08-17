@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useSelectedLayoutSegment } from "next/navigation";
 
 const Titles: {
@@ -16,10 +17,15 @@ const Titles: {
   domains: "Domains",
 };
 
-const Title = () => {
+const Title = ({ children }: { children?: React.ReactNode }) => {
   const layout = useSelectedLayoutSegment();
   const currentTitle = Titles[layout || ""];
-  return <>{currentTitle}</>;
+  return (
+    <>
+      {currentTitle}
+      {children}
+    </>
+  );
 };
 
 export default Title;
