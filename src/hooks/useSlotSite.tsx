@@ -29,7 +29,7 @@ const useSlotSite = () => {
     }
   };
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["slotSite", siteId, pageId],
     queryFn: fetchSlotSite,
     refetchOnWindowFocus: () => false,
@@ -39,6 +39,7 @@ const useSlotSite = () => {
 
   return {
     pageProps: data,
+    isLoading,
     siteId,
   };
 };
