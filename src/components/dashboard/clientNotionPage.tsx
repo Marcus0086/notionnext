@@ -16,6 +16,10 @@ const ClientNotionPage = ({ pageProps }: { pageProps?: ProviderPageProps }) => {
       site: pageProps?.site,
       recordMap: pageProps?.recordMap,
       siteMap: pageProps?.siteMap,
+      fullSiteClone: {
+        site: Object.freeze(structuredClone(pageProps?.site)),
+        config: Object.freeze(structuredClone(pageProps?.config)),
+      },
     });
   }, [
     pageProps?.config,
