@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import ThemeButton from "../shared/themeButton";
 import AisdeButtons from "@/components/dashboard/asideButtons";
 import LoadingComponent from "@/components/dashboard/loadingComponent";
+import UserButton from "@/components/dashboard/userButton";
 
 import { cn } from "@/lib/utils";
 import { config } from "@/config";
@@ -19,16 +20,8 @@ const SettingsAside = ({
 }) => {
   return (
     <>
-      <aside className="flex items-center justify-center gap-2 dark:bg-navy-800 sm:hidden shadow-2xl">
-        <section className="w-14 h-14 sm:w-20 sm:h-20 flex items-center justify-center">
-          <Link href="/home">
-            <h1 className="text-center text-2xl font-semibold uppercase text-cloudBurst dark:text-white italic">
-              {config.COMAPNY_NAME_SHORT}
-            </h1>
-          </Link>
-        </section>
-        <hr className="bg-gray-400 w-[1px] h-14" />
-        <ul className="h-auto w-full overflow-auto flex items-center justify-start gap-x-4 no-scroll">
+      <aside className="flex items-center justify-center bg-white dark:bg-navy-800 sm:hidden shadow-2xl">
+        <ul className="h-auto w-full overflow-auto flex items-center justify-start gap-x-2 no-scroll">
           {items.map(({ title, icon, link }, index) => (
             <AisdeButtons
               key={index}
@@ -39,8 +32,9 @@ const SettingsAside = ({
               disableName
             />
           ))}
+          <UserButton />
         </ul>
-        <div className="flex flex-col items-center justify-center py-4 mx-auto mt-auto">
+        <div className="flex w-8">
           <ThemeButton />
         </div>
       </aside>
@@ -50,7 +44,7 @@ const SettingsAside = ({
           "hidden sm:flex flex-col h-[calc(100vh-50px)]",
           "transition-all duration-150 ease-linear",
           "fixed z-50",
-          "rounded-tl-2xl rounded-bl-2xl",
+          "rounded-tl-2xl rounded-bl-2xl"
         )}
       >
         <section className="w-20 h-20 flex items-center justify-center">
@@ -74,7 +68,8 @@ const SettingsAside = ({
             ))}
           </ul>
         </Suspense>
-        <div className="flex flex-col items-center justify-center py-4 mx-auto mt-auto">
+        <div className="flex flex-col items-center justify-center gap-y-4 py-4 mx-auto mt-auto">
+          <UserButton />
           <ThemeButton />
         </div>
       </aside>
