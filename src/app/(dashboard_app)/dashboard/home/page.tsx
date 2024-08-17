@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import Image from "next/image";
 import { Metadata } from "next";
 
 const SiteCard = dynamic(() => import("@/components/dashboard/siteCard"));
@@ -31,7 +30,7 @@ const DashboardHomePage = async ({
 
   const userSites = await getUserSites(
     filter.toLocaleUpperCase() as VisibilityFilter,
-    user.id,
+    user.id
   );
   return (
     <main className="mt-4 pb-20">
@@ -46,16 +45,7 @@ const DashboardHomePage = async ({
       ) : (
         <div className="flex flex-col items-center justify-center w-full font-medium text-center">
           <div className="flex items-center justify-center">
-            <h1 className="text-9xl sm:text-[14rem] leading-none">4</h1>
-            <div className="relative w-32 h-32 sm:w-72 sm:h-72">
-              <Image
-                src="/images/dashboard/notfound.webp"
-                fill
-                alt="Not Found"
-                className="mix-blend-color-burn"
-              />
-            </div>
-            <h1 className="text-9xl sm:text-[14rem] leading-none">4</h1>
+            <h1 className="text-9xl sm:text-[14rem] leading-tight">404</h1>
           </div>
           <h3 className="text-3xl">{"It's very quiet here!"}</h3>
         </div>
