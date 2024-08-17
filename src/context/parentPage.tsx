@@ -33,6 +33,10 @@ const ParentPageSettingsProvider = ({
     site: undefined,
     recordMap: undefined,
     miscelanous: undefined,
+    fullSiteClone: {
+      site: undefined,
+      config: undefined,
+    },
     siteMap: undefined,
   });
   const client = useMemo(() => new QueryClient(), []);
