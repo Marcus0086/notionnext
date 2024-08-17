@@ -3,14 +3,6 @@
 import SettingsNav from "@/components/dashboard/settingsNav";
 import ClientNotionPage from "@/components/dashboard/clientNotionPage";
 import LoadingComponent from "@/components/dashboard/loadingComponent";
-import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 
 import { cn } from "@/lib/utils";
 
@@ -23,12 +15,9 @@ const SlotSites = () => {
     <>
       {pageProps ? (
         <>
-          <Sheet>
+          {/* <Sheet>
             <SheetTrigger asChild>
-              <Button
-                className="block llg:hidden absolute right-8"
-                variant="outline"
-              >
+              <Button className="hidden absolute right-8" variant="outline">
                 Preview
               </Button>
             </SheetTrigger>
@@ -42,13 +31,13 @@ const SlotSites = () => {
                 <ClientNotionPage pageProps={pageProps} />
               </div>
             </SheetContent>
-          </Sheet>
+          </Sheet> */}
           <section
             className={cn(
               "hidden llg:block",
               "h-full transition-all duration-150 ease-in-out overflow-hidden sticky top-28",
               "min-w-[375px] xl:w-3/4",
-              "rounded-md border border-gray-300 dark:border-gray-800",
+              "rounded-md border border-gray-300 dark:border-gray-800"
             )}
           >
             <SettingsNav pageProps={pageProps} />
