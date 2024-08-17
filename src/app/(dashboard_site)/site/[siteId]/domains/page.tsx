@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 import { DOMAIN_SETTINGS } from "@/components/dashboard/constants";
 import NameInputCard from "@/components/dashboard/nameInputCard";
 import UpgradePlanCard from "@/components/dashboard/upgradePlanCard";
+import LoadingCard from "@/components/dashboard/loadingCard";
 
 import { getDomainsSiteCardById } from "@/lib/actions/site";
 
@@ -32,7 +34,9 @@ const DomainsSettingsPage = async ({ params: { siteId } }: SitePageParams) => {
   }
   return (
     <>
-      <UpgradePlanCard type="domains" />
+      <Suspense fallback={<LoadingCard />}>
+        <UpgradePlanCard type="domains" />
+      </Suspense>
       {DOMAIN_SETTINGS.map((card, index) => (
         <NameInputCard
           key={index}
