@@ -19,7 +19,7 @@ const SiteAIPages = async ({
   siteId: string;
   page: number;
 }) => {
-  const queryClient = getQueryClient();
+  const queryClient = await getQueryClient();
   try {
     await queryClient.prefetchQuery({
       queryKey: ["ai", page, siteId],
