@@ -1,13 +1,12 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { cache } from "react";
 
-import prisma from "./prisma";
-import { resolveNotionPage } from "./resolveNotionPage";
+import prisma from "@/lib/prisma";
+import { getDecompressedFiles } from "@/lib/actions/site/get";
+import { resolveNotionPage } from "@/lib/resolveNotionPage";
 
 import { PageProps, RootParams, _SiteData } from "@/types";
-import { getDecompressedFiles } from "./actions/site/get";
 
 const getSiteSiteConfig = async ({ site }: RootParams) => {
   const subDomain = site.endsWith(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
@@ -101,7 +100,7 @@ const getFetchUrl = (site: string[]) => {
   return siteUrl;
 };
 
-const fetcher = cache(async (type: string, site: string[]) => {
+const fetcher = async (type: string, site: string[]) => {
   switch (type) {
     case "site":
       try {
@@ -135,6 +134,6 @@ const fetcher = cache(async (type: string, site: string[]) => {
     default:
       break;
   }
-});
+};
 
 export { getAuthDomains, getSiteSiteConfig, revalidateSite, fetcher };
