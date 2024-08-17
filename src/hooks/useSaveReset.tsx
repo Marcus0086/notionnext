@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
 
 import { useParentPageSettings } from "@/context/parentPage";
@@ -12,6 +12,19 @@ const useSaveReset = (siteId: string) => {
   const { settings, setSettings } = useParentPageSettings();
   const toastOptions = useToast();
   const cleanCss = useCleanCss();
+
+  const [prevSettings, setPrevSettings] = useState(settings);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (
+      JSON.stringify(prevSettings) !== JSON.stringify(settings) &&
+      !isVisible
+    ) {
+      setIsVisible(true);
+      setPrevSettings(settings);
+    }
+  }, [isVisible, prevSettings, settings]);
 
   const handleDefaultSave = useCallback(async () => {
     setSaving(true);
@@ -49,6 +62,7 @@ const useSaveReset = (siteId: string) => {
     handleDefaultReset,
     handleDefaultSave,
     saving,
+    isVisible,
   };
 };
 
