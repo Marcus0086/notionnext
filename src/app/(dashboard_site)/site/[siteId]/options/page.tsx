@@ -30,7 +30,7 @@ export async function generateMetadata({
 }
 
 const OptionsPage = async ({ params: { siteId } }: SitePageParams) => {
-  const queryClient = getQueryClient();
+  const queryClient = await getQueryClient();
   try {
     await queryClient.prefetchQuery({
       queryKey: ["options", siteId],

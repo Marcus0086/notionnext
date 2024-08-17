@@ -52,3 +52,9 @@ const NavSettings = async ({ params: { siteId } }: SitePageParams) => {
 };
 
 export default NavSettings;
+
+export const dynamicParams = true;
+
+export const generateStaticParams = async () => {
+  return [];
+};

@@ -63,7 +63,7 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
   if (!seoPageData?.site?.image && image && image.length > 0) {
     await siteImage(siteId, image);
   }
-  const queryClient = getQueryClient();
+  const queryClient = await getQueryClient();
   try {
     await queryClient.prefetchQuery({
       queryKey: ["seo", siteId],
@@ -76,7 +76,9 @@ const SeoSettings = async ({ params: { siteId } }: SitePageParams) => {
 
   return (
     <>
-      <UpgradePlanCard type="seo" />
+      <Suspense fallback={<LoadingCard />}>
+        <UpgradePlanCard type="seo" />
+      </Suspense>
       <HydrationBoundary state={dehydratedState}>
         <div
           className={cn(
