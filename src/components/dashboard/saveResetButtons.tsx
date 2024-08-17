@@ -2,6 +2,8 @@
 
 import { cn } from "@/lib/utils";
 
+import { Button } from "@/components/ui/button";
+
 import useSaveReset from "@/hooks/useSaveReset";
 
 const SaveResetButtons = ({
@@ -15,30 +17,40 @@ const SaveResetButtons = ({
   saved?: boolean;
   siteId?: string;
 }) => {
-  const { handleDefaultReset, handleDefaultSave, saving } = useSaveReset(
-    siteId || "",
-  );
+  const { handleDefaultReset, handleDefaultSave, saving, isVisible } =
+    useSaveReset(siteId || "");
 
   return (
-    <div className="flex items-center justify-between w-full mt-2 gap-x-2">
-      <button
-        onClick={handleReset ?? handleDefaultReset}
-        className="bg-blueZodiac dark:bg-navy-700 rounded-xl text-center w-full py-3"
-      >
-        <span className="text-white font-normal text-sm">Reset</span>
-      </button>
-      <button
-        onClick={handleSave ?? handleDefaultSave}
-        className={cn(
-          "bg-brand-500 rounded-xl text-center w-full py-3",
-          saved ?? saving
-            ? "animate-pulse cursor-not-allowed pointer-events-none"
-            : "",
-        )}
-      >
-        <span className="text-white font-normal text-sm">Save</span>
-      </button>
-    </div>
+    <>
+      {isVisible ? (
+        <div className="flex items-center justify-end w-full gap-x-4">
+          <Button
+            variant={"outline"}
+            onClick={handleSave ?? handleDefaultSave}
+            className={cn(
+              "rounded-xl text-center py-0 border-green-600",
+              saved ?? saving
+                ? "animate-pulse cursor-not-allowed pointer-events-none"
+                : "",
+            )}
+          >
+            <span className="font-normal text-xs text-green-600">Save</span>
+          </Button>
+          <Button
+            variant={"outline"}
+            onClick={handleReset ?? handleDefaultReset}
+            className={cn(
+              "rounded-xl text-center py-0 border-yellow-600",
+              saved ?? saving ? "cursor-not-allowed pointer-events-none" : "",
+            )}
+          >
+            <span className="font-normal text-xs text-yellow-600">Reset</span>
+          </Button>
+        </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
