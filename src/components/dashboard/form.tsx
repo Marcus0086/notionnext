@@ -1,12 +1,14 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 import FormSubmitButton from "@/components/shared/formSubmitButton";
 
 import useFormAction from "@/hooks/useFormAction";
 
 const CreateSiteForm = () => {
   const { action } = useFormAction();
-
+  const { data } = useSession();
   return (
     <form
       action={action}
@@ -14,7 +16,7 @@ const CreateSiteForm = () => {
     >
       {/* TODO: Ask chatgpt for a better copy text */}
       <h1 className="relative z-10 text-4xl sm:text-5xl leading-[1.25] md:text-6xl md:leading-[1.25]  bg-clip-text text-transparent bg-gradient-to-b from-[#1F1F1F] to-neutral-500 dark:from-neutral-200 dark:to-neutral-600 text-center font-sans font-bold">
-        Create Extraordinary Landing Pages
+        Create Extraordinary WebSites
       </h1>
       <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
         Enter in the creative world of NotionSite.io and build your own No-code
@@ -45,15 +47,17 @@ const CreateSiteForm = () => {
         />
         <div className="flex items-center justify-center gap-x-4 mt-5">
           <FormSubmitButton>Create</FormSubmitButton>
-          <div className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-400 rounded-xl">
-            <label
-              htmlFor="toggle"
-              className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Private Pages
-            </label>
-            <input type="checkbox" name="toggle" />
-          </div>
+          {data?.user?.accountType !== "FREE" ? (
+            <div className="flex items-center justify-center gap-2 px-4 py-3 border border-gray-400 rounded-xl">
+              <label
+                htmlFor="toggle"
+                className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Private Pages
+              </label>
+              <input type="checkbox" name="toggle" />
+            </div>
+          ) : null}
         </div>
       </div>
     </form>
