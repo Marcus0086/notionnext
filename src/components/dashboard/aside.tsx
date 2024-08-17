@@ -23,12 +23,12 @@ const Aside = ({
   return (
     <aside
       className={cn(
-        "flex flex-col w-72 h-[calc(100vh-50px)]",
+        "flex flex-col w-64 h-[calc(100vh-50px)]",
         "bg-white dark:bg-navy-800 drop-shadow-sm",
         translate ? translate : "md:translate-x-0",
         "transition-all duration-150 ease-linear -translate-x-96",
         "fixed z-50",
-        "rounded-tl-2xl rounded-bl-2xl",
+        "rounded-tl-2xl rounded-bl-2xl"
       )}
     >
       <section className="px-14 py-8">
@@ -50,7 +50,7 @@ const Aside = ({
                   isActive
                     ? "after:content-[''] after:w-1 after:h-8 after:right-0 after:bg-brandLinear after:rounded-l-md after:absolute"
                     : "",
-                  `flex items-center justify-start gap-x-4 group`,
+                  `flex items-center justify-start gap-x-4 group`
                 )}
               >
                 <AsideIcons icon={icon} />
