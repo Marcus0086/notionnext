@@ -52,3 +52,4 @@ certificates
 db/*
 redis/*
 *.nix
+.turbo
