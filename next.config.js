@@ -31,10 +31,10 @@ const nextConfig = {
   //     ? require.resolve("./cacheHandler.js")
   //     : undefined,
   // cacheMaxMemorySize: process.env.NODE_ENV === "production" ? 0 : undefined,
-  deploymentId:
-    process.env.NODE_ENV === "production"
-      ? process.env.DEPLOYMENT_ID
-      : undefined,
+  // deploymentId:
+  //   process.env.NODE_ENV === "production"
+  //     ? process.env.DEPLOYMENT_ID
+  //     : undefined,
   env: {
     NEXT_PUBLIC_ROOT_DOMAIN:
       process.env.NODE_ENV === "production" && process.env.VERCEL === "1"
@@ -42,19 +42,19 @@ const nextConfig = {
         : "localhost",
     AUTH_TOKEN: process.env.AUTH_TOKEN,
   },
-  generateBuildId: async () => {
-    return process.env.GIT_HASH;
-  },
-  async rewrites() {
-    return {
-      fallback: [
-        {
-          source: "/home/features/:path*",
-          destination: `${process.env.DOCS_URL}/:path*`,
-        },
-      ],
-    };
-  },
+  // generateBuildId: async () => {
+  //   return process.env.GIT_HASH;
+  // },
+  // async rewrites() {
+  //   return {
+  //     fallback: [
+  //       {
+  //         source: "/home/features/:path*",
+  //         destination: `${process.env.DOCS_URL}/:path*`,
+  //       },
+  //     ],
+  //   };
+  // },
 };
 
 module.exports = nextConfig;
