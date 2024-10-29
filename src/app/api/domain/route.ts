@@ -1,7 +1,8 @@
 import { getAuthDomains } from "@/lib/siteDb";
+import { NextRequest } from "next/server";
 
-const GET = async (req: Request) => {
-  const query = new URL(req.url).searchParams;
+const GET = async (req: NextRequest) => {
+  const query = req.nextUrl.searchParams;
   const domain = query.get("domain") || "";
   const siteDomain = domain.endsWith(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
     ? domain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
